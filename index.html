@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akshay M | Data Analyst Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- All CSS is included in this style block -->
+    <style>
+        /* --- CSS Reset & Variables --- */
+        :root {
+            --bg-color: #ffffff;
+            --primary-text: #1a202c; /* Very Dark Blue/Grey */
+            --secondary-text: #4a5568;
+            --accent-color: #2D68C4; /* A strong, professional blue */
+            --accent-hover: #2657a3;
+            --light-bg: #f7fafc;
+            --border-color: #e2e8f0;
+            --danger-color: #e53e3e;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--primary-text);
+            line-height: 1.6;
+        }
+
+        /* --- Global Styles & Typography --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+        section { padding: 6rem 0; position: relative; }
+        h1, h2, h3 { font-weight: 700; line-height: 1.2; color: var(--primary-text); }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+        h2 {
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+        h2::after {
+            content: ''; display: block; width: 60px; height: 4px;
+            background: var(--accent-color); border-radius: 2px; margin: 0.75rem auto 0;
+        }
+        h3 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+        p { color: var(--secondary-text); margin-bottom: 1rem; }
+        a { color: var(--accent-color); text-decoration: none; font-weight: 500; }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { font-size: 1.5rem; font-weight: 700; }
+        nav ul { display: flex; list-style: none; gap: 2rem; }
+        nav a { transition: color 0.2s ease-in-out; }
+        nav a:hover { color: var(--accent-hover); }
+
+        /* --- Hero Section --- */
+        .hero { min-height: 100vh; display: flex; align-items: center; text-align: left; position: relative; overflow: hidden; }
+        #particles-js { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; }
+        .hero-content { max-width: 750px; position: relative; z-index: 2; }
+        .hero-subtitle { font-size: 1.75rem; margin: 1rem 0 2rem; font-weight: 400; }
+        #typing-text { font-weight: 600; color: var(--accent-color); }
+        .cursor { display: inline-block; background-color: var(--primary-text); width: 3px; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+        .cta-buttons { display: flex; gap: 1rem; margin-top: 2.5rem; }
+        .btn {
+            padding: 12px 24px; border-radius: 8px; font-weight: 600; text-align: center;
+            transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+        .btn-primary { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
+        .btn-primary:hover { background-color: var(--accent-hover); border-color: var(--accent-hover); transform: translateY(-3px); box-shadow: var(--card-hover-shadow); }
+        .btn-secondary { background-color: transparent; color: var(--accent-color); border: 2px solid var(--accent-color); }
+        .btn-secondary:hover { background-color: var(--accent-color); color: white; transform: translateY(-3px); }
+
+        /* --- Skills Section --- */
+        .section-bg { background-color: var(--light-bg); }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; }
+        .skill-card { background-color: #fff; padding: 2.5rem; border-radius: 12px; box-shadow: var(--card-shadow); }
+        .skills-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .skill-tag {
+            background-color: var(--light-bg); color: var(--secondary-text); padding: 0.5rem 1rem;
+            border-radius: 6px; font-weight: 500; font-size: 0.9rem; transition: all 0.2s ease-in-out;
+        }
+        .skill-tag:hover { transform: translateY(-3px); background-color: var(--accent-color); color: white; box-shadow: var(--card-hover-shadow); }
+
+        /* --- Visualizations Section --- */
+        .viz-header { text-align: center; margin-bottom: 2rem; }
+        .viz-header #add-project-btn { display: none; margin-top: 1rem; }
+        .admin-view .viz-header #add-project-btn { display: inline-block; }
+
+        .viz-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Default for mobile */
+            gap: 1.5rem;
+        }
+        @media (min-width: 640px) {
+            .viz-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 1024px) {
+            .viz-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (min-width: 1200px) {
+            .viz-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+        }
+
+        .viz-card {
+            background-color: white; border-radius: 12px; box-shadow: var(--card-shadow);
+            overflow: hidden; display: flex; flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative;
+        }
+        .viz-card:hover { transform: translateY(-8px); box-shadow: var(--card-hover-shadow); }
+        .project-thumbnail {
+            height: 200px;
+            overflow: hidden;
+            background-color: var(--light-bg);
+        }
+        .project-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* This ensures the image covers the area without distortion */
+            transition: transform 0.3s ease;
+        }
+        .viz-card:hover .project-thumbnail img {
+            transform: scale(1.05);
+        }
+        .viz-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .viz-card h3 { font-size: 1.15rem; }
+        .viz-card p { flex-grow: 1; font-size: 0.9rem; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+        .project-tag { font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; color: white; }
+        .tag-tableau { background-color: #2E75B6; }
+        .tag-powerbi { background-color: #F2C811; color: #333; }
+        .viz-link { margin-top: auto; }
+        .delete-btn {
+            position: absolute; top: 10px; right: 10px; background-color: var(--danger-color);
+            color: white; border: none; border-radius: 50%; width: 30px; height: 30px;
+            cursor: pointer; font-size: 1.2rem; display: none; align-items: center; justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 5;
+        }
+        .admin-view .delete-btn { display: flex; }
+
+        /* --- Footer & Admin --- */
+        footer { text-align: center; padding: 2rem; background-color: var(--light-bg); border-top: 1px solid var(--border-color); color: var(--secondary-text); }
+        #admin-login { cursor: pointer; text-decoration: underline; color: var(--secondary-text); }
+        #admin-login:hover { color: var(--accent-color); }
+
+        /* --- Modal Styles --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); z-index: 1000; display: flex;
+            align-items: center; justify-content: center; opacity: 0; visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .modal-overlay.visible { opacity: 1; visibility: visible; }
+        .modal-content {
+            background-color: white; padding: 2.5rem; border-radius: 12px;
+            width: 90%; max-width: 500px; transform: scale(0.95); transition: transform 0.3s;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-overlay.visible .modal-content { transform: scale(1); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; }
+        .modal-header h2 { font-size: 1.5rem; }
+        .close-modal { background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--secondary-text); }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 0.75rem; border-radius: 8px;
+            border: 1px solid var(--border-color); font-size: 1rem; font-family: 'Inter', sans-serif;
+        }
+        #thumbnail-drop-zone {
+            padding: 2rem; border: 2px dashed var(--border-color); border-radius: 8px;
+            text-align: center; cursor: pointer; transition: background-color 0.3s;
+        }
+        #thumbnail-drop-zone.drag-over { background-color: rgba(45, 104, 196, 0.1); }
+        #thumbnail-preview { max-width: 100%; max-height: 150px; margin-top: 1rem; border-radius: 8px; }
+        
+        /* --- Scroll Animations --- */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Back to Top Button --- */
+        #back-to-top {
+            position: fixed; bottom: 20px; right: 20px; background-color: var(--accent-color);
+            color: white; width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: var(--card-shadow); opacity: 0; visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+            transform: translateY(20px); z-index: 999; text-decoration: none;
+        }
+        #back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+        #back-to-top:hover { background-color: var(--accent-hover); }
+        #back-to-top svg { width: 24px; height: 24px; }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            .hero { text-align: center; }
+            .hero-content { width: 100%; }
+            .cta-buttons { justify-content: center; }
+            .skills-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <header class="main-header">
+        <div class="container">
+            <nav>
+                <div class="logo">Akshay M</div>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#visualizations">Visualizations</a></li>
+                    <li><a href="mailto:akshaym.work000@gmail.com">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Akshay M</h1>
+                    <p class="hero-subtitle">I'm an <span id="typing-text"></span></p>
+                    <p>Motivated engineering student from Mysore, with a passion for uncovering insights from data and turning them into actionable business strategies.</p>
+                    <div class="cta-buttons">
+                        <a href="#" class="btn btn-primary" download>Download Resume</a>
+                        <a href="#visualizations" class="btn btn-secondary">See My Work</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section-bg fade-in-section">
+            <div class="container">
+                <h2>About Me</h2>
+                <p>
+                    As a student of Information Science at Vidyavardhaka College of Engineering, I'm deeply fascinated by the power of data. My coursework and certifications have provided me with a strong foundation in data analysis, statistical modeling, and business intelligence. I thrive in collaborative environments and am committed to applying my analytical and problem-solving skills to real-world challenges. My goal is to help organizations make smarter, data-driven decisions.
+                </p>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="fade-in-section">
+            <div class="container">
+                <h2>My Skillset</h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <h3>Technical Skills</h3>
+                        <div class="skills-list">
+                            <span class="skill-tag">Python (Pandas, NumPy)</span>
+                            <span class="skill-tag">SQL</span>
+                            <span class="skill-tag">R</span>
+                            <span class="skill-tag">Power BI</span>
+                            <span class="skill-tag">Tableau</span>
+                            <span class="skill-tag">Microsoft Excel</span>
+                            <span class="skill-tag">Data Visualization</span>
+                            <span class="skill-tag">Statistical Analysis</span>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <h3>Soft Skills</h3>
+                        <div class="skills-list">
+                            <span class="skill-tag">Analytical Thinking</span>
+                            <span class="skill-tag">Problem Solving</span>
+                            <span class="skill-tag">Teamwork & Collaboration</span>
+                            <span class="skill-tag">Communication</span>
+                            <span class="skill-tag">Agile Methodologies</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Visualization Projects Section -->
+        <section id="visualizations" class="section-bg fade-in-section">
+            <div class="container">
+                <div class="viz-header">
+                    <h2>Data Visualization Projects</h2>
+                    <p style="max-width: 700px; margin: -2rem auto 4rem;">Here are some of my featured projects. Click on any project to view the interactive dashboard in a new tab.</p>
+                    <button id="add-project-btn" class="btn btn-primary">Add New Project</button>
+                </div>
+                <div id="viz-grid" class="viz-grid">
+                    <!-- Projects will be loaded here from Firebase -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="fade-in-section">
+            <div class="container">
+                <h2 style="margin-bottom: 2rem;">Get In Touch</h2>
+                <div class="contact-content">
+                    <p>I'm actively seeking internship and full-time opportunities in data analytics. If you have a role that could be a good fit, or just want to connect, I'd love to hear from you!</p>
+                    <a href="mailto:akshay.m0509@gmail.com" class="btn btn-primary">Say Hello</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Akshay M. Crafted with care in Mysore.</p>
+            <p><a href="#" id="admin-login">Admin Login</a></p>
+        </div>
+    </footer>
+    
+    <a href="#" id="back-to-top" aria-label="Back to top">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+        </svg>
+    </a>
+
+    <!-- Add Project Modal -->
+    <div id="add-project-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Project</h2>
+                <button id="close-modal-btn" class="close-modal">&times;</button>
+            </div>
+            <form id="project-form">
+                <div class="form-group">
+                    <label for="project-title">Project Title</label>
+                    <input type="text" id="project-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="project-description">Project Description</label>
+                    <textarea id="project-description" rows="3" required></textarea>
+                </div>
+                 <div class="form-group">
+                    <label for="project-type">Tool Used</label>
+                    <select id="project-type" required>
+                        <option value="tableau">Tableau</option>
+                        <option value="powerbi">Power BI</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="project-link">Project Link</label>
+                    <input type="url" id="project-link" required>
+                </div>
+                <div class="form-group">
+                    <label>Project Thumbnail</label>
+                    <div id="thumbnail-drop-zone">
+                        <p>Drag & drop an image here, or click to select</p>
+                        <input type="file" id="thumbnail-upload" accept="image/*" hidden>
+                        <img id="thumbnail-preview" src="" alt="Thumbnail Preview" style="display: none;">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Add Project to Gallery</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Particle.js for interactive background -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script type="module">
+        // Firebase Imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+        
+        // --- Firebase Configuration ---
+        const firebaseConfig = {
+          apiKey: "AIzaSyC7vrrY03l1hJEiMoyRoaxNxxu5wY61q7Y",
+          authDomain: "akshay-portfolio-601f0.firebaseapp.com",
+          projectId: "akshay-portfolio-601f0",
+          storageBucket: "akshay-portfolio-601f0.appspot.com",
+          messagingSenderId: "35650492222",
+          appId: "1:35650492222:web:76c0cb42851099aa92fe6f",
+          measurementId: "G-CF3GCRL5RR"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const analytics = getAnalytics(app);
+
+        // --- App State ---
+        let isAdmin = false;
+        const ADMIN_PASSWORD = "admin"; // Change this to a secure password
+
+        // --- DOM Elements ---
+        const adminLoginBtn = document.getElementById('admin-login');
+        const addProjectBtn = document.getElementById('add-project-btn');
+        const modal = document.getElementById('add-project-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const projectForm = document.getElementById('project-form');
+        const vizGrid = document.getElementById('viz-grid');
+        const dropZone = document.getElementById('thumbnail-drop-zone');
+        const thumbnailUpload = document.getElementById('thumbnail-upload');
+        const thumbnailPreview = document.getElementById('thumbnail-preview');
+        let thumbnailFile = null;
+
+        // --- Admin & Modal Logic ---
+        adminLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!isAdmin) {
+                const password = prompt("Please enter the admin password:");
+                if (password === ADMIN_PASSWORD) {
+                    isAdmin = true;
+                    document.body.classList.add('admin-view');
+                    alert("Admin mode activated. You can now add and delete projects.");
+                } else if (password) {
+                    alert("Incorrect password.");
+                }
+            }
+        });
+
+        addProjectBtn.addEventListener('click', () => modal.classList.add('visible'));
+        closeModalBtn.addEventListener('click', () => modal.classList.remove('visible'));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        
+        function closeModal() {
+            modal.classList.remove('visible');
+            projectForm.reset();
+            thumbnailPreview.style.display = 'none';
+            dropZone.querySelector('p').style.display = 'block';
+            thumbnailFile = null;
+        }
+
+        // --- Thumbnail Upload Logic ---
+        dropZone.addEventListener('click', () => thumbnailUpload.click());
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+        });
+        thumbnailUpload.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleFile(e.target.files[0]);
+        });
+
+        function handleFile(file) {
+            if(file && file.type.startsWith('image/')) {
+                thumbnailFile = file;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    thumbnailPreview.src = e.target.result;
+                    thumbnailPreview.style.display = 'block';
+                    dropZone.querySelector('p').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            } else { alert('Please upload a valid image file.'); }
+        }
+
+        // --- Firestore Logic ---
+        const projectsCollection = collection(db, "visualization_projects");
+        const q = query(projectsCollection, orderBy("createdAt", "desc"));
+
+        onSnapshot(q, (snapshot) => {
+            vizGrid.innerHTML = '';
+            snapshot.docs.forEach(doc => {
+                const projectData = doc.data();
+                const projectElement = createProjectElement(doc.id, projectData);
+                vizGrid.appendChild(projectElement);
+            });
+        });
+
+        projectForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!thumbnailFile) { alert('Please upload a project thumbnail.'); return; }
+
+            const title = document.getElementById('project-title').value;
+            const description = document.getElementById('project-description').value;
+            const link = document.getElementById('project-link').value;
+            const type = document.getElementById('project-type').value;
+
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                const thumbnailBase64 = event.target.result;
+                try {
+                    await addDoc(projectsCollection, {
+                        title, description, link, type,
+                        thumbnail: thumbnailBase64,
+                        createdAt: new Date()
+                    });
+                    closeModal();
+                } catch (error) { console.error("Error adding document: ", error); alert("Failed to add project."); }
+            };
+            reader.readAsDataURL(thumbnailFile);
+        });
+
+        function createProjectElement(id, data) {
+            const card = document.createElement('div');
+            card.className = 'viz-card';
+            card.dataset.id = id;
+
+            const tagClass = data.type === 'tableau' ? 'tag-tableau' : 'tag-powerbi';
+            const tagName = data.type === 'tableau' ? 'Tableau' : 'Power BI';
+
+            card.innerHTML = `
+                <button class="delete-btn">&times;</button>
+                <div class="viz-content">
+                    <h3>${data.title}</h3>
+                    <div class="project-tags">
+                        <span class="project-tag ${tagClass}">${tagName}</span>
+                    </div>
+                    <p>${data.description}</p>
+                    <a href="${data.link}" target="_blank" class="btn btn-secondary viz-link">View Project</a>
+                </div>
+            `;
+            
+            if (data.thumbnail) {
+                const thumbnailDiv = document.createElement('div');
+                thumbnailDiv.className = 'project-thumbnail';
+                thumbnailDiv.innerHTML = `<img src="${data.thumbnail}" alt="${data.title}">`;
+                card.insertBefore(thumbnailDiv, card.firstChild);
+            }
+
+            card.querySelector('.delete-btn').addEventListener('click', async (e) => {
+                e.stopPropagation();
+                if (confirm(`Delete "${data.title}"?`)) {
+                    try {
+                        await deleteDoc(doc(db, "visualization_projects", id));
+                    } catch (error) { console.error("Error deleting document: ", error); alert("Failed to delete project."); }
+                }
+            });
+            return card;
+        }
+        
+        // --- Typing Animation & Interactivity ---
+        const typingTextElement = document.getElementById('typing-text');
+        if (typingTextElement) {
+            const words = ["Aspiring Data Analyst", "Curious Problem Solver", "Tech Enthusiast"];
+            let wordIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            function type() {
+                const currentWord = words[wordIndex];
+                let displayText;
+
+                if (isDeleting) {
+                    displayText = currentWord.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    displayText = currentWord.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                typingTextElement.innerHTML = displayText + '<span class="cursor"></span>';
+
+                let typeSpeed = isDeleting ? 75 : 150;
+
+                if (!isDeleting && charIndex === currentWord.length) {
+                    typeSpeed = 2000;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % words.length;
+                    typeSpeed = 500;
+                }
+                setTimeout(type, typeSpeed);
+            }
+            type();
+        }
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in-section').forEach((section) => {
+            observer.observe(section);
+        });
+
+        const backToTopButton = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // --- Particle.js Hero Background ---
+        if (document.getElementById('particles-js')) {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": "#cccccc" },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.5, "random": false },
+                    "size": { "value": 3, "random": true },
+                    "line_linked": { "enable": true, "distance": 150, "color": "#cccccc", "opacity": 0.4, "width": 1 },
+                    "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+                    "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } }
+                },
+                "retina_detect": true
+         });
+        }
+    </script>
+
+</body>
+</html>
