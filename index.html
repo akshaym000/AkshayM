@@ -383,25 +383,23 @@
 
     <script type="module">
         // Firebase Imports
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+        import { initializeApp } from "firebase/app";
+        import { getAnalytics } from "firebase/analytics";
         
         // --- Firebase Configuration ---
-        const firebaseConfig = {
-          apiKey: "AIzaSyC7vrrY03l1hJEiMoyRoaxNxxu5wY61q7Y",
+          const firebaseConfig = {
+        apiKey: "AIzaSyC7vrrY03l1hJEiMoyRoaxNxxu5wY61q7Y",
           authDomain: "akshay-portfolio-601f0.firebaseapp.com",
-          projectId: "akshay-portfolio-601f0",
-          storageBucket: "akshay-portfolio-601f0.appspot.com", // Corrected URL
-          messagingSenderId: "35650492222",
-          appId: "1:35650492222:web:76c0cb42851099aa92fe6f",
-          measurementId: "G-CF3GCRL5RR"
-        };
+  projectId: "akshay-portfolio-601f0",
+  storageBucket: "akshay-portfolio-601f0.firebasestorage.app",
+  messagingSenderId: "35650492222",
+  appId: "1:35650492222:web:76c0cb42851099aa92fe6f",
+  measurementId: "G-CF3GCRL5RR"
+};
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const analytics = getAnalytics(app);
+     // Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
         // --- App State ---
         let isAdmin = false;
