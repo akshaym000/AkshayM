@@ -171,7 +171,8 @@
 
         .viz-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            /* UPDATED: Changed auto-fit to auto-fill to prevent single items from stretching */
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1.5rem;
             justify-content: start;
         }
@@ -489,6 +490,7 @@
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
         
         // --- Firebase Configuration ---
+        // IMPORTANT: Replace with your actual Firebase configuration
         const firebaseConfig = {
          apiKey: "AIzaSyC7vrrY03l1hJEiMoyRoaxNxxu5wY61q7Y",
          authDomain: "akshay-portfolio-601f0.firebaseapp.com",
@@ -561,9 +563,9 @@
         // --- Admin & Modal Logic ---
         function setAdminView(isAdmin) {
              if (isAdmin) {
-                document.body.classList.add('admin-view');
+                 document.body.classList.add('admin-view');
              } else {
-                document.body.classList.remove('admin-view');
+                 document.body.classList.remove('admin-view');
              }
         }
         
