@@ -37,20 +37,20 @@
             z-index: -1; /* Keep it in the background */
             background-color: var(--light-bg);
         }
-        .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 2; }
         .main-header {
             position: sticky; top: 0; left: 0; width: 100%; z-index: 1000;
             background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-color);
         }
         nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
-        .logo { font-size: 1.5rem; font-weight: 700; }
-        .logo a { color: var(--primary-text); }
-        nav .nav-buttons { display: flex; gap: 1rem; }
+        .logo { font-size: 1.25rem; font-weight: 700; }
+        .logo a { color: var(--primary-text); text-decoration: none; }
+        nav .nav-buttons { display: flex; gap: 0.75rem; }
         .btn {
             padding: 10px 20px; border-radius: 8px; font-weight: 600; text-align: center;
             transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent;
-            display: inline-flex; align-items: center; gap: 0.5rem;
+            display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;
         }
         .btn-primary { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
         .btn-primary:hover { background-color: var(--accent-hover); border-color: var(--accent-hover); }
@@ -58,14 +58,14 @@
         .btn-secondary:hover { background-color: var(--accent-color); color: white; }
 
         /* Project Detail Specific Styles */
-        #project-detail-section { padding: 4rem 0; }
+        #project-detail-section { padding: 3rem 0; }
         #project-banner {
             width: 100%;
             height: 350px;
             border-radius: 12px;
             overflow: hidden;
             margin-bottom: 2rem;
-            background-color: var(--light-bg);
+            background-color: var(--border-color);
             box-shadow: var(--card-shadow);
         }
         #project-banner img {
@@ -75,34 +75,37 @@
         }
         #editor-toolbar {
             background-color: #fff;
-            padding: 1rem 1.5rem;
+            padding: 1rem;
             border-radius: 12px;
             box-shadow: var(--card-shadow);
             margin-bottom: 2rem;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 1.5rem;
+            justify-content: space-between;
+            gap: 1rem;
         }
         .toolbar-group { display: flex; align-items: center; gap: 0.5rem; }
         .toolbar-group label { font-weight: 500; font-size: 0.9rem; }
         #editor-toolbar select, #editor-toolbar input[type="color"] {
             border: 1px solid var(--border-color);
             border-radius: 6px;
-            padding: 0.25rem;
+            padding: 0.35rem;
             font-family: 'Inter', sans-serif;
+            background-color: #fff;
         }
-        #editor-toolbar input[type="color"] { width: 40px; height: 30px; cursor: pointer; padding: 2px;}
-        #save-changes-btn { margin-left: auto; }
+        #editor-toolbar input[type="color"] { width: 40px; height: 34px; cursor: pointer; padding: 2px;}
+        #save-changes-btn { flex-shrink: 0; }
+        
         #project-content-wrapper {
             background-color: #fff;
-            padding: 3rem;
+            padding: 2rem;
             border-radius: 12px;
             box-shadow: var(--card-shadow);
             transition: background-color 0.3s, color 0.3s;
         }
         #project-content-wrapper h1 {
-            font-size: 2.5rem;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
             margin-bottom: 1.5rem;
             line-height: 1.2;
         }
@@ -113,6 +116,9 @@
         [contenteditable="true"] {
             outline: 2px dashed transparent;
             transition: outline 0.3s;
+            padding: 0.25rem;
+            margin: -0.25rem;
+            border-radius: 4px;
         }
         [contenteditable="true"]:focus {
             outline: 2px dashed var(--accent-color);
@@ -120,7 +126,7 @@
         }
         .project-link-container {
             text-align: center;
-            margin-bottom: 2rem;
+            margin: 2rem 0 1rem 0;
         }
         .loader {
             text-align: center;
@@ -151,6 +157,18 @@
         .hidden {
             display: none !important;
         }
+
+        /* Responsive Adjustments */
+        @media (max-width: 600px) {
+            .container { padding: 0 1rem; }
+            #project-detail-section { padding: 2rem 0; }
+            #project-content-wrapper { padding: 1.5rem; }
+            #editor-toolbar { flex-direction: column; align-items: stretch; }
+            #save-changes-btn { width: 100%; justify-content: center; }
+            nav .nav-buttons { gap: 0.5rem; }
+            .btn { padding: 8px 12px; font-size: 0.9rem; }
+            .logo { font-size: 1.1rem; }
+        }
     </style>
 </head>
 <body>
@@ -171,7 +189,9 @@
     <main>
         <section id="project-detail-section">
             <div class="container">
-                <div id="project-banner"></div>
+                <div id="project-banner">
+                     <div class="loader"></div>
+                </div>
                 
                 <div id="editor-toolbar" class="hidden">
                     <div class="toolbar-group">
@@ -235,10 +255,9 @@
         async function loadProject() {
             const params = new URLSearchParams(window.location.search);
             const projectId = params.get('id');
-            console.log("Attempting to load project with ID:", projectId);
-
 
             if (!projectId) {
+                bannerContainer.style.display = 'none';
                 contentWrapper.innerHTML = `
                     <h1>Error</h1>
                     <p>No project ID provided. Please return to the <a href="index.html">portfolio page</a> and select a project.</p>
@@ -251,7 +270,6 @@
                 const docSnap = await getDoc(projectDocRef);
 
                 if (docSnap.exists()) {
-                    console.log("Project found:", docSnap.id);
                     const data = docSnap.data();
                     renderProject(data);
                     applyStyles(data.styles);
@@ -261,33 +279,34 @@
                         setupEventListeners();
                     }
                 } else {
-                    console.log("Project not found for ID:", projectId);
-                    contentWrapper.innerHTML = `<h1>Project not found</h1><p>The requested project does not exist. Please check the project ID in the URL.</p>`;
+                    bannerContainer.style.display = 'none';
+                    contentWrapper.innerHTML = `<h1>Project not found</h1><p>The requested project does not exist. Please check the project ID in the URL or return to the <a href="index.html">home page</a>.</p>`;
                 }
             } catch (error) {
                 console.error("Error fetching project:", error);
-                contentWrapper.innerHTML = `<h1>Error</h1><p>Could not load the project. This can happen if you are running the page as a local file. Please try running it on a web server.</p>`;
+                bannerContainer.style.display = 'none';
+                contentWrapper.innerHTML = `<h1>Error</h1><p>Could not load the project. Please ensure you are connected to the internet and try again.</p>`;
             }
         }
 
         function renderProject(data) {
+            // Set document title
+            document.title = `${data.title} | Akshay M`;
+
             // Set banner image
             if (data.thumbnail) {
                 bannerContainer.innerHTML = `<img src="${data.thumbnail}" alt="${data.title} banner">`;
             } else {
-                 bannerContainer.style.display = 'none'; // Hide banner if no image
+                bannerContainer.style.display = 'none'; // Hide banner if no image
             }
 
             const isEditable = isAdmin ? 'contenteditable="true"' : '';
             contentWrapper.innerHTML = `
-                <h1 id="project-title" ${isEditable}>${data.title}</h1>
                 <div class="project-link-container">
-                    <a href="${data.link}" target="_blank" class="btn btn-secondary">View Project</a>
+                    <a href="${data.link}" target="_blank" class="btn btn-primary">View Live Project</a>
                 </div>
-                <p id="project-description" ${isEditable}>${data.description}</p>
-                <div class="project-link-container" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 2rem;">
-                    <a href="${data.link}" target="_blank" class="btn btn-secondary">View Project</a>
-                </div>
+                <h1 id="project-title" ${isEditable}>${data.title}</h1>
+                <p id="project-description" ${isEditable}>${data.description.replace(/\n/g, '<br>')}</p>
             `;
         }
         
@@ -296,6 +315,8 @@
 
             if (styles.textColor) {
                 contentWrapper.style.color = styles.textColor;
+                // Apply to children that might not inherit, like headings
+                contentWrapper.querySelectorAll('h1, p').forEach(el => el.style.color = styles.textColor);
                 textColorPicker.value = styles.textColor;
             }
             if (styles.fontFamily) {
@@ -308,6 +329,7 @@
             // Update styles live as the user changes them
             textColorPicker.addEventListener('input', (e) => {
                 contentWrapper.style.color = e.target.value;
+                 contentWrapper.querySelectorAll('h1, p').forEach(el => el.style.color = e.target.value);
             });
 
             fontFamilySelect.addEventListener('change', (e) => {
@@ -318,10 +340,10 @@
         }
 
         async function saveChanges() {
-            if (!isAdmin) return; // Security check
+            if (!isAdmin || !projectDocRef) return; // Security check
 
-            const newTitle = document.getElementById('project-title').innerHTML;
-            const newDescription = document.getElementById('project-description').innerHTML;
+            const newTitle = document.getElementById('project-title').innerText;
+            const newDescription = document.getElementById('project-description').innerText;
             
             const newStyles = {
                 textColor: textColorPicker.value,
@@ -329,6 +351,8 @@
             };
 
             try {
+                saveBtn.disabled = true;
+                saveBtn.textContent = 'Saving...';
                 await updateDoc(projectDocRef, {
                     title: newTitle,
                     description: newDescription,
@@ -338,6 +362,9 @@
             } catch (error) {
                 console.error("Error updating document: ", error);
                 alert("Failed to save changes. Please check the console.");
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Save Changes';
             }
         }
 
@@ -355,18 +382,18 @@
         if (document.getElementById('particles-js')) {
             particlesJS('particles-js', {
                 "particles": {
-                    "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
-                    "color": { "value": "#cccccc" },
+                    "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": "#dddddd" },
                     "shape": { "type": "circle" },
                     "opacity": { "value": 0.5, "random": false },
                     "size": { "value": 3, "random": true },
-                    "line_linked": { "enable": true, "distance": 150, "color": "#cccccc", "opacity": 0.4, "width": 1 },
+                    "line_linked": { "enable": true, "distance": 150, "color": "#dddddd", "opacity": 0.4, "width": 1 },
                     "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
                 },
                 "interactivity": {
                     "detect_on": "canvas",
-                    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
-                    "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } }
+                    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false }, "resize": true },
+                    "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.8 } } }
                 },
                 "retina_detect": true
            });
