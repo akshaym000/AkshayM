@@ -171,17 +171,9 @@
 
         .viz-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
-        }
-        @media (min-width: 600px) {
-            .viz-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (min-width: 900px) {
-            .viz-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-        @media (min-width: 1200px) {
-            .viz-grid { grid-template-columns: repeat(4, 1fr); }
+            justify-content: start;
         }
 
         .viz-card-link {
@@ -199,7 +191,7 @@
         .viz-card-link:hover .viz-card { transform: translateY(-8px); box-shadow: var(--card-hover-shadow); }
         
         .project-thumbnail {
-            height: 180px; /* Slightly smaller thumbnail */
+            height: 180px;
             overflow: hidden;
             background-color: var(--light-bg);
         }
@@ -217,9 +209,6 @@
         .viz-card p { 
             font-size: 0.85rem;
             margin: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
             color: var(--secondary-text);
         }
         .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
@@ -447,8 +436,12 @@
                     <input type="text" id="project-title" required>
                 </div>
                 <div class="form-group">
-                    <label for="project-description">Project Description</label>
-                    <textarea id="project-description" rows="3" required></textarea>
+                    <label for="project-short-description">Short Description (for main page card)</label>
+                    <textarea id="project-short-description" rows="2" required maxlength="100"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="project-description">Full Description (for detail page)</label>
+                    <textarea id="project-description" rows="4" required></textarea>
                 </div>
                  <div class="form-group">
                     <label for="project-type">Tool Used</label>
@@ -656,6 +649,7 @@
             }
 
             const title = document.getElementById('project-title').value;
+            const shortDescription = document.getElementById('project-short-description').value;
             const description = document.getElementById('project-description').value;
             const link = document.getElementById('project-link').value;
             const type = document.getElementById('project-type').value;
@@ -665,7 +659,11 @@
                 const thumbnailBase64 = event.target.result;
                 try {
                     await addDoc(projectsCollection, {
-                        title, description, link, type,
+                        title, 
+                        shortDescription,
+                        description, 
+                        link, 
+                        type,
                         thumbnail: thumbnailBase64,
                         createdAt: new Date()
                     });
@@ -697,7 +695,7 @@
                         <div class="project-tags">
                             <span class="project-tag ${tagClass}">${tagName}</span>
                         </div>
-                        <p>${data.description}</p>
+                        <p>${data.shortDescription || data.description}</p>
                     </div>
                 </div>
             `;
