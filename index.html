@@ -160,7 +160,7 @@
             transform: scale(1.05);
         }
         .viz-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
-        .viz-card h3 { font-size: 1.15rem; }
+        .viz-card h3 { font-size: 1.15rem; margin-bottom: 0.75rem;}
         .viz-card p { flex-grow: 1; font-size: 0.9rem; }
         .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
         .project-tag { font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; color: white; }
@@ -183,7 +183,7 @@
         /* --- Modal Styles --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.6); z-index: 1000; display: flex;
+            background-color: rgba(0, 0, 0, 0.6); z-index: 1001; display: flex;
             align-items: center; justify-content: center; opacity: 0; visibility: hidden;
             transition: opacity 0.3s, visibility 0.3s;
         }
@@ -196,7 +196,8 @@
         }
         .modal-overlay.visible .modal-content { transform: scale(1); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; }
-        .modal-header h2 { font-size: 1.5rem; }
+        .modal-header h2 { font-size: 1.5rem; margin: 0; }
+        .modal-header h2::after { display: none; }
         .close-modal { background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--secondary-text); }
         .form-group { margin-bottom: 1.5rem; }
         .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
@@ -281,7 +282,7 @@
                         <a href="#visualizations" class="btn btn-secondary">See My Work</a>
                     </div>
                     <div class="social-links">
-                        <a href="github.com/akshaym00" target="_blank" aria-label="GitHub Profile">
+                        <a href="https://github.com/akshaym00" target="_blank" aria-label="GitHub Profile">
                             <svg fill="currentColor" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
                         </a>
                         <a href="https://www.linkedin.com/in/akshay-m-963573292/" target="_blank" aria-label="LinkedIn Profile">
@@ -336,11 +337,12 @@
             <div class="container">
                 <div class="viz-header">
                     <h2>Data Visualization Projects</h2>
-                    <p style="max-width: 700px; margin: -2rem auto 4rem;">Here are some of my featured projects. Click on any project to view the interactive dashboard in a new tab.</p>
+                    <p style="max-width: 700px; margin: -2rem auto 4rem;">Here are some of my featured projects. Click on any project to view the details. Admins can edit.</p>
                     <button id="add-project-btn" class="btn btn-primary">Add New Project</button>
                 </div>
                 <div id="viz-grid" class="viz-grid">
-                    </div>
+                    <!-- Projects will be loaded here by JavaScript -->
+                </div>
             </div>
         </section>
         
@@ -360,10 +362,10 @@
         <div class="container">
             <p>&copy; 2025 Akshay M. Crafted with care in Mysore.</p>
              <div class="social-links">
-                <a href="https://github.com/your-username" target="_blank" aria-label="GitHub Profile">
+                <a href="https://github.com/akshaym00" target="_blank" aria-label="GitHub Profile">
                     <svg fill="currentColor" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
                 </a>
-                <a href="https://linkedin.com/in/your-username" target="_blank" aria-label="LinkedIn Profile">
+                <a href="https://www.linkedin.com/in/akshay-m-963573292/" target="_blank" aria-label="LinkedIn Profile">
                     <svg fill="currentColor" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
                 </a>
             </div>
@@ -377,6 +379,7 @@
         </svg>
     </a>
 
+    <!-- Modal for Adding Projects -->
     <div id="add-project-modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -400,7 +403,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="project-link">Project Link</label>
+                    <label for="project-link">Project Link (to original dashboard)</label>
                     <input type="url" id="project-link" required>
                 </div>
                 <div class="form-group">
@@ -416,6 +419,19 @@
         </div>
     </div>
 
+    <!-- Generic Modal for Alerts and Confirmations -->
+    <div id="custom-alert-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 400px; text-align: center;">
+            <h3 id="custom-alert-title" style="margin-bottom: 1rem;"></h3>
+            <p id="custom-alert-message"></p>
+            <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
+                <button id="custom-alert-cancel" class="btn btn-secondary">Cancel</button>
+                <button id="custom-alert-ok" class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
     <script type="module">
@@ -429,7 +445,7 @@
          apiKey: "AIzaSyC7vrrY03l1hJEiMoyRoaxNxxu5wY61q7Y",
          authDomain: "akshay-portfolio-601f0.firebaseapp.com",
          projectId: "akshay-portfolio-601f0",
-         storageBucket: "akshay-portfolio-601f0.appspot.com", // Corrected URL
+         storageBucket: "akshay-portfolio-601f0.appspot.com",
          messagingSenderId: "35650492222",
          appId: "1:35650492222:web:76c0cb42851099aa92fe6f",
          measurementId: "G-CF3GCRL5RR"
@@ -441,13 +457,13 @@
         const analytics = getAnalytics(app);
 
         // --- App State ---
-        let isAdmin = false;
+        let isAdmin = sessionStorage.getItem('isAdmin') === 'true';
         const ADMIN_PASSWORD = "Iambe5t#"; // Change this to a secure password
 
         // --- DOM Elements ---
         const adminLoginBtn = document.getElementById('admin-login');
         const addProjectBtn = document.getElementById('add-project-btn');
-        const modal = document.getElementById('add-project-modal');
+        const projectModal = document.getElementById('add-project-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
         const projectForm = document.getElementById('project-form');
         const vizGrid = document.getElementById('viz-grid');
@@ -456,31 +472,82 @@
         const thumbnailPreview = document.getElementById('thumbnail-preview');
         let thumbnailFile = null;
 
+        // --- Custom Alert Modal Elements & Function ---
+        const customAlertModal = document.getElementById('custom-alert-modal');
+        const customAlertTitle = document.getElementById('custom-alert-title');
+        const customAlertMessage = document.getElementById('custom-alert-message');
+        const customAlertOk = document.getElementById('custom-alert-ok');
+        const customAlertCancel = document.getElementById('custom-alert-cancel');
+
+        function showAlert(title, message, isConfirmation = false) {
+            return new Promise((resolve) => {
+                customAlertTitle.textContent = title;
+                customAlertMessage.textContent = message;
+                customAlertCancel.style.display = isConfirmation ? 'inline-block' : 'none';
+                customAlertOk.textContent = isConfirmation ? 'Confirm' : 'OK';
+                customAlertModal.classList.add('visible');
+
+                const okListener = () => {
+                    customAlertModal.classList.remove('visible');
+                    resolve(true);
+                    cleanup();
+                };
+
+                const cancelListener = () => {
+                    customAlertModal.classList.remove('visible');
+                    resolve(false);
+                    cleanup();
+                };
+
+                function cleanup() {
+                    customAlertOk.removeEventListener('click', okListener);
+                    customAlertCancel.removeEventListener('click', cancelListener);
+                }
+
+                customAlertOk.addEventListener('click', okListener);
+                customAlertCancel.addEventListener('click', cancelListener);
+            });
+        }
+
+
         // --- Admin & Modal Logic ---
-        adminLoginBtn.addEventListener('click', (e) => {
+        function setAdminView(isAdmin) {
+             if (isAdmin) {
+                document.body.classList.add('admin-view');
+             } else {
+                document.body.classList.remove('admin-view');
+             }
+        }
+        
+        adminLoginBtn.addEventListener('click', async (e) => {
             e.preventDefault();
             if (!isAdmin) {
                 const password = prompt("Please enter the admin password:");
                 if (password === ADMIN_PASSWORD) {
                     isAdmin = true;
-                    document.body.classList.add('admin-view');
-                    alert("Admin mode activated. You can now add and delete projects.");
-                } else if (password) {
-                    alert("Incorrect password.");
+                    sessionStorage.setItem('isAdmin', 'true');
+                    setAdminView(true);
+                    await showAlert("Success", "Admin mode activated. You can now add and delete projects.");
+                } else if (password) { // only show if a password was entered
+                    await showAlert("Error", "Incorrect password.");
                 }
             }
         });
+        
+        // Check admin status on page load
+        setAdminView(isAdmin);
 
-        addProjectBtn.addEventListener('click', () => modal.classList.add('visible'));
-        closeModalBtn.addEventListener('click', () => closeModal());
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
+        addProjectBtn.addEventListener('click', () => projectModal.classList.add('visible'));
+        closeModalBtn.addEventListener('click', () => closeProjectModal());
+        projectModal.addEventListener('click', (e) => {
+            if (e.target === projectModal) closeProjectModal();
         });
         
-        function closeModal() {
-            modal.classList.remove('visible');
+        function closeProjectModal() {
+            projectModal.classList.remove('visible');
             projectForm.reset();
             thumbnailPreview.style.display = 'none';
+            thumbnailPreview.src = '';
             dropZone.querySelector('p').style.display = 'block';
             thumbnailFile = null;
         }
@@ -508,7 +575,9 @@
                     dropZone.querySelector('p').style.display = 'none';
                 };
                 reader.readAsDataURL(file);
-            } else { alert('Please upload a valid image file.'); }
+            } else {
+                showAlert('Invalid File', 'Please upload a valid image file.');
+            }
         }
 
         // --- Firestore Logic ---
@@ -526,7 +595,10 @@
 
         projectForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!thumbnailFile) { alert('Please upload a project thumbnail.'); return; }
+            if (!thumbnailFile) {
+                showAlert('Missing Thumbnail', 'Please upload a project thumbnail.');
+                return;
+            }
 
             const title = document.getElementById('project-title').value;
             const description = document.getElementById('project-description').value;
@@ -542,8 +614,11 @@
                         thumbnail: thumbnailBase64,
                         createdAt: new Date()
                     });
-                    closeModal();
-                } catch (error) { console.error("Error adding document: ", error); alert("Failed to add project."); }
+                    closeProjectModal();
+                } catch (error) {
+                    console.error("Error adding document: ", error);
+                    showAlert("Error", "Failed to add project. Check the console for details.");
+                }
             };
             reader.readAsDataURL(thumbnailFile);
         });
@@ -555,32 +630,37 @@
 
             const tagClass = data.type === 'tableau' ? 'tag-tableau' : 'tag-powerbi';
             const tagName = data.type === 'tableau' ? 'Tableau' : 'Power BI';
+            
+            // Truncate the description
+            const shortDescription = data.description.length > 100 
+                ? data.description.substring(0, 100) + '...' 
+                : data.description;
 
             card.innerHTML = `
                 <button class="delete-btn">&times;</button>
+                <div class="project-thumbnail">
+                    <img src="${data.thumbnail || 'https://placehold.co/600x400/f7fafc/4a5568?text=No+Image'}" alt="${data.title}">
+                </div>
                 <div class="viz-content">
                     <h3>${data.title}</h3>
                     <div class="project-tags">
                         <span class="project-tag ${tagClass}">${tagName}</span>
                     </div>
-                    <p>${data.description}</p>
-                    <a href="${data.link}" target="_blank" class="btn btn-secondary viz-link">View Project</a>
+                    <p>${shortDescription}</p>
+                    <a href="project-detail.html?id=${id}" class="btn btn-secondary viz-link">View Details</a>
                 </div>
             `;
             
-            if (data.thumbnail) {
-                const thumbnailDiv = document.createElement('div');
-                thumbnailDiv.className = 'project-thumbnail';
-                thumbnailDiv.innerHTML = `<img src="${data.thumbnail}" alt="${data.title}">`;
-                card.insertBefore(thumbnailDiv, card.firstChild);
-            }
-
             card.querySelector('.delete-btn').addEventListener('click', async (e) => {
-                e.stopPropagation();
-                if (confirm(`Delete "${data.title}"?`)) {
+                e.stopPropagation(); // prevent card click
+                const isConfirmed = await showAlert("Confirm Deletion", `Are you sure you want to delete "${data.title}"?`, true);
+                if (isConfirmed) {
                     try {
                         await deleteDoc(doc(db, "visualization_projects", id));
-                    } catch (error) { console.error("Error deleting document: ", error); alert("Failed to delete project."); }
+                    } catch (error) {
+                        console.error("Error deleting document: ", error);
+                        showAlert("Error", "Failed to delete project.");
+                    }
                 }
             });
             return card;
