@@ -126,25 +126,24 @@
 
         .viz-grid {
             display: grid;
-            grid-template-columns: 1fr; /* Default for mobile */
-            gap: 1.5rem;
-        }
-        @media (min-width: 640px) {
-            .viz-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (min-width: 1024px) {
-            .viz-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-        @media (min-width: 1200px) {
-            .viz-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
+        .viz-card-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+        }
         .viz-card {
             background-color: white; border-radius: 12px; box-shadow: var(--card-shadow);
             overflow: hidden; display: flex; flex-direction: column;
-            transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
         }
-        .viz-card:hover { transform: translateY(-8px); box-shadow: var(--card-hover-shadow); }
+        .viz-card-link:hover .viz-card { transform: translateY(-8px); box-shadow: var(--card-hover-shadow); }
+        
         .project-thumbnail {
             height: 200px;
             overflow: hidden;
@@ -153,20 +152,26 @@
         .project-thumbnail img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* This ensures the image covers the area without distortion */
+            object-fit: cover;
             transition: transform 0.3s ease;
         }
-        .viz-card:hover .project-thumbnail img {
+        .viz-card-link:hover .project-thumbnail img {
             transform: scale(1.05);
         }
         .viz-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
         .viz-card h3 { font-size: 1.15rem; margin-bottom: 0.75rem;}
-        .viz-card p { flex-grow: 1; font-size: 0.9rem; }
+        .viz-card p { 
+            font-size: 0.9rem;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
         .project-tag { font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; color: white; }
         .tag-tableau { background-color: #2E75B6; }
         .tag-powerbi { background-color: #F2C811; color: #333; }
-        .viz-link { margin-top: auto; }
+
         .delete-btn {
             position: absolute; top: 10px; right: 10px; background-color: var(--danger-color);
             color: white; border: none; border-radius: 50%; width: 30px; height: 30px;
@@ -624,35 +629,32 @@
         });
 
         function createProjectElement(id, data) {
-            const card = document.createElement('div');
-            card.className = 'viz-card';
-            card.dataset.id = id;
+            const cardLink = document.createElement('a');
+            cardLink.className = 'viz-card-link';
+            cardLink.href = `project-detail.html?id=${id}`;
 
             const tagClass = data.type === 'tableau' ? 'tag-tableau' : 'tag-powerbi';
             const tagName = data.type === 'tableau' ? 'Tableau' : 'Power BI';
-            
-            // Truncate the description
-            const shortDescription = data.description.length > 100 
-                ? data.description.substring(0, 100) + '...' 
-                : data.description;
 
-            card.innerHTML = `
-                <button class="delete-btn">&times;</button>
-                <div class="project-thumbnail">
-                    <img src="${data.thumbnail || 'https://placehold.co/600x400/f7fafc/4a5568?text=No+Image'}" alt="${data.title}">
-                </div>
-                <div class="viz-content">
-                    <h3>${data.title}</h3>
-                    <div class="project-tags">
-                        <span class="project-tag ${tagClass}">${tagName}</span>
+            cardLink.innerHTML = `
+                <div class="viz-card">
+                    <button class="delete-btn">&times;</button>
+                    <div class="project-thumbnail">
+                        <img src="${data.thumbnail || 'https://placehold.co/600x400/f7fafc/4a5568?text=No+Image'}" alt="${data.title}">
                     </div>
-                    <p>${shortDescription}</p>
-                    <a href="project-detail.html?id=${id}" class="btn btn-secondary viz-link">View Details</a>
+                    <div class="viz-content">
+                        <h3>${data.title}</h3>
+                        <div class="project-tags">
+                            <span class="project-tag ${tagClass}">${tagName}</span>
+                        </div>
+                        <p>${data.description}</p>
+                    </div>
                 </div>
             `;
             
-            card.querySelector('.delete-btn').addEventListener('click', async (e) => {
-                e.stopPropagation(); // prevent card click
+            cardLink.querySelector('.delete-btn').addEventListener('click', async (e) => {
+                e.preventDefault(); // Prevent navigation when deleting
+                e.stopPropagation(); 
                 const isConfirmed = await showAlert("Confirm Deletion", `Are you sure you want to delete "${data.title}"?`, true);
                 if (isConfirmed) {
                     try {
@@ -663,7 +665,7 @@
                     }
                 }
             });
-            return card;
+            return cardLink;
         }
         
         // --- Typing Animation & Interactivity ---
