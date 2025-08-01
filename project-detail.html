@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Akshay M</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Georgia&family=Times+New+Roman&display=swap" rel="stylesheet">
+
+    <!-- Reusing the same stylesheet for consistency -->
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --primary-text: #1a202c;
+            --secondary-text: #4a5568;
+            --accent-color: #2D68C4;
+            --accent-hover: #2657a3;
+            --light-bg: #f7fafc;
+            --border-color: #e2e8f0;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--primary-text);
+            line-height: 1.6;
+        }
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1; /* Keep it in the background */
+            background-color: var(--light-bg);
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
+        .main-header {
+            position: sticky; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { font-size: 1.5rem; font-weight: 700; }
+        .logo a { color: var(--primary-text); }
+        nav .nav-buttons { display: flex; gap: 1rem; }
+        .btn {
+            padding: 10px 20px; border-radius: 8px; font-weight: 600; text-align: center;
+            transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+        .btn-primary { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
+        .btn-primary:hover { background-color: var(--accent-hover); border-color: var(--accent-hover); }
+        .btn-secondary { background-color: transparent; color: var(--accent-color); border: 2px solid var(--accent-color); }
+        .btn-secondary:hover { background-color: var(--accent-color); color: white; }
+
+        /* Project Detail Specific Styles */
+        #project-detail-section { padding: 4rem 0; }
+        #project-banner {
+            width: 100%;
+            height: 350px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            background-color: var(--light-bg);
+            box-shadow: var(--card-shadow);
+        }
+        #project-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #editor-toolbar {
+            background-color: #fff;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .toolbar-group { display: flex; align-items: center; gap: 0.5rem; }
+        .toolbar-group label { font-weight: 500; font-size: 0.9rem; }
+        #editor-toolbar select, #editor-toolbar input[type="color"] {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.25rem;
+            font-family: 'Inter', sans-serif;
+        }
+        #editor-toolbar input[type="color"] { width: 40px; height: 30px; cursor: pointer; padding: 2px;}
+        #save-changes-btn { margin-left: auto; }
+        #project-content-wrapper {
+            background-color: #fff;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #project-content-wrapper h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        #project-content-wrapper p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        [contenteditable="true"] {
+            outline: 2px dashed transparent;
+            transition: outline 0.3s;
+        }
+        [contenteditable="true"]:focus {
+            outline: 2px dashed var(--accent-color);
+            background-color: rgba(45, 104, 196, 0.05);
+        }
+        .project-link-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .loader {
+            text-align: center;
+            padding: 5rem;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--secondary-text);
+        }
+        #save-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-text);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            z-index: 1002;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+        }
+        #save-notification.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -10px);
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <header class="main-header">
+        <div class="container">
+            <nav>
+                <div class="logo"><a href="index.html">Akshay M</a></div>
+                <div class="nav-buttons">
+                    <a href="index.html" class="btn btn-secondary">Home</a>
+                    <a href="index.html#contact" class="btn btn-primary">Contact Me</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="project-detail-section">
+            <div class="container">
+                <div id="project-banner"></div>
+                
+                <div id="editor-toolbar" class="hidden">
+                    <div class="toolbar-group">
+                        <label for="text-color-picker">Text Color:</label>
+                        <input type="color" id="text-color-picker" value="#1a202c">
+                    </div>
+                    <div class="toolbar-group">
+                        <label for="font-family-select">Font:</label>
+                        <select id="font-family-select">
+                            <option value="'Inter', sans-serif">Inter</option>
+                            <option value="'Georgia', serif">Georgia</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                        </select>
+                    </div>
+                    <button id="save-changes-btn" class="btn btn-primary">Save Changes</button>
+                </div>
+
+                <div id="project-content-wrapper">
+                    <!-- Content will be loaded here -->
+                    <div class="loader">Loading Project...</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="save-notification">Changes saved!</div>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Configuration ---
+        const firebaseConfig = {
+         apiKey: "AIzaSyC7vrrY03l1hJEiMoyRoaxNxxu5wY61q7Y",
+         authDomain: "akshay-portfolio-601f0.firebaseapp.com",
+         projectId: "akshay-portfolio-601f0",
+         storageBucket: "akshay-portfolio-601f0.appspot.com",
+         messagingSenderId: "35650492222",
+         appId: "1:35650492222:web:76c0cb42851099aa92fe6f",
+         measurementId: "G-CF3GCRL5RR"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // --- DOM Elements ---
+        const bannerContainer = document.getElementById('project-banner');
+        const contentWrapper = document.getElementById('project-content-wrapper');
+        const editorToolbar = document.getElementById('editor-toolbar');
+        const textColorPicker = document.getElementById('text-color-picker');
+        const fontFamilySelect = document.getElementById('font-family-select');
+        const saveBtn = document.getElementById('save-changes-btn');
+        const saveNotification = document.getElementById('save-notification');
+
+        let projectDocRef;
+        const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+
+        // --- Main Function to Load Project ---
+        async function loadProject() {
+            const params = new URLSearchParams(window.location.search);
+            const projectId = params.get('id');
+            console.log("Attempting to load project with ID:", projectId);
+
+
+            if (!projectId) {
+                contentWrapper.innerHTML = `
+                    <h1>Error</h1>
+                    <p>No project ID provided. Please return to the <a href="index.html">portfolio page</a> and select a project.</p>
+                `;
+                return;
+            }
+
+            projectDocRef = doc(db, "visualization_projects", projectId);
+            try {
+                const docSnap = await getDoc(projectDocRef);
+
+                if (docSnap.exists()) {
+                    console.log("Project found:", docSnap.id);
+                    const data = docSnap.data();
+                    renderProject(data);
+                    applyStyles(data.styles);
+                    
+                    if (isAdmin) {
+                        editorToolbar.classList.remove('hidden');
+                        setupEventListeners();
+                    }
+                } else {
+                    console.log("Project not found for ID:", projectId);
+                    contentWrapper.innerHTML = `<h1>Project not found</h1><p>The requested project does not exist. Please check the project ID in the URL.</p>`;
+                }
+            } catch (error) {
+                console.error("Error fetching project:", error);
+                contentWrapper.innerHTML = `<h1>Error</h1><p>Could not load the project. This can happen if you are running the page as a local file. Please try running it on a web server.</p>`;
+            }
+        }
+
+        function renderProject(data) {
+            // Set banner image
+            if (data.thumbnail) {
+                bannerContainer.innerHTML = `<img src="${data.thumbnail}" alt="${data.title} banner">`;
+            } else {
+                 bannerContainer.style.display = 'none'; // Hide banner if no image
+            }
+
+            const isEditable = isAdmin ? 'contenteditable="true"' : '';
+            contentWrapper.innerHTML = `
+                <h1 id="project-title" ${isEditable}>${data.title}</h1>
+                <div class="project-link-container">
+                    <a href="${data.link}" target="_blank" class="btn btn-secondary">View Original Project</a>
+                </div>
+                <p id="project-description" ${isEditable}>${data.description}</p>
+                <div class="project-link-container" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 2rem;">
+                    <a href="${data.link}" target="_blank" class="btn btn-secondary">View Original Project</a>
+                </div>
+            `;
+        }
+        
+        function applyStyles(styles) {
+            if (!styles) return;
+
+            if (styles.textColor) {
+                contentWrapper.style.color = styles.textColor;
+                textColorPicker.value = styles.textColor;
+            }
+            if (styles.fontFamily) {
+                contentWrapper.style.fontFamily = styles.fontFamily;
+                fontFamilySelect.value = styles.fontFamily;
+            }
+        }
+
+        function setupEventListeners() {
+            // Update styles live as the user changes them
+            textColorPicker.addEventListener('input', (e) => {
+                contentWrapper.style.color = e.target.value;
+            });
+
+            fontFamilySelect.addEventListener('change', (e) => {
+                contentWrapper.style.fontFamily = e.target.value;
+            });
+
+            saveBtn.addEventListener('click', saveChanges);
+        }
+
+        async function saveChanges() {
+            if (!isAdmin) return; // Security check
+
+            const newTitle = document.getElementById('project-title').innerHTML;
+            const newDescription = document.getElementById('project-description').innerHTML;
+            
+            const newStyles = {
+                textColor: textColorPicker.value,
+                fontFamily: fontFamilySelect.value,
+            };
+
+            try {
+                await updateDoc(projectDocRef, {
+                    title: newTitle,
+                    description: newDescription,
+                    styles: newStyles
+                });
+                showSaveNotification();
+            } catch (error) {
+                console.error("Error updating document: ", error);
+                alert("Failed to save changes. Please check the console.");
+            }
+        }
+
+        function showSaveNotification() {
+            saveNotification.classList.add('visible');
+            setTimeout(() => {
+                saveNotification.classList.remove('visible');
+            }, 2500);
+        }
+
+        // --- Initial Load ---
+        loadProject();
+
+        // --- Particle.js Hero Background ---
+        if (document.getElementById('particles-js')) {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": "#cccccc" },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.5, "random": false },
+                    "size": { "value": 3, "random": true },
+                    "line_linked": { "enable": true, "distance": 150, "color": "#cccccc", "opacity": 0.4, "width": 1 },
+                    "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+                    "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } }
+                },
+                "retina_detect": true
+           });
+        }
+    </script>
+</body>
+</html>
