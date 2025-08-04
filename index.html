@@ -1,4 +1,15 @@
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akshay M | Data Analyst Portfolio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
         /* --- CSS Reset & Variables --- */
         :root {
             /* --- DARK THEME PALETTE --- */
@@ -45,7 +56,6 @@
         /* --- Header & Navigation --- */
         .main-header {
             position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            /* UPDATED: Changed background to a transparent dark color */
             background: rgba(26, 32, 44, 0.85);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-color);
@@ -117,8 +127,6 @@
         }
         .btn-primary { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
         .btn-primary:hover { background-color: var(--accent-hover); border-color: var(--accent-hover); transform: translateY(-3px); box-shadow: var(--card-hover-shadow); }
-        
-        /* UPDATED: Secondary button styles for dark mode */
         .btn-secondary { background-color: transparent; color: var(--accent-color); border: 2px solid var(--border-color); }
         .btn-secondary:hover { background-color: var(--light-bg); border-color: var(--accent-color); transform: translateY(-3px); box-shadow: var(--card-hover-shadow); }
         
@@ -150,12 +158,9 @@
         /* --- Skills Section --- */
         .section-bg { background-color: var(--light-bg); }
         .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; }
-        
-        /* UPDATED: Card background to be slightly lighter than main BG */
         .skill-card { background-color: var(--bg-color); padding: 2.5rem; border-radius: 12px; box-shadow: var(--card-shadow); }
         .skills-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
         .skill-tag {
-            /* UPDATED: Tag color to stand out on dark background */
             background-color: var(--light-bg); color: var(--secondary-text); padding: 0.5rem 1rem;
             border-radius: 6px; font-weight: 500; font-size: 0.9rem; transition: all 0.2s ease-in-out;
         }
@@ -180,7 +185,6 @@
             position: relative;
         }
         .viz-card {
-            /* UPDATED: Card background color */
             background-color: var(--bg-color); border-radius: 12px; box-shadow: var(--card-shadow);
             overflow: hidden; display: flex; flex-direction: column;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -191,7 +195,6 @@
         .project-thumbnail {
             height: 180px;
             overflow: hidden;
-            /* UPDATED: Thumbnail background for loading */
             background-color: var(--light-bg);
         }
         .project-thumbnail img {
@@ -213,7 +216,6 @@
         .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
         .project-tag { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 999px; font-weight: 600; color: white; }
         .tag-tableau { background-color: #2E75B6; }
-        /* UPDATED: Power BI tag color for better readability */
         .tag-powerbi { background-color: #F2C811; color: #1a202c; }
 
         .delete-btn {
@@ -225,76 +227,3 @@
         .admin-view .delete-btn { display: flex; }
 
         /* --- Footer & Admin --- */
-        footer { text-align: center; padding: 2rem; background-color: var(--light-bg); border-top: 1px solid var(--border-color); color: var(--secondary-text); }
-        #admin-login { cursor: pointer; text-decoration: underline; color: var(--secondary-text); }
-        #admin-login:hover { color: var(--accent-color); }
-
-        /* --- Modal Styles --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); z-index: 1001; display: flex;
-            align-items: center; justify-content: center; opacity: 0; visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-        }
-        .modal-overlay.visible { opacity: 1; visibility: visible; }
-        .modal-content {
-            /* UPDATED: Modal background color */
-            background-color: var(--light-bg); padding: 2.5rem; border-radius: 12px;
-            width: 90%; max-width: 500px; transform: scale(0.95); transition: transform 0.3s;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .modal-overlay.visible .modal-content { transform: scale(1); }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; }
-        .modal-header h2 { font-size: 1.5rem; margin: 0; }
-        .modal-header h2::after { display: none; }
-        .close-modal { background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--secondary-text); }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%; padding: 0.75rem; border-radius: 8px;
-            border: 1px solid var(--border-color); font-size: 1rem; font-family: 'Inter', sans-serif;
-            /* UPDATED: Form input colors */
-            background-color: var(--bg-color);
-            color: var(--primary-text);
-        }
-        #thumbnail-drop-zone {
-            padding: 2rem; border: 2px dashed var(--border-color); border-radius: 8px;
-            text-align: center; cursor: pointer; transition: background-color 0.3s;
-        }
-        #thumbnail-drop-zone.drag-over { background-color: rgba(66, 153, 225, 0.1); }
-        #thumbnail-preview { max-width: 100%; max-height: 150px; margin-top: 1rem; border-radius: 8px; }
-        
-        /* --- Scroll Animations --- */
-        .fade-in-section {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- Back to Top Button --- */
-        #back-to-top {
-            position: fixed; bottom: 20px; right: 20px; background-color: var(--accent-color);
-            color: white; width: 50px; height: 50px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: var(--card-shadow); opacity: 0; visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
-            transform: translateY(20px); z-index: 999; text-decoration: none;
-        }
-        #back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
-        #back-to-top:hover { background-color: var(--accent-hover); }
-        #back-to-top svg { width: 24px; height: 24px; }
-
-        /* --- Responsive Design --- */
-        @media (max-width: 768px) {
-            nav ul { display: none; }
-            .hero { text-align: center; }
-            .hero-content { width: 100%; }
-            .cta-buttons { justify-content: center; }
-            .skills-grid { grid-template-columns: 1fr; }
-        }
-    </style>
