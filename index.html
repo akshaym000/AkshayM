@@ -126,9 +126,9 @@
 
         .viz-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, 340px); /* MODIFIED LINE */
+            grid-template-columns: repeat(auto-fill, 340px);
             gap: 2rem;
-            justify-content: center; /* Center the cards in the grid */
+            justify-content: center;
         }
 
         .viz-card-link {
@@ -163,15 +163,19 @@
         .viz-card h3 { font-size: 1.15rem; margin-bottom: 0.75rem;}
         .viz-card p { 
             font-size: 0.9rem;
-            margin: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            margin-bottom: 1rem; /* Added margin to separate from tags */
+            flex-grow: 1; /* Allow description to take up space */
         }
-        .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
-        .project-tag { font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; color: white; }
-        .tag-tableau { background-color: #2E75B6; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; /* Push tags to the bottom */ }
+        .project-tag { font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; color: white; text-transform: capitalize; }
+        
+        /* --- NEW: Skill Tag Colors --- */
+        .tag-tableau { background-color: #e97627; }
         .tag-powerbi { background-color: #F2C811; color: #333; }
+        .tag-python { background-color: #3776AB; }
+        .tag-sql { background-color: #6C757D; }
+        .tag-r { background-color: #276DC3; }
+        .tag-excel { background-color: #217346; }
 
         .delete-btn {
             position: absolute; top: 10px; right: 10px; background-color: var(--danger-color);
@@ -217,6 +221,28 @@
         }
         #thumbnail-drop-zone.drag-over { background-color: rgba(45, 104, 196, 0.1); }
         #thumbnail-preview { max-width: 100%; max-height: 150px; margin-top: 1rem; border-radius: 8px; }
+
+        /* --- NEW: Styles for skill selector in modal --- */
+        .skills-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .skill-choice {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            font-weight: 500;
+            background-color: #fff;
+        }
+        .skill-choice.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
         
         /* --- Scroll Animations --- */
         .fade-in-section {
@@ -268,7 +294,7 @@
                 <ul>
                     <li><a href="#about">About</a></li>
                     <li><a href="#skills">Skills</a></li>
-                    <li><a href="#visualizations">Projects</a></li>
+                    <li><a href="#visualizations">Visualizations</a></li>
                     <li><a href="mailto:akshaym.work000@gmail.com">Contact</a></li>
                 </ul>
             </nav>
@@ -342,8 +368,8 @@
         <section id="visualizations" class="section-bg fade-in-section">
             <div class="container">
                 <div class="viz-header">
-                    <h2>My Projects</h2>
-                    <p style="max-width: 700px; margin: -2rem auto 4rem;">Here are some of my featured projects. Click on any project to view the details.</p>
+                    <h2>Data Visualization Projects</h2>
+                    <p style="max-width: 700px; margin: -2rem auto 4rem;">Here are some of my featured projects. Click on any project to view the details. Admins can edit.</p>
                     <button id="add-project-btn" class="btn btn-primary">Add New Project</button>
                 </div>
                 <div id="viz-grid" class="viz-grid">
@@ -400,11 +426,15 @@
                     <textarea id="project-description" rows="3" required></textarea>
                 </div>
                  <div class="form-group">
-                    <label for="project-type">Tool Used</label>
-                    <select id="project-type" required>
-                        <option value="tableau">Tableau</option>
-                        <option value="powerbi">Power BI</option>
-                    </select>
+                    <label>Skills Used (Select at least one)</label>
+                    <div id="skills-selector" class="skills-selector">
+                        <span class="skill-choice" data-skill="python">Python</span>
+                        <span class="skill-choice" data-skill="sql">SQL</span>
+                        <span class="skill-choice" data-skill="r">R</span>
+                        <span class="skill-choice" data-skill="tableau">Tableau</span>
+                        <span class="skill-choice" data-skill="powerbi">Power BI</span>
+                        <span class="skill-choice" data-skill="excel">Excel</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="project-link">Project Link (to original dashboard)</label>
@@ -473,6 +503,7 @@
         const dropZone = document.getElementById('thumbnail-drop-zone');
         const thumbnailUpload = document.getElementById('thumbnail-upload');
         const thumbnailPreview = document.getElementById('thumbnail-preview');
+        const skillsSelector = document.getElementById('skills-selector'); // NEW
         let thumbnailFile = null;
 
         // --- Custom Alert Modal Elements & Function ---
@@ -553,7 +584,19 @@
             thumbnailPreview.src = '';
             dropZone.querySelector('p').style.display = 'block';
             thumbnailFile = null;
+            // NEW: Deselect all skill choices when closing modal
+            skillsSelector.querySelectorAll('.skill-choice.active').forEach(skill => {
+                skill.classList.remove('active');
+            });
         }
+
+        // --- NEW: Handle clicks on skill choices in the modal ---
+        skillsSelector.addEventListener('click', (e) => {
+            if (e.target.classList.contains('skill-choice')) {
+                e.target.classList.toggle('active');
+            }
+        });
+
 
         // --- Thumbnail Upload Logic ---
         dropZone.addEventListener('click', () => thumbnailUpload.click());
@@ -596,6 +639,7 @@
             });
         });
 
+        // MODIFIED: Submit form with multiple skills
         projectForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!thumbnailFile) {
@@ -603,17 +647,24 @@
                 return;
             }
 
+            const selectedSkillNodes = skillsSelector.querySelectorAll('.skill-choice.active');
+            if (selectedSkillNodes.length === 0) {
+                showAlert('No Skills Selected', 'Please select at least one skill for the project.');
+                return;
+            }
+            
+            const skills = Array.from(selectedSkillNodes).map(node => node.dataset.skill);
             const title = document.getElementById('project-title').value;
             const description = document.getElementById('project-description').value;
             const link = document.getElementById('project-link').value;
-            const type = document.getElementById('project-type').value;
 
             const reader = new FileReader();
             reader.onload = async (event) => {
                 const thumbnailBase64 = event.target.result;
                 try {
                     await addDoc(projectsCollection, {
-                        title, description, link, type,
+                        title, description, link, 
+                        skills, // Save array of skills
                         thumbnail: thumbnailBase64,
                         createdAt: new Date()
                     });
@@ -626,13 +677,23 @@
             reader.readAsDataURL(thumbnailFile);
         });
 
+        // MODIFIED: Create project cards with multiple skill tags
         function createProjectElement(id, data) {
             const cardLink = document.createElement('a');
             cardLink.className = 'viz-card-link';
             cardLink.href = `project-detail.html?id=${id}`;
 
-            const tagClass = data.type === 'tableau' ? 'tag-tableau' : 'tag-powerbi';
-            const tagName = data.type === 'tableau' ? 'Tableau' : 'Power BI';
+            const skillNameMap = {
+                powerbi: 'Power BI' // Special case for two-word names
+            };
+
+            // Loop through the skills array and generate a tag for each one
+            const skillTagsHTML = (data.skills || [])
+                .map(skill => {
+                    const displayName = skillNameMap[skill] || skill;
+                    return `<span class="project-tag tag-${skill}">${displayName}</span>`;
+                })
+                .join('');
 
             cardLink.innerHTML = `
                 <div class="viz-card">
@@ -642,16 +703,16 @@
                     </div>
                     <div class="viz-content">
                         <h3>${data.title}</h3>
-                        <div class="project-tags">
-                            <span class="project-tag ${tagClass}">${tagName}</span>
-                        </div>
                         <p>${data.description}</p>
+                        <div class="project-tags">
+                            ${skillTagsHTML}
+                        </div>
                     </div>
                 </div>
             `;
             
             cardLink.querySelector('.delete-btn').addEventListener('click', async (e) => {
-                e.preventDefault(); // Prevent navigation when deleting
+                e.preventDefault(); // Prevent navigation
                 e.stopPropagation(); 
                 const isConfirmed = await showAlert("Confirm Deletion", `Are you sure you want to delete "${data.title}"?`, true);
                 if (isConfirmed) {
