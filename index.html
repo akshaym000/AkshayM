@@ -126,10 +126,10 @@
 
         .viz-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, 340px);
+            grid-template-columns: repeat(auto-fill, 340px); /* Ensures 3 cards fit in a row */
             gap: 2rem;
             justify-content: center;
-            align-items: start; /* Prevents cards in a row from stretching to match the tallest one */
+            /* align-items: start; was removed to make cards in a row the same height */
         }
 
         .viz-card-link {
@@ -163,15 +163,13 @@
         .viz-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
         .viz-card h3 { font-size: 1.15rem; margin-bottom: 0.75rem;}
         
-        /* THIS RULE IS MODIFIED TO TRUNCATE TEXT TO 2 LINES */
         .viz-card p { 
             font-size: 0.9rem;
             margin: 0 0 1rem 0;
-            /* The following properties limit the text to 2 lines and add "..." */
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 2; /* Trims description to 2 lines max */
             -webkit-box-orient: vertical;
         }
 
@@ -182,7 +180,7 @@
         .tag-tableau { background-color: #e97627; }
         .tag-powerbi { background-color: #F2C811; color: #333; }
         .tag-python { background-color: #3776AB; }
-        .tag-sql { background-color: #6C757D; }
+        .tag-sql { background-color: #dc3545; } /* MODIFIED to Red */
         .tag-r { background-color: #276DC3; }
         .tag-excel { background-color: #217346; }
 
