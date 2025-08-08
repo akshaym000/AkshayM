@@ -126,10 +126,10 @@
 
         .viz-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, 340px); /* Ensures 3 cards fit in a row */
+            grid-template-columns: repeat(auto-fill, 320px); /* CORRECTED: Width adjusted to fit 3 in a row */
             gap: 2rem;
             justify-content: center;
-            /* align-items: start; was removed to make cards in a row the same height */
+            /* Cards in a row will have the same height by default (align-items: stretch) */
         }
 
         .viz-card-link {
@@ -169,20 +169,20 @@
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 2; /* Trims description to 2 lines max */
+            -webkit-line-clamp: 2; /* Trims description to 2 lines for uniformity */
             -webkit-box-orient: vertical;
         }
 
         .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; }
         .project-tag { font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; color: white; text-transform: capitalize; }
         
-        /* --- Skill Tag Colors --- */
-        .tag-tableau { background-color: #e97627; }
-        .tag-powerbi { background-color: #F2C811; color: #333; }
-        .tag-python { background-color: #3776AB; }
-        .tag-sql { background-color: #dc3545; } /* MODIFIED to Red */
-        .tag-r { background-color: #276DC3; }
-        .tag-excel { background-color: #217346; }
+        /* CORRECTED: Skill Tag Colors set to your preference */
+        .tag-tableau { background-color: #2E75B6; } /* Original blue */
+        .tag-powerbi { background-color: #F2C811; color: #333; } /* Original yellow */
+        .tag-python { background-color: #fd7e14; } /* Orange */
+        .tag-sql { background-color: #dc3545; } /* Red */
+        .tag-r { background-color: #6610f2; } /* Indigo */
+        .tag-excel { background-color: #217346; } /* Green */
 
         .delete-btn {
             position: absolute; top: 10px; right: 10px; background-color: var(--danger-color);
@@ -682,6 +682,7 @@
             reader.readAsDataURL(thumbnailFile);
         });
 
+        // CORRECTED: This function now handles both old and new project data formats
         function createProjectElement(id, data) {
             const cardLink = document.createElement('a');
             cardLink.className = 'viz-card-link';
@@ -690,8 +691,16 @@
             const skillNameMap = {
                 powerbi: 'Power BI'
             };
+            
+            // This logic handles both old data (with data.type) and new data (with data.skills)
+            let skillsToRender = [];
+            if (data.skills && Array.isArray(data.skills)) {
+                skillsToRender = data.skills;
+            } else if (data.type) {
+                skillsToRender = [data.type];
+            }
 
-            const skillTagsHTML = (data.skills || [])
+            const skillTagsHTML = skillsToRender
                 .map(skill => {
                     const displayName = skillNameMap[skill] || skill;
                     return `<span class="project-tag tag-${skill}">${displayName}</span>`;
