@@ -161,15 +161,18 @@
         }
         .viz-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
         .viz-card h3 { font-size: 1.15rem; margin-bottom: 0.75rem;}
+        
+        /* CORRECTED RULE */
         .viz-card p { 
             font-size: 0.9rem;
-            margin-bottom: 1rem; /* Added margin to separate from tags */
-            flex-grow: 1; /* Allow description to take up space */
+            margin-bottom: 1rem;
+            /* `flex-grow: 1;` was removed from here to prevent vertical stretching */
         }
-        .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; /* Push tags to the bottom */ }
+
+        .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; }
         .project-tag { font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; color: white; text-transform: capitalize; }
         
-        /* --- NEW: Skill Tag Colors --- */
+        /* --- Skill Tag Colors --- */
         .tag-tableau { background-color: #e97627; }
         .tag-powerbi { background-color: #F2C811; color: #333; }
         .tag-python { background-color: #3776AB; }
@@ -222,7 +225,7 @@
         #thumbnail-drop-zone.drag-over { background-color: rgba(45, 104, 196, 0.1); }
         #thumbnail-preview { max-width: 100%; max-height: 150px; margin-top: 1rem; border-radius: 8px; }
 
-        /* --- NEW: Styles for skill selector in modal --- */
+        /* --- Styles for skill selector in modal --- */
         .skills-selector {
             display: flex;
             flex-wrap: wrap;
@@ -503,7 +506,7 @@
         const dropZone = document.getElementById('thumbnail-drop-zone');
         const thumbnailUpload = document.getElementById('thumbnail-upload');
         const thumbnailPreview = document.getElementById('thumbnail-preview');
-        const skillsSelector = document.getElementById('skills-selector'); // NEW
+        const skillsSelector = document.getElementById('skills-selector');
         let thumbnailFile = null;
 
         // --- Custom Alert Modal Elements & Function ---
@@ -562,7 +565,7 @@
                     sessionStorage.setItem('isAdmin', 'true');
                     setAdminView(true);
                     await showAlert("Success", "Admin mode activated. You can now add and delete projects.");
-                } else if (password) { // only show if a password was entered
+                } else if (password) {
                     await showAlert("Error", "Incorrect password.");
                 }
             }
@@ -584,13 +587,12 @@
             thumbnailPreview.src = '';
             dropZone.querySelector('p').style.display = 'block';
             thumbnailFile = null;
-            // NEW: Deselect all skill choices when closing modal
             skillsSelector.querySelectorAll('.skill-choice.active').forEach(skill => {
                 skill.classList.remove('active');
             });
         }
 
-        // --- NEW: Handle clicks on skill choices in the modal ---
+        // Handle clicks on skill choices in the modal
         skillsSelector.addEventListener('click', (e) => {
             if (e.target.classList.contains('skill-choice')) {
                 e.target.classList.toggle('active');
@@ -639,7 +641,6 @@
             });
         });
 
-        // MODIFIED: Submit form with multiple skills
         projectForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!thumbnailFile) {
@@ -677,17 +678,15 @@
             reader.readAsDataURL(thumbnailFile);
         });
 
-        // MODIFIED: Create project cards with multiple skill tags
         function createProjectElement(id, data) {
             const cardLink = document.createElement('a');
             cardLink.className = 'viz-card-link';
             cardLink.href = `project-detail.html?id=${id}`;
 
             const skillNameMap = {
-                powerbi: 'Power BI' // Special case for two-word names
+                powerbi: 'Power BI'
             };
 
-            // Loop through the skills array and generate a tag for each one
             const skillTagsHTML = (data.skills || [])
                 .map(skill => {
                     const displayName = skillNameMap[skill] || skill;
@@ -712,7 +711,7 @@
             `;
             
             cardLink.querySelector('.delete-btn').addEventListener('click', async (e) => {
-                e.preventDefault(); // Prevent navigation
+                e.preventDefault();
                 e.stopPropagation(); 
                 const isConfirmed = await showAlert("Confirm Deletion", `Are you sure you want to delete "${data.title}"?`, true);
                 if (isConfirmed) {
