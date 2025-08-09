@@ -12,19 +12,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
-        /* --- CSS Reset & Variables (Bright Blue Dark Theme) --- */
+        /* --- CSS Reset & Variables (Midnight Theme) --- */
         :root {
-            --bg-color: #111827; /* Very Dark Blue */
-            --primary-text: #F9FAFB; /* Brighter Off-White */
-            --secondary-text: #D1D5DB; /* Brighter Medium Grey */
-            --accent-color: #3B82F6; /* Vibrant Blue */
-            --accent-hover: #60A5FA; /* Lighter Blue */
-            --light-bg: #1F2937; /* Section Background */
-            --card-bg: #374151; /* Card Background */
-            --border-color: #4B5563; /* Subtle Border */
+            --bg-color: #0a0e14; /* Near-black night sky */
+            --primary-text: #E6EDF3;
+            --secondary-text: #8B949E;
+            --accent-color: #8B5CF6; /* Vibrant Purple */
+            --accent-hover: #A78BFA;
+            --highlight-color: #22D3EE; /* Vibrant Cyan */
+            --light-bg: #111827; /* Slightly lighter than main bg */
+            --card-bg: #1F2937; 
+            --border-color: #30363D;
             --danger-color: #e53e3e;
-            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
-            --card-hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+            --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+            --card-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,121 +41,109 @@
         .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
         section { padding: 6rem 0; position: relative; }
         h1, h2, h3 { font-weight: 700; line-height: 1.2; color: var(--primary-text); }
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+        h1 { 
+            font-size: clamp(2.5rem, 5vw, 4.5rem); 
+            background: -webkit-linear-gradient(45deg, var(--accent-color), var(--highlight-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
         h2 {
             font-size: clamp(2rem, 4vw, 2.75rem);
             text-align: center;
-            margin-bottom: 4rem;
-            position: relative;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
-        h2::after {
-            content: ''; display: block; width: 60px; height: 4px;
-            background: var(--accent-color); border-radius: 2px; margin: 0.75rem auto 0;
-        }
+        h2::after { display: none; }
         h3 { font-size: 1.5rem; margin-bottom: 1.5rem; }
         p { color: var(--secondary-text); margin-bottom: 1rem; }
-        a { color: var(--accent-color); text-decoration: none; font-weight: 500; }
+        a { color: var(--primary-text); text-decoration: none; font-weight: 500; }
 
         /* --- Header & Navigation --- */
         .main-header {
             position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            background: rgba(17, 24, 39, 0.85); /* Dark background with blur */
-            backdrop-filter: blur(10px);
+            background: rgba(10, 14, 20, 0.75);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
         }
         nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
         .logo { font-size: 1.5rem; font-weight: 700; }
         nav ul { display: flex; list-style: none; gap: 2rem; }
-        nav a { transition: color 0.2s ease-in-out; }
-        nav a:hover { color: var(--accent-hover); }
+        nav a { color: var(--secondary-text); transition: color 0.2s ease-in-out; }
+        nav a:hover { color: var(--primary-text); }
 
         /* --- Hero Section --- */
         .hero { min-height: 100vh; display: flex; align-items: center; text-align: left; position: relative; overflow: hidden; }
-        #particles-js { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; }
-        
-        .hero-content { 
-            position: relative;
-            z-index: 2;
-            max-width: 750px;
-        }
-        
+        .hero-content { max-width: 750px; }
         .hero-eyebrow {
-            display: inline-block;
             font-size: 1rem;
             font-weight: 600;
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-            padding: 0.35rem 1rem;
-            border-radius: 999px;
-            background-color: rgba(59, 130, 246, 0.1);
-            border: 1px solid var(--accent-color);
-        }
-        .hero-description {
-            max-width: 650px;
-            margin-top: 1.5rem;
-            font-size: 1.1rem;
-            line-height: 1.7;
             color: var(--secondary-text);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-
-        .cta-buttons { display: flex; gap: 1rem; }
+        .hero-description { max-width: 650px; margin-top: 1.5rem; font-size: 1.1rem; line-height: 1.7; color: var(--secondary-text); }
+        .cta-buttons { display: flex; gap: 1rem; margin-top: 2.5rem; }
         .btn {
             padding: 12px 24px; border-radius: 8px; font-weight: 600; text-align: center;
-            transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent;
+            transition: all 0.3s ease; cursor: pointer; border: 1px solid var(--border-color);
             display: inline-flex; align-items: center; gap: 0.5rem;
+            background-color: var(--light-bg);
+            color: var(--primary-text);
         }
-        .btn-primary { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
-        .btn-primary:hover { background-color: var(--accent-hover); border-color: var(--accent-hover); transform: translateY(-3px); box-shadow: var(--card-hover-shadow); }
-        .btn-secondary { background-color: transparent; color: var(--accent-color); border: 2px solid var(--accent-color); }
-        .btn-secondary:hover { background-color: var(--accent-color); color: white; transform: translateY(-3px); }
+        .btn:hover {
+            background-color: var(--card-bg);
+            border-color: var(--secondary-text);
+            transform: translateY(-3px);
+        }
         
         /* --- Social Links --- */
         .social-links {
             display: flex;
-            justify-content: center; /* Center by default (for footer, mobile hero) */
             align-items: center;
             gap: 2rem;
-            margin: 2rem 0 2.5rem 0;
+            margin-top: 2.5rem;
         }
         .social-links a {
             color: var(--secondary-text);
             transition: color 0.3s ease, transform 0.3s ease;
         }
         .social-links a:hover {
-            color: var(--accent-color);
-            transform: translateY(-3px);
+            color: var(--primary-text);
+            transform: scale(1.1) translateY(-3px);
         }
         .social-links svg {
             width: 28px;
             height: 28px;
             fill: currentColor;
         }
-        footer .social-links {
-            margin-top: 1rem;
-            margin-bottom: 0;
-        }
 
         /* --- Section Background --- */
         .section-bg { background-color: var(--light-bg); }
 
-        /* --- Education & Certification Section --- */
+        /* --- Education Section --- */
         .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 2rem;
         }
         .info-card {
-            background-color: var(--card-bg);
             padding: 2rem;
-            border-radius: 12px;
-            box-shadow: var(--card-shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
+            width: 100%;
+            max-width: 700px;
+            background-color: var(--card-bg);
+            border-radius: 0;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
         .info-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--card-hover-shadow);
+            transform: translateY(-5px);
+            border-color: var(--highlight-color);
         }
         .info-header {
             display: flex;
@@ -162,72 +151,35 @@
             margin-bottom: 1.5rem;
         }
         .info-icon {
-            background-color: var(--accent-color);
-            color: white;
-            border-radius: 50%;
-            height: 50px;
-            width: 50px;
-            min-width: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: var(--highlight-color);
             font-size: 1.5rem;
         }
-        .info-title {
-            margin-left: 1rem;
-        }
-        .info-title h3 {
-            font-size: 1.25rem;
-            margin: 0;
-        }
-        .info-title p {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--accent-color);
-            margin: 0;
-        }
-        .info-body {
-            flex-grow: 1;
-        }
-        .info-body h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--accent-hover);
-        }
-        .info-body p {
-            font-size: 0.95rem;
-            margin-bottom: 0.25rem;
-        }
-        .info-body p strong {
-            color: var(--primary-text);
-            font-weight: 700;
-        }
-        .info-footer {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-            font-size: 0.85rem;
-            color: var(--secondary-text);
-        }
-        .info-footer a:hover {
-            text-decoration: underline;
-        }
-
-
+        .info-title { margin-left: 1rem; }
+        .info-title h3 { font-size: 1.25rem; margin: 0; }
+        .info-title p { font-size: 0.9rem; font-weight: 500; color: var(--secondary-text); margin: 0; }
+        .info-body { flex-grow: 1; }
+        .info-body h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--primary-text); }
+        .info-body p { font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .info-body p strong { color: var(--primary-text); font-weight: 700; }
+        .info-footer { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--secondary-text); }
+        
         /* --- Skills Section --- */
         .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; }
-        .skill-card { background-color: var(--card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--card-shadow); }
-        .skills-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-        .skill-tag {
-            background-color: var(--light-bg); color: var(--secondary-text); padding: 0.5rem 1rem;
-            border-radius: 6px; font-weight: 500; font-size: 0.9rem; transition: all 0.2s ease-in-out;
+        .skill-card {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--card-bg);
+            border-radius: 0;
+            border: 1px solid var(--border-color);
         }
-        .skill-tag:hover { transform: translateY(-3px); background-color: var(--accent-color); color: white; box-shadow: var(--card-hover-shadow); }
+        .skills-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .skill-tag { background-color: var(--light-bg); color: var(--secondary-text); padding: 0.5rem 1rem; border-radius: 6px; font-weight: 500; font-size: 0.9rem; }
 
         /* --- Visualizations Section --- */
-        .viz-header { text-align: center; margin-bottom: 2rem; }
-        .viz-header #add-project-btn { display: none; margin-top: 1rem; }
+        .viz-header { text-align: left; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
+        .viz-header h2 { text-align: left; }
+        .viz-header p { font-size: 1.1rem; }
         .admin-view .viz-header #add-project-btn { display: inline-block; }
 
         .viz-grid {
@@ -238,84 +190,55 @@
             gap: 2.5rem;
         }
 
-        .viz-card-link {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-            position: relative;
-        }
+        .viz-card-link { display: block; text-decoration: none; color: inherit; position: relative; }
         .viz-card {
-            background-color: var(--card-bg); border-radius: 12px; box-shadow: var(--card-shadow);
-            overflow: hidden; display: flex; flex-direction: column;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 100%;
-        }
-        .viz-card-link:hover .viz-card { transform: translateY(-8px); box-shadow: var(--card-hover-shadow); }
-        
-        .project-thumbnail {
-            height: 200px;
+            background-color: var(--card-bg);
+            border-radius: 0;
             overflow: hidden;
-            background-color: var(--light-bg);
-        }
-        .project-thumbnail img {
-            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
             height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
-        .viz-card-link:hover .project-thumbnail img {
-            transform: scale(1.05);
+        .viz-card-link:hover .viz-card {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
         }
+        .project-thumbnail { height: 220px; overflow: hidden; }
+        .project-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .viz-card-link:hover .project-thumbnail img { transform: scale(1.05); }
         .viz-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
-        .viz-card h3 { font-size: 1.15rem; margin-bottom: 0.75rem;}
-        
-        .viz-card p { 
-            font-size: 0.9rem;
-            margin: 0 0 1rem 0;
+        .viz-content h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--primary-text); }
+        .viz-content p { 
+            font-size: 0.95rem; 
+            margin-bottom: 1rem; 
+            color: var(--secondary-text);
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 2; /* Trims description to 2 lines for uniformity */
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
         }
-
+        
         .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; }
         .project-tag { font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; color: white; text-transform: capitalize; }
-        
         .tag-tableau { background-color: #2E75B6; }
         .tag-powerbi { background-color: #F2C811; color: #333; }
         .tag-python { background-color: #fd7e14; }
         .tag-sql { background-color: #dc3545; }
         .tag-r { background-color: #6610f2; }
         .tag-excel { background-color: #217346; }
-
-        .delete-btn {
-            position: absolute; top: 10px; right: 10px; background-color: var(--danger-color);
-            color: white; border: none; border-radius: 50%; width: 30px; height: 30px;
-            cursor: pointer; font-size: 1.2rem; display: none; align-items: center; justify-content: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 5;
-        }
-        .admin-view .delete-btn { display: flex; }
-
-        /* --- Footer & Admin --- */
+        
+        /* --- Footer --- */
         footer { text-align: center; padding: 2rem; background-color: var(--light-bg); border-top: 1px solid var(--border-color); color: var(--secondary-text); }
         #admin-login { cursor: pointer; text-decoration: underline; color: var(--secondary-text); margin-top: 0.5rem; display: inline-block;}
-        #admin-login:hover { color: var(--accent-color); }
+        #admin-login:hover { color: var(--primary-text); }
 
         /* --- Modal Styles --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); z-index: 1001; display: flex;
-            align-items: center; justify-content: center; opacity: 0; visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1001; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
         .modal-overlay.visible { opacity: 1; visibility: visible; }
-        .modal-content {
-            background-color: var(--card-bg); padding: 2.5rem; border-radius: 12px;
-            width: 90%; max-width: 500px; transform: scale(0.95); transition: transform 0.3s;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
+        .modal-content { background-color: var(--card-bg); padding: 2.5rem; border-radius: 12px; width: 90%; max-width: 500px; transform: scale(0.95); transition: transform 0.3s; max-height: 90vh; overflow-y: auto; }
         .modal-overlay.visible .modal-content { transform: scale(1); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; }
         .modal-header h2 { font-size: 1.5rem; margin: 0; }
@@ -323,80 +246,27 @@
         .close-modal { background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--secondary-text); }
         .form-group { margin-bottom: 1.5rem; }
         .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--primary-text); }
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%; padding: 0.75rem; border-radius: 8px;
-            border: 1px solid var(--border-color); font-size: 1rem; font-family: 'Inter', sans-serif;
-            background-color: var(--light-bg);
-            color: var(--primary-text);
-        }
-        #thumbnail-drop-zone {
-            padding: 2rem; border: 2px dashed var(--border-color); border-radius: 8px;
-            text-align: center; cursor: pointer; transition: background-color 0.3s;
-        }
-        #thumbnail-drop-zone.drag-over { background-color: rgba(59, 130, 246, 0.1); }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); font-size: 1rem; font-family: 'Inter', sans-serif; background-color: var(--light-bg); color: var(--primary-text); }
+        #thumbnail-drop-zone { padding: 2rem; border: 2px dashed var(--border-color); border-radius: 8px; text-align: center; cursor: pointer; transition: background-color 0.3s; }
+        #thumbnail-drop-zone.drag-over { background-color: rgba(139, 92, 246, 0.1); }
         #thumbnail-preview { max-width: 100%; max-height: 150px; margin-top: 1rem; border-radius: 8px; }
-
-        /* --- Styles for skill selector in modal --- */
-        .skills-selector {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-        .skill-choice {
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 999px;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            font-weight: 500;
-            background-color: var(--card-bg);
-            color: var(--primary-text);
-        }
-        .skill-choice.active {
-            background-color: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-            transform: translateY(-2px);
-        }
+        .skills-selector { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .skill-choice { padding: 0.5rem 1rem; border: 1px solid var(--border-color); border-radius: 999px; cursor: pointer; transition: all 0.2s ease-in-out; font-weight: 500; background-color: var(--card-bg); color: var(--primary-text); }
+        .skill-choice.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); transform: translateY(-2px); }
         
         /* --- Back to Top Button --- */
-        #back-to-top {
-            position: fixed; bottom: 20px; right: 20px; background-color: var(--accent-color);
-            color: white; width: 50px; height: 50px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: var(--card-shadow); opacity: 0; visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
-            transform: translateY(20px); z-index: 999; text-decoration: none;
-        }
+        #back-to-top { position: fixed; bottom: 20px; right: 20px; background-color: var(--accent-color); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: var(--card-shadow); opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s, transform 0.3s; transform: translateY(20px); z-index: 999; text-decoration: none; }
         #back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
         #back-to-top:hover { background-color: var(--accent-hover); }
         #back-to-top svg { width: 24px; height: 24px; }
 
         /* --- Responsive Design --- */
-        @media (max-width: 900px) {
-            .hero {
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 768px) {
-            nav ul { display: none; }
-            .hero-content { width: 100%; }
-            .cta-buttons { justify-content: center; }
-            .social-links { justify-content: center; }
-            .skills-grid, .info-grid, .viz-grid { grid-template-columns: 1fr; }
-        }
-        
-        @media (min-width: 769px) { /* On desktop and larger */
-            .hero .social-links {
-                justify-content: flex-start; /* Align left in hero on desktop */
-            }
-        }
+        @media (max-width: 900px) { .hero { text-align: center; } }
+        @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons { justify-content: center; } .social-links { justify-content: center; } .skills-grid, .viz-grid { grid-template-columns: 1fr; } }
+        @media (min-width: 769px) { .hero .social-links { justify-content: flex-start; } }
     </style>
 </head>
 <body>
-    <div id="particles-js"></div>
-
     <header class="main-header">
         <div class="container">
             <nav>
@@ -417,7 +287,7 @@
         <section id="hero" class="hero">
             <div class="container">
                 <div class="hero-content">
-                    <p class="hero-eyebrow"><i class="fas fa-chart-pie" style="margin-right: 0.5rem;"></i>Data Analyst Portfolio</p>
+                    <p class="hero-eyebrow">Data Analyst Portfolio</p>
                     <h1>Akshay M</h1>
                     <p class="hero-description">
                         As a student of Information Science at Vidyavardhaka College of Engineering, I'm deeply fascinated by the power of data. My coursework and certifications have provided me with a strong foundation in data analysis, statistical modeling, and business intelligence. I thrive in collaborative environments and am committed to applying my analytical and problem-solving skills to real-world challenges. My goal is to help organizations make smarter, data-driven decisions.
@@ -535,7 +405,7 @@
             <div class="container">
                 <div class="viz-header">
                     <h2>My Projects</h2>
-                    <p style="max-width: 700px; margin: -2rem auto 4rem;">Here are some of my featured projects. Click on any project to view the details.</p>
+                    <p>Every dataset tells a story. Let's dive into mine and discover how I bring data to life!</p>
                     <button id="add-project-btn" class="btn btn-primary">Add New Project</button>
                 </div>
                 <div id="viz-grid" class="viz-grid">
@@ -545,7 +415,7 @@
         
         <section id="contact" class="section-bg">
             <div class="container" style="text-align: center;">
-                <h2 style="margin-bottom: 2rem;">Get In Touch</h2>
+                <h2>Get In Touch</h2>
                 <div class="contact-content" >
                     <p>I'm actively seeking internship and full-time opportunities in data analytics. If you have a role that could be a good fit, or just want to connect, I'd love to hear from you!</p>
                     <a href="mailto:akshay.m0509@gmail.com" class="btn btn-primary">Say Hello</a>
@@ -791,9 +661,10 @@
         
         onSnapshot(q, (snapshot) => {
             vizGrid.innerHTML = '';
+            let projectCounter = 1;
             snapshot.docs.forEach(doc => {
                 const projectData = doc.data();
-                const projectElement = createProjectElement(doc.id, projectData);
+                const projectElement = createProjectElement(doc.id, projectData, projectCounter++);
                 vizGrid.appendChild(projectElement);
             });
         });
@@ -835,7 +706,7 @@
             reader.readAsDataURL(thumbnailFile);
         });
 
-        function createProjectElement(id, data) {
+        function createProjectElement(id, data, number) {
             const cardLink = document.createElement('a');
             cardLink.className = 'viz-card-link';
             cardLink.href = `project-detail.html?id=${id}`;
@@ -860,7 +731,6 @@
 
             cardLink.innerHTML = `
                 <div class="viz-card">
-                    <button class="delete-btn">&times;</button>
                     <div class="project-thumbnail">
                         <img src="${data.thumbnail || 'https://placehold.co/600x400/1F2937/9CA3AF?text=No+Image'}" alt="${data.title}">
                     </div>
@@ -874,19 +744,6 @@
                 </div>
             `;
             
-            cardLink.querySelector('.delete-btn').addEventListener('click', async (e) => {
-                e.preventDefault();
-                e.stopPropagation(); 
-                const isConfirmed = await showAlert("Confirm Deletion", `Are you sure you want to delete "${data.title}"?`, true);
-                if (isConfirmed) {
-                    try {
-                        await deleteDoc(doc(db, "visualization_projects", id));
-                    } catch (error) {
-                        console.error("Error deleting document: ", error);
-                        showAlert("Error", "Failed to delete project.");
-                    }
-                }
-            });
             return cardLink;
         }
         
@@ -932,9 +789,10 @@
                 console.log("Signed in anonymously");
                 onSnapshot(q, (snapshot) => {
                     vizGrid.innerHTML = '';
+                    let projectCounter = 1;
                     snapshot.docs.forEach(doc => {
                         const projectData = doc.data();
-                        const projectElement = createProjectElement(doc.id, projectData);
+                        const projectElement = createProjectElement(doc.id, projectData, projectCounter++);
                         vizGrid.appendChild(projectElement);
                     });
                 });
