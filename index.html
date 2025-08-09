@@ -26,6 +26,7 @@
             --danger-color: #e53e3e;
             --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
             --card-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            --glow-shadow: 0 0 20px rgba(34, 211, 238, 0.25); /* NEW: Glowing effect */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -50,12 +51,22 @@
         h2 {
             font-size: clamp(2rem, 4vw, 2.75rem);
             text-align: center;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem; /* Increased margin for the underline */
             font-weight: 600;
             letter-spacing: 1px;
             text-transform: uppercase;
+            position: relative;
         }
-        h2::after { display: none; }
+        /* UPDATED: Stylish underline for section headers */
+        h2::after {
+            content: '';
+            display: block;
+            width: 70px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
+            border-radius: 2px;
+            margin: 1rem auto 0;
+        }
         h3 { font-size: 1.5rem; margin-bottom: 1.5rem; }
         p { color: var(--secondary-text); margin-bottom: 1rem; }
         a { color: var(--primary-text); text-decoration: none; font-weight: 500; }
@@ -70,12 +81,32 @@
         nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
         .logo { font-size: 1.5rem; font-weight: 700; }
         nav ul { display: flex; list-style: none; gap: 2rem; }
-        nav a { color: var(--secondary-text); transition: color 0.2s ease-in-out; }
-        nav a:hover { color: var(--primary-text); }
-
+        /* UPDATED: Brighter nav links */
+        nav a {
+            color: var(--primary-text); /* Brighter default color */
+            transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+            font-weight: 500;
+            padding: 5px 0;
+        }
+        /* UPDATED: Glowing hover effect for nav links */
+        nav a:hover {
+            color: var(--highlight-color);
+            transform: translateY(-2px);
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+        }
+        
         /* --- Hero Section --- */
         .hero { min-height: 100vh; display: flex; align-items: center; text-align: left; position: relative; overflow: hidden; }
-        .hero-content { max-width: 750px; }
+        /* NEW: Container for particles.js */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1; /* Behind content */
+        }
+        .hero-content { max-width: 750px; position: relative; z-index: 2; /* Above particles */ }
         .hero-eyebrow {
             font-size: 1rem;
             font-weight: 600;
@@ -88,72 +119,56 @@
         .cta-buttons { display: flex; gap: 1rem; margin-top: 2.5rem; }
         .btn {
             padding: 12px 24px; border-radius: 8px; font-weight: 600; text-align: center;
-            transition: all 0.3s ease; cursor: pointer; border: 1px solid var(--border-color);
+            transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; /* Changed border */
             display: inline-flex; align-items: center; gap: 0.5rem;
-            background-color: var(--light-bg);
-            color: var(--primary-text);
         }
-        .btn:hover {
+        /* UPDATED: Primary button with gradient */
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-color), var(--highlight-color));
+            background-size: 150% 150%;
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background-position: right center; /* Animate gradient */
+        }
+        .btn-secondary {
+             background-color: var(--light-bg);
+             color: var(--primary-text);
+             border: 1px solid var(--border-color);
+        }
+        .btn-secondary:hover {
             background-color: var(--card-bg);
             border-color: var(--secondary-text);
             transform: translateY(-3px);
         }
         
         /* --- Social Links --- */
-        .social-links {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            margin-top: 2.5rem;
-        }
-        .social-links a {
-            color: var(--secondary-text);
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-        .social-links a:hover {
-            color: var(--primary-text);
-            transform: scale(1.1) translateY(-3px);
-        }
-        .social-links svg {
-            width: 28px;
-            height: 28px;
-            fill: currentColor;
-        }
+        .social-links { display: flex; align-items: center; gap: 2rem; margin-top: 2.5rem; }
+        .social-links a { color: var(--secondary-text); transition: color 0.3s ease, transform 0.3s ease; }
+        .social-links a:hover { color: var(--primary-text); transform: scale(1.1) translateY(-3px); }
+        .social-links svg { width: 28px; height: 28px; fill: currentColor; }
 
         /* --- Section Background --- */
         .section-bg { background-color: var(--light-bg); }
 
         /* --- Education Section --- */
-        .info-grid {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-        }
+        .info-grid { display: flex; flex-direction: column; align-items: center; gap: 2rem; margin-top: 3rem; }
         .info-card {
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            max-width: 700px;
-            background-color: var(--card-bg);
-            border-radius: 0;
+            padding: 2rem; display: flex; flex-direction: column; width: 100%; max-width: 700px;
+            background-color: var(--card-bg); border-radius: 8px; /* Slightly rounded corners */
             border: 1px solid var(--border-color);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
         }
+        /* UPDATED: Glowing hover for info cards */
         .info-card:hover {
             transform: translateY(-5px);
-            border-color: var(--highlight-color);
+            box-shadow: var(--glow-shadow);
         }
-        .info-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        .info-icon {
-            color: var(--highlight-color);
-            font-size: 1.5rem;
-        }
+        .info-header { display: flex; align-items: center; margin-bottom: 1.5rem; }
+        .info-icon { color: var(--highlight-color); font-size: 1.5rem; }
         .info-title { margin-left: 1rem; }
         .info-title h3 { font-size: 1.25rem; margin: 0; }
         .info-title p { font-size: 0.9rem; font-weight: 500; color: var(--secondary-text); margin: 0; }
@@ -164,14 +179,10 @@
         .info-footer { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--secondary-text); }
         
         /* --- Skills Section --- */
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; margin-top: 3rem; }
         .skill-card {
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            background-color: var(--card-bg);
-            border-radius: 0;
-            border: 1px solid var(--border-color);
+            padding: 2rem; display: flex; flex-direction: column; background-color: var(--card-bg);
+            border-radius: 8px; border: 1px solid var(--border-color);
         }
         .skills-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
         .skill-tag { background-color: var(--light-bg); color: var(--secondary-text); padding: 0.5rem 1rem; border-radius: 6px; font-weight: 500; font-size: 0.9rem; }
@@ -179,48 +190,33 @@
         /* --- Visualizations Section --- */
         .viz-header { text-align: left; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
         .viz-header h2 { text-align: left; }
+        .viz-header h2::after { margin: 1rem 0 0; } /* Adjust underline for left alignment */
         .viz-header p { font-size: 1.1rem; }
         .admin-view .viz-header #add-project-btn { display: inline-block; }
-
         .viz-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            max-width: 950px;
-            margin: 0 auto;
-            gap: 2.5rem;
+            display: grid; grid-template-columns: repeat(2, 1fr); max-width: 950px; margin: 0 auto; gap: 2.5rem;
         }
-
         .viz-card-link { display: block; text-decoration: none; color: inherit; position: relative; }
         .viz-card {
-            background-color: var(--card-bg);
-            border-radius: 0;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid var(--border-color);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
+            background-color: var(--card-bg); border-radius: 8px; overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--border-color);
+            height: 100%; display: flex; flex-direction: column;
         }
+        /* UPDATED: Glowing hover for project cards */
         .viz-card-link:hover .viz-card {
             transform: translateY(-5px);
-            box-shadow: var(--card-hover-shadow);
+            box-shadow: var(--glow-shadow);
         }
         .project-thumbnail { height: 220px; overflow: hidden; }
         .project-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
         .viz-card-link:hover .project-thumbnail img { transform: scale(1.05); }
         .viz-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
         .viz-content h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--primary-text); }
-        .viz-content p { 
-            font-size: 0.95rem; 
-            margin-bottom: 1rem; 
-            color: var(--secondary-text);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+        .viz-content p {  
+            font-size: 0.95rem;  margin-bottom: 1rem; color: var(--secondary-text);
+            overflow: hidden; text-overflow: ellipsis; display: -webkit-box;
+            -webkit-line-clamp: 2; -webkit-box-orient: vertical;
         }
-        
         .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; }
         .project-tag { font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; color: white; text-transform: capitalize; }
         .tag-tableau { background-color: #2E75B6; }
@@ -229,6 +225,9 @@
         .tag-sql { background-color: #dc3545; }
         .tag-r { background-color: #6610f2; }
         .tag-excel { background-color: #217346; }
+        
+        /* --- Contact Section --- */
+        #contact h2::after { margin-bottom: 2rem; }
         
         /* --- Footer --- */
         footer { text-align: center; padding: 2rem; background-color: var(--light-bg); border-top: 1px solid var(--border-color); color: var(--secondary-text); }
@@ -261,7 +260,7 @@
         #back-to-top svg { width: 24px; height: 24px; }
 
         /* --- Responsive Design --- */
-        @media (max-width: 900px) { .hero { text-align: center; } }
+        @media (max-width: 900px) { .hero { text-align: center; } .hero-content { padding: 0 1rem; } }
         @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons { justify-content: center; } .social-links { justify-content: center; } .skills-grid, .viz-grid { grid-template-columns: 1fr; } }
         @media (min-width: 769px) { .hero .social-links { justify-content: flex-start; } }
     </style>
@@ -285,12 +284,14 @@
     <main>
 
         <section id="hero" class="hero">
+            <!-- ADDED: particles.js background element -->
+            <div id="particles-js"></div>
             <div class="container">
                 <div class="hero-content">
                     <p class="hero-eyebrow">Data Analyst Portfolio</p>
                     <h1>Akshay M</h1>
                     <p class="hero-description">
-                        As a student of Information Science at Vidyavardhaka College of Engineering, I'm deeply fascinated by the power of data. My coursework and certifications have provided me with a strong foundation in data analysis, statistical modeling, and business intelligence. I thrive in collaborative environments and am committed to applying my analytical and problem-solving skills to real-world challenges. My goal is to help organizations make smarter, data-driven decisions.
+                        As a student of Information Science at Vidyavardhaka College of Engineering in Mysuru, I'm deeply fascinated by the power of data. My coursework and certifications have provided me with a strong foundation in data analysis, statistical modeling, and business intelligence. I thrive in collaborative environments and am committed to applying my analytical and problem-solving skills to real-world challenges. My goal is to help organizations make smarter, data-driven decisions.
                     </p>
                     <div class="social-links">
                         <a href="https://github.com/akshaym00" target="_blank" aria-label="GitHub Profile">
@@ -301,6 +302,7 @@
                         </a>
                     </div>
                     <div class="cta-buttons">
+                        <!-- UPDATED: Added btn-primary class -->
                         <a href="https://drive.google.com/file/d/1REhf2W6wH99NzCROnTisE4VdrsCkWsUx/view?usp=drivesdk" class="btn btn-primary" download>Download Resume</a>
                     </div>
                 </div>
@@ -327,7 +329,7 @@
                             <p>Current CGPA: <strong>8.4</strong></p>
                         </div>
                         <div class="info-footer">
-                            <i class="fas fa-map-marker-alt"></i> Mysore, Karnataka, India
+                            <i class="fas fa-map-marker-alt"></i> Mysuru, Karnataka, India
                         </div>
                     </div>
                     <!-- Card 2: Pre-University -->
@@ -345,7 +347,7 @@
                             <p>Percentage: <strong>84.5%</strong></p>
                         </div>
                         <div class="info-footer">
-                            <i class="fas fa-map-marker-alt"></i> Mysore, Karnataka, India
+                            <i class="fas fa-map-marker-alt"></i> Mysuru, Karnataka, India
                         </div>
                     </div>
                     <!-- Card 3: High School -->
@@ -363,14 +365,14 @@
                             <p>Percentage: <strong>98.08%</strong></p>
                         </div>
                         <div class="info-footer">
-                            <i class="fas fa-map-marker-alt"></i> Krishnarajanagar, Mysore
+                            <i class="fas fa-map-marker-alt"></i> Krishnarajanagar, Mysuru
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="skills" class="section-bg">
+        <section id="skills">
             <div class="container">
                 <h2>My Skillset</h2>
                 <div class="skills-grid">
@@ -401,23 +403,26 @@
             </div>
         </section>
 
-        <section id="visualizations">
+        <section id="visualizations" class="section-bg">
             <div class="container">
                 <div class="viz-header">
                     <h2>My Projects</h2>
-                    <p>Every dataset tells a story. Let's dive into mine and discover how I bring data to life!</p>
-                    <button id="add-project-btn" class="btn btn-primary">Add New Project</button>
+                    <p>Every dataset tells a story. Here's a collection of my favorite projects where I turn raw data into compelling narratives and actionable insights.</p>
+                     <!-- Note: The "Add New Project" button is only visible in admin mode -->
+                    <button id="add-project-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Project</button>
                 </div>
                 <div id="viz-grid" class="viz-grid">
-                    </div>
+                    <!-- Projects from Firebase will be loaded here -->
+                </div>
             </div>
         </section>
         
-        <section id="contact" class="section-bg">
+        <section id="contact">
             <div class="container" style="text-align: center;">
                 <h2>Get In Touch</h2>
-                <div class="contact-content" >
+                <div class="contact-content">
                     <p>I'm actively seeking internship and full-time opportunities in data analytics. If you have a role that could be a good fit, or just want to connect, I'd love to hear from you!</p>
+                     <!-- UPDATED: Added btn-primary class -->
                     <a href="mailto:akshay.m0509@gmail.com" class="btn btn-primary">Say Hello</a>
                 </div>
             </div>
@@ -427,7 +432,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Akshay M. Crafted with care in Mysore.</p>
+            <p>&copy; 2025 Akshay M. Crafted with care in Mysuru.</p>
             <p><a href="#" id="admin-login">Admin Login</a></p>
         </div>
     </footer>
@@ -438,6 +443,7 @@
         </svg>
     </a>
 
+    <!-- MODAL for adding projects (for admin use) -->
     <div id="add-project-modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -476,11 +482,13 @@
                         <img id="thumbnail-preview" src="" alt="Thumbnail Preview" style="display: none;">
                     </div>
                 </div>
+                <!-- UPDATED: Button uses btn-primary style -->
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Add Project</button>
             </form>
         </div>
     </div>
 
+    <!-- MODAL for Custom Alerts -->
     <div id="custom-alert-modal" class="modal-overlay">
         <div class="modal-content" style="max-width: 400px; text-align: center;">
             <h3 id="custom-alert-title" style="margin-bottom: 1rem;"></h3>
@@ -492,25 +500,25 @@
         </div>
     </div>
 
-
+    <!-- ADDED: particles.js script -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
     <script type="module">
         // Firebase Imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
         
         // --- Firebase Configuration ---
         const firebaseConfig = {
-         apiKey: "AIzaSyC7vrrY03l1hJEiMoyRoaxNxxu5wY61q7Y",
-         authDomain: "akshay-portfolio-601f0.firebaseapp.com",
-         projectId: "akshay-portfolio-601f0",
-         storageBucket: "akshay-portfolio-601f0.appspot.com",
-         messagingSenderId: "35650492222",
-         appId: "1:35650492222:web:76c0cb42851099aa92fe6f",
-         measurementId: "G-CF3GCRL5RR"
+          apiKey: "AIzaSyC7vrrY03l1hJEiMoyRoaxNxxu5wY61q7Y",
+          authDomain: "akshay-portfolio-601f0.firebaseapp.com",
+          projectId: "akshay-portfolio-601f0",
+          storageBucket: "akshay-portfolio-601f0.appspot.com",
+          messagingSenderId: "35650492222",
+          appId: "1:35650492222:web:76c0cb42851099aa92fe6f",
+          measurementId: "G-CF3GCRL5RR"
         };
 
         // Initialize Firebase
@@ -573,13 +581,15 @@
             });
         }
 
-
         // --- Admin & Modal Logic ---
         function setAdminView(isAdmin) {
              if (isAdmin) {
-                document.body.classList.add('admin-view');
+                 document.body.classList.add('admin-view');
+                 // This ensures the button is visible if the class is used for styling
+                 addProjectBtn.style.display = 'inline-flex'; 
              } else {
-                document.body.classList.remove('admin-view');
+                 document.body.classList.remove('admin-view');
+                 addProjectBtn.style.display = 'none';
              }
         }
         
@@ -591,8 +601,8 @@
                     isAdmin = true;
                     sessionStorage.setItem('isAdmin', 'true');
                     setAdminView(true);
-                    await showAlert("Success", "Admin mode activated. You can now add and delete projects.");
-                } else if (password) {
+                    await showAlert("Success", "Admin mode activated. You can now add projects.");
+                } else if (password) { // Only show error if a password was entered
                     await showAlert("Error", "Incorrect password.");
                 }
             }
@@ -619,13 +629,11 @@
             });
         }
 
-        // Handle clicks on skill choices in the modal
         skillsSelector.addEventListener('click', (e) => {
             if (e.target.classList.contains('skill-choice')) {
                 e.target.classList.toggle('active');
             }
         });
-
 
         // --- Thumbnail Upload Logic ---
         dropZone.addEventListener('click', () => thumbnailUpload.click());
@@ -660,13 +668,16 @@
         const q = query(projectsCollection, orderBy("createdAt", "desc"));
         
         onSnapshot(q, (snapshot) => {
-            vizGrid.innerHTML = '';
-            let projectCounter = 1;
-            snapshot.docs.forEach(doc => {
-                const projectData = doc.data();
-                const projectElement = createProjectElement(doc.id, projectData, projectCounter++);
-                vizGrid.appendChild(projectElement);
-            });
+            vizGrid.innerHTML = ''; // Clear existing projects
+            if (snapshot.empty) {
+                vizGrid.innerHTML = `<p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No projects have been added yet. Come back soon!</p>`;
+            } else {
+                snapshot.docs.forEach(doc => {
+                    const projectData = doc.data();
+                    const projectElement = createProjectElement(doc.id, projectData);
+                    vizGrid.appendChild(projectElement);
+                });
+            }
         });
 
         projectForm.addEventListener('submit', async (e) => {
@@ -706,21 +717,17 @@
             reader.readAsDataURL(thumbnailFile);
         });
 
-        function createProjectElement(id, data, number) {
+        function createProjectElement(id, data) {
             const cardLink = document.createElement('a');
             cardLink.className = 'viz-card-link';
-            cardLink.href = `project-detail.html?id=${id}`;
+            // Point to a future detail page, or the project link itself
+            cardLink.href = data.link; 
+            cardLink.target = "_blank"; // Open in new tab
+            cardLink.rel = "noopener noreferrer";
 
-            const skillNameMap = {
-                powerbi: 'Power BI'
-            };
+            const skillNameMap = { powerbi: 'Power BI' };
             
-            let skillsToRender = [];
-            if (data.skills && Array.isArray(data.skills)) {
-                skillsToRender = data.skills;
-            } else if (data.type) {
-                skillsToRender = [data.type];
-            }
+            let skillsToRender = (data.skills && Array.isArray(data.skills)) ? data.skills : [];
 
             const skillTagsHTML = skillsToRender
                 .map(skill => {
@@ -747,7 +754,7 @@
             return cardLink;
         }
         
-        // --- Interactivity ---
+        // --- Interactivity & Initial Load ---
         const backToTopButton = document.getElementById('back-to-top');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 300) {
@@ -762,42 +769,38 @@
         });
         
         // --- Particle.js Hero Background ---
-        if (document.getElementById('particles-js')) {
-            particlesJS('particles-js', {
-                "particles": {
-                    "number": { "value": 50, "density": { "enable": true, "value_area": 800 } },
-                    "color": { "value": "#4B5563" },
-                    "shape": { "type": "circle" },
-                    "opacity": { "value": 0.5, "random": true },
-                    "size": { "value": 3, "random": true },
-                    "line_linked": { "enable": true, "distance": 150, "color": "#4B5563", "opacity": 0.2, "width": 1 },
-                    "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
-                },
-                "interactivity": {
-                    "detect_on": "canvas",
-                    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
-                    "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } }, "push": { "particles_nb": 4 } }
-                },
-                "retina_detect": true
-           });
+        // MOVED and ACTIVATED
+        function initParticles() {
+            if (document.getElementById('particles-js')) {
+                particlesJS('particles-js', {
+                    "particles": {
+                        "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                        "color": { "value": "#8B949E" }, /* Using secondary text color */
+                        "shape": { "type": "circle" },
+                        "opacity": { "value": 0.4, "random": true },
+                        "size": { "value": 3, "random": true },
+                        "line_linked": { "enable": true, "distance": 150, "color": "#8B949E", "opacity": 0.2, "width": 1 },
+                        "move": { "enable": true, "speed": 1.5, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+                    },
+                    "interactivity": {
+                        "detect_on": "canvas",
+                        "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false }, "resize": true },
+                        "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } } }
+                    },
+                    "retina_detect": true
+               });
+            }
         }
 
-        // --- Initial Load ---
         async function startApp() {
             try {
                 await signInAnonymously(auth);
                 console.log("Signed in anonymously");
-                onSnapshot(q, (snapshot) => {
-                    vizGrid.innerHTML = '';
-                    let projectCounter = 1;
-                    snapshot.docs.forEach(doc => {
-                        const projectData = doc.data();
-                        const projectElement = createProjectElement(doc.id, projectData, projectCounter++);
-                        vizGrid.appendChild(projectElement);
-                    });
-                });
+                initParticles(); // Initialize particles after signing in
             } catch (error) {
                 console.error("Anonymous sign-in failed:", error);
+                // Still try to init particles even if auth fails
+                initParticles();
             }
         }
 
