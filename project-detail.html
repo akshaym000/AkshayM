@@ -12,18 +12,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
-        /* --- CSS Reset & Variables (Bright Blue Dark Theme) --- */
+        /* --- CSS Reset & Variables (Midnight Theme) --- */
         :root {
-            --bg-color: #111827; /* Very Dark Blue */
-            --primary-text: #F9FAFB; /* Brighter Off-White */
-            --secondary-text: #D1D5DB; /* Brighter Medium Grey */
-            --accent-color: #3B82F6; /* Vibrant Blue */
-            --accent-hover: #60A5FA; /* Lighter Blue */
-            --light-bg: #1F2937; /* Section Background */
-            --card-bg: #374151; /* Card Background */
-            --border-color: #4B5563; /* Subtle Border */
-            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
-            --card-hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+            --bg-color: #0a0e14; /* Near-black night sky */
+            --primary-text: #E6EDF3;
+            --secondary-text: #8B949E;
+            --accent-color: #8B5CF6; /* Vibrant Purple */
+            --accent-hover: #A78BFA;
+            --highlight-color: #22D3EE; /* Vibrant Cyan */
+            --light-bg: #111827; /* Slightly lighter than main bg */
+            --card-bg: #1F2937; 
+            --border-color: #30363D;
+            --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+            --card-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            --glow-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,21 +40,36 @@
         /* --- Global Styles & Typography --- */
         .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
         h1, h2, h3 { font-weight: 700; line-height: 1.2; color: var(--primary-text); }
-        h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+        /* UPDATED: Gradient H1 to match main page */
+        h1 { 
+            font-size: clamp(2.5rem, 5vw, 3.5rem); 
+            background: -webkit-linear-gradient(45deg, var(--accent-color), var(--highlight-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
         p { color: var(--secondary-text); margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.7; }
-        a { color: var(--accent-color); text-decoration: none; font-weight: 500; }
+        a { color: var(--primary-text); text-decoration: none; font-weight: 500; }
 
         /* --- Header --- */
         .main-header {
-            background: rgba(17, 24, 39, 0.85);
-            backdrop-filter: blur(10px);
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(10, 14, 20, 0.75);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
             padding: 0 2rem;
         }
         nav { display: flex; justify-content: space-between; align-items: center; height: 70px; max-width: 1100px; margin: 0 auto; }
         .logo { font-size: 1.5rem; font-weight: 700; }
-        .back-link { font-weight: 600; }
-        .back-link:hover { color: var(--accent-hover); }
+        /* UPDATED: Back link style to match main nav */
+        .back-link { 
+            font-weight: 600; 
+            transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+        }
+        .back-link:hover { 
+            color: var(--highlight-color);
+            transform: translateY(-2px);
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+        }
 
         /* --- Project Detail Section --- */
         .project-detail-section {
@@ -85,16 +102,27 @@
             width: 100%;
             border-radius: 12px;
             margin-bottom: 2.5rem;
+            border: 1px solid var(--border-color);
             box-shadow: var(--card-shadow);
         }
 
         .btn {
             padding: 12px 24px; border-radius: 8px; font-weight: 600; text-align: center;
-            transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent;
+            transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent;
             display: inline-flex; align-items: center; gap: 0.5rem;
         }
-        .btn-primary { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
-        .btn-primary:hover { background-color: var(--accent-hover); border-color: var(--accent-hover); transform: translateY(-3px); box-shadow: var(--card-hover-shadow); }
+        /* UPDATED: Primary button with gradient */
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-color), var(--highlight-color));
+            background-size: 150% 150%;
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background-position: right center; /* Animate gradient */
+        }
 
         /* --- Footer --- */
         footer { text-align: center; padding: 2rem; background-color: var(--light-bg); border-top: 1px solid var(--border-color); color: var(--secondary-text); }
@@ -104,6 +132,7 @@
             text-align: center;
             font-size: 1.5rem;
             padding: 8rem 0;
+            color: var(--secondary-text);
         }
 
     </style>
@@ -126,7 +155,7 @@
                 </div>
                 <img id="project-image" src="" alt="Project Thumbnail">
                 <div id="project-description"></div>
-                <a id="project-link" href="#" class="btn btn-primary" target="_blank">View Live Project <i class="fas fa-external-link-alt" style="font-size: 0.8rem;"></i></a>
+                <a id="project-link" href="#" class="btn btn-primary" target="_blank" rel="noopener noreferrer">View Live Project <i class="fas fa-external-link-alt" style="font-size: 0.8rem;"></i></a>
             </div>
             <div id="loading-state" class="container loading-text">
                 <p>Loading Project...</p>
@@ -136,7 +165,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Akshay M. Crafted with care in Mysore.</p>
+            <p>&copy; 2025 Akshay M. Crafted with care in Mysuru.</p>
         </div>
     </footer>
 
@@ -148,13 +177,13 @@
         
         // --- Firebase Configuration ---
         const firebaseConfig = {
-         apiKey: "AIzaSyC7vrrY03l1hJEiMoyRoaxNxxu5wY61q7Y",
-         authDomain: "akshay-portfolio-601f0.firebaseapp.com",
-         projectId: "akshay-portfolio-601f0",
-         storageBucket: "akshay-portfolio-601f0.appspot.com",
-         messagingSenderId: "35650492222",
-         appId: "1:35650492222:web:76c0cb42851099aa92fe6f",
-         measurementId: "G-CF3GCRL5RR"
+          apiKey: "AIzaSyC7vrrY03l1hJEiMoyRoaxNxxu5wY61q7Y",
+          authDomain: "akshay-portfolio-601f0.firebaseapp.com",
+          projectId: "akshay-portfolio-601f0",
+          storageBucket: "akshay-portfolio-601f0.appspot.com",
+          messagingSenderId: "35650492222",
+          appId: "1:35650492222:web:76c0cb42851099aa92fe6f",
+          measurementId: "G-CF3GCRL5RR"
         };
 
         // Initialize Firebase
@@ -199,11 +228,11 @@
 
         function displayProjectDetails(data) {
             projectTitle.textContent = data.title;
-            projectImage.src = data.thumbnail || 'https://placehold.co/600x400/1F2937/9CA3AF?text=No+Image';
+            projectImage.src = data.thumbnail || 'https://placehold.co/900x600/1F2937/9CA3AF?text=No+Image';
             projectImage.alt = data.title;
             
-            // Convert description newlines to <p> tags
-            const descriptionHTML = data.description.split('\n').map(p => `<p>${p}</p>`).join('');
+            // Convert description newlines to <p> tags for proper spacing
+            const descriptionHTML = data.description.split('\n').filter(p => p.trim() !== '').map(p => `<p>${p}</p>`).join('');
             projectDescription.innerHTML = descriptionHTML;
             
             projectLink.href = data.link;
