@@ -15,6 +15,7 @@
         /* --- CSS Reset & Variables (Midnight Theme) --- */
         :root {
             --bg-color: #0a0e14; /* Near-black night sky */
+            /* REVERTED: Original brighter text colors for high contrast */
             --primary-text: #E6EDF3;
             --secondary-text: #8B949E;
             --accent-color: #8B5CF6; /* Vibrant Purple */
@@ -26,7 +27,7 @@
             --danger-color: #e53e3e;
             --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
             --card-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            --glow-shadow: 0 0 20px rgba(34, 211, 238, 0.25); /* NEW: Glowing effect */
+            --glow-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -51,13 +52,12 @@
         h2 {
             font-size: clamp(2rem, 4vw, 2.75rem);
             text-align: center;
-            margin-bottom: 1.5rem; /* Increased margin for the underline */
+            margin-bottom: 1.5rem;
             font-weight: 600;
             letter-spacing: 1px;
             text-transform: uppercase;
             position: relative;
         }
-        /* UPDATED: Stylish underline for section headers */
         h2::after {
             content: '';
             display: block;
@@ -81,14 +81,12 @@
         nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
         .logo { font-size: 1.5rem; font-weight: 700; }
         nav ul { display: flex; list-style: none; gap: 2rem; }
-        /* UPDATED: Brighter nav links */
         nav a {
-            color: var(--primary-text); /* Brighter default color */
+            color: var(--primary-text);
             transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
             font-weight: 500;
             padding: 5px 0;
         }
-        /* UPDATED: Glowing hover effect for nav links */
         nav a:hover {
             color: var(--highlight-color);
             transform: translateY(-2px);
@@ -97,16 +95,15 @@
         
         /* --- Hero Section --- */
         .hero { min-height: 100vh; display: flex; align-items: center; text-align: left; position: relative; overflow: hidden; }
-        /* NEW: Container for particles.js */
         #particles-js {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
-            z-index: 1; /* Behind content */
+            z-index: 1;
         }
-        .hero-content { max-width: 750px; position: relative; z-index: 2; /* Above particles */ }
+        .hero-content { max-width: 750px; position: relative; z-index: 2; }
         .hero-eyebrow {
             font-size: 1rem;
             font-weight: 600;
@@ -119,10 +116,9 @@
         .cta-buttons { display: flex; gap: 1rem; margin-top: 2.5rem; }
         .btn {
             padding: 12px 24px; border-radius: 8px; font-weight: 600; text-align: center;
-            transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent; /* Changed border */
+            transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent;
             display: inline-flex; align-items: center; gap: 0.5rem;
         }
-        /* UPDATED: Primary button with gradient */
         .btn-primary {
             background: linear-gradient(45deg, var(--accent-color), var(--highlight-color));
             background-size: 150% 150%;
@@ -132,7 +128,7 @@
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            background-position: right center; /* Animate gradient */
+            background-position: right center;
         }
         .btn-secondary {
              background-color: var(--light-bg);
@@ -158,11 +154,10 @@
         .info-grid { display: flex; flex-direction: column; align-items: center; gap: 2rem; margin-top: 3rem; }
         .info-card {
             padding: 2rem; display: flex; flex-direction: column; width: 100%; max-width: 700px;
-            background-color: var(--card-bg); border-radius: 8px; /* Slightly rounded corners */
+            background-color: var(--card-bg); border-radius: 8px;
             border: 1px solid var(--border-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        /* UPDATED: Glowing hover for info cards */
         .info-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--glow-shadow);
@@ -190,7 +185,7 @@
         /* --- Visualizations Section --- */
         .viz-header { text-align: left; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
         .viz-header h2 { text-align: left; }
-        .viz-header h2::after { margin: 1rem 0 0; } /* Adjust underline for left alignment */
+        .viz-header h2::after { margin: 1rem 0 0; }
         .viz-header p { font-size: 1.1rem; }
         .admin-view .viz-header #add-project-btn { display: inline-block; }
         .viz-grid {
@@ -202,7 +197,6 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--border-color);
             height: 100%; display: flex; flex-direction: column;
         }
-        /* UPDATED: Glowing hover for project cards */
         .viz-card-link:hover .viz-card {
             transform: translateY(-5px);
             box-shadow: var(--glow-shadow);
@@ -284,14 +278,13 @@
     <main>
 
         <section id="hero" class="hero">
-            <!-- ADDED: particles.js background element -->
             <div id="particles-js"></div>
             <div class="container">
                 <div class="hero-content">
                     <p class="hero-eyebrow">Data Analyst Portfolio</p>
                     <h1>Akshay M</h1>
                     <p class="hero-description">
-                        As a student of Information Science at Vidyavardhaka College of Engineering in Mysuru, I'm deeply fascinated by the power of data. My coursework and certifications have provided me with a strong foundation in data analysis, statistical modeling, and business intelligence. I thrive in collaborative environments and am committed to applying my analytical and problem-solving skills to real-world challenges. My goal is to help organizations make smarter, data-driven decisions.
+                        As a student of Information Science at Vidyavardhaka College of Engineering, I'm deeply fascinated by the power of data. My coursework and certifications have provided me with a strong foundation in data analysis, statistical modeling, and business intelligence. I thrive in collaborative environments and am committed to applying my analytical and problem-solving skills to real-world challenges. My goal is to help organizations make smarter, data-driven decisions.
                     </p>
                     <div class="social-links">
                         <a href="https://github.com/akshaym00" target="_blank" aria-label="GitHub Profile">
@@ -302,7 +295,6 @@
                         </a>
                     </div>
                     <div class="cta-buttons">
-                        <!-- UPDATED: Added btn-primary class -->
                         <a href="https://drive.google.com/file/d/1REhf2W6wH99NzCROnTisE4VdrsCkWsUx/view?usp=drivesdk" class="btn btn-primary" download>Download Resume</a>
                     </div>
                 </div>
@@ -408,7 +400,6 @@
                 <div class="viz-header">
                     <h2>My Projects</h2>
                     <p>Every dataset tells a story. Here's a collection of my favorite projects where I turn raw data into compelling narratives and actionable insights.</p>
-                     <!-- Note: The "Add New Project" button is only visible in admin mode -->
                     <button id="add-project-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Project</button>
                 </div>
                 <div id="viz-grid" class="viz-grid">
@@ -422,7 +413,6 @@
                 <h2>Get In Touch</h2>
                 <div class="contact-content">
                     <p>I'm actively seeking internship and full-time opportunities in data analytics. If you have a role that could be a good fit, or just want to connect, I'd love to hear from you!</p>
-                     <!-- UPDATED: Added btn-primary class -->
                     <a href="mailto:akshay.m0509@gmail.com" class="btn btn-primary">Say Hello</a>
                 </div>
             </div>
@@ -453,11 +443,11 @@
             <form id="project-form">
                 <div class="form-group">
                     <label for="project-title">Project Title</label>
-                    <input type="text" id="project-title" required>
+                    <input type="text" id="project-title-input" required>
                 </div>
                 <div class="form-group">
                     <label for="project-description">Project Description</label>
-                    <textarea id="project-description" rows="3" required></textarea>
+                    <textarea id="project-description-input" rows="3" required></textarea>
                 </div>
                  <div class="form-group">
                     <label>Skills Used (Select at least one)</label>
@@ -472,7 +462,7 @@
                 </div>
                 <div class="form-group">
                     <label for="project-link">Project Link (to original dashboard)</label>
-                    <input type="url" id="project-link" required>
+                    <input type="url" id="project-link-input" required>
                 </div>
                 <div class="form-group">
                     <label>Project Thumbnail</label>
@@ -482,7 +472,6 @@
                         <img id="thumbnail-preview" src="" alt="Thumbnail Preview" style="display: none;">
                     </div>
                 </div>
-                <!-- UPDATED: Button uses btn-primary style -->
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Add Project</button>
             </form>
         </div>
@@ -500,7 +489,6 @@
         </div>
     </div>
 
-    <!-- ADDED: particles.js script -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
     <script type="module">
@@ -585,7 +573,6 @@
         function setAdminView(isAdmin) {
              if (isAdmin) {
                  document.body.classList.add('admin-view');
-                 // This ensures the button is visible if the class is used for styling
                  addProjectBtn.style.display = 'inline-flex'; 
              } else {
                  document.body.classList.remove('admin-view');
@@ -602,13 +589,12 @@
                     sessionStorage.setItem('isAdmin', 'true');
                     setAdminView(true);
                     await showAlert("Success", "Admin mode activated. You can now add projects.");
-                } else if (password) { // Only show error if a password was entered
+                } else if (password) {
                     await showAlert("Error", "Incorrect password.");
                 }
             }
         });
         
-        // Check admin status on page load
         setAdminView(isAdmin);
 
         addProjectBtn.addEventListener('click', () => projectModal.classList.add('visible'));
@@ -668,7 +654,7 @@
         const q = query(projectsCollection, orderBy("createdAt", "desc"));
         
         onSnapshot(q, (snapshot) => {
-            vizGrid.innerHTML = ''; // Clear existing projects
+            vizGrid.innerHTML = '';
             if (snapshot.empty) {
                 vizGrid.innerHTML = `<p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No projects have been added yet. Come back soon!</p>`;
             } else {
@@ -694,9 +680,9 @@
             }
             
             const skills = Array.from(selectedSkillNodes).map(node => node.dataset.skill);
-            const title = document.getElementById('project-title').value;
-            const description = document.getElementById('project-description').value;
-            const link = document.getElementById('project-link').value;
+            const title = document.getElementById('project-title-input').value;
+            const description = document.getElementById('project-description-input').value;
+            const link = document.getElementById('project-link-input').value;
 
             const reader = new FileReader();
             reader.onload = async (event) => {
@@ -720,11 +706,9 @@
         function createProjectElement(id, data) {
             const cardLink = document.createElement('a');
             cardLink.className = 'viz-card-link';
-            // Point to a future detail page, or the project link itself
-            cardLink.href = data.link; 
-            cardLink.target = "_blank"; // Open in new tab
-            cardLink.rel = "noopener noreferrer";
-
+            // UPDATED: Link to the project detail page
+            cardLink.href = `project-detail.html?id=${id}`; 
+            
             const skillNameMap = { powerbi: 'Power BI' };
             
             let skillsToRender = (data.skills && Array.isArray(data.skills)) ? data.skills : [];
@@ -768,14 +752,12 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
         
-        // --- Particle.js Hero Background ---
-        // MOVED and ACTIVATED
         function initParticles() {
             if (document.getElementById('particles-js')) {
                 particlesJS('particles-js', {
                     "particles": {
                         "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
-                        "color": { "value": "#8B949E" }, /* Using secondary text color */
+                        "color": { "value": "#8B949E" },
                         "shape": { "type": "circle" },
                         "opacity": { "value": 0.4, "random": true },
                         "size": { "value": 3, "random": true },
@@ -796,10 +778,9 @@
             try {
                 await signInAnonymously(auth);
                 console.log("Signed in anonymously");
-                initParticles(); // Initialize particles after signing in
+                initParticles();
             } catch (error) {
                 console.error("Anonymous sign-in failed:", error);
-                // Still try to init particles even if auth fails
                 initParticles();
             }
         }
