@@ -3,227 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Details | Akshay M</title>
+    <title>Project Detail | Akshay M Portfolio</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Georgia&family=Times+New+Roman&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-    <!-- Reusing the same stylesheet for consistency -->
     <style>
+        /* --- CSS Reset & Variables (Bright Blue Dark Theme) --- */
         :root {
-            --bg-color: #ffffff;
-            --primary-text: #1a202c;
-            --secondary-text: #4a5568;
-            --accent-color: #2D68C4;
-            --accent-hover: #2657a3;
-            --light-bg: #f7fafc;
-            --border-color: #e2e8f0;
-            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --bg-color: #111827; /* Very Dark Blue */
+            --primary-text: #F9FAFB; /* Brighter Off-White */
+            --secondary-text: #D1D5DB; /* Brighter Medium Grey */
+            --accent-color: #3B82F6; /* Vibrant Blue */
+            --accent-hover: #60A5FA; /* Lighter Blue */
+            --light-bg: #1F2937; /* Section Background */
+            --card-bg: #374151; /* Card Background */
+            --border-color: #4B5563; /* Subtle Border */
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+            --card-hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--light-bg);
+            background-color: var(--bg-color);
             color: var(--primary-text);
             line-height: 1.6;
         }
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1; /* Keep it in the background */
-            background-color: var(--light-bg);
-        }
-        .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 2; }
-        .main-header {
-            position: sticky; top: 0; left: 0; width: 100%; z-index: 1000;
-            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-        }
-        nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
-        .logo { font-size: 1.25rem; font-weight: 700; }
-        .logo a { color: var(--primary-text); text-decoration: none; }
-        nav .nav-buttons { display: flex; gap: 0.75rem; }
-        .btn {
-            padding: 10px 20px; border-radius: 8px; font-weight: 600; text-align: center;
-            transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent;
-            display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;
-        }
-        .btn-primary { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
-        .btn-primary:hover { background-color: var(--accent-hover); border-color: var(--accent-hover); }
-        .btn-secondary { background-color: transparent; color: var(--accent-color); border: 2px solid var(--accent-color); }
-        .btn-secondary:hover { background-color: var(--accent-color); color: white; }
 
-        /* Project Detail Specific Styles */
-        #project-detail-section { padding: 3rem 0; }
-        #project-banner {
-            width: 100%;
-            height: 350px;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 2rem;
-            background-color: var(--border-color);
-            box-shadow: var(--card-shadow);
+        /* --- Global Styles & Typography --- */
+        .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+        h1, h2, h3 { font-weight: 700; line-height: 1.2; color: var(--primary-text); }
+        h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+        p { color: var(--secondary-text); margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.7; }
+        a { color: var(--accent-color); text-decoration: none; font-weight: 500; }
+
+        /* --- Header --- */
+        .main-header {
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 2rem;
         }
-        #project-banner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        nav { display: flex; justify-content: space-between; align-items: center; height: 70px; max-width: 1100px; margin: 0 auto; }
+        .logo { font-size: 1.5rem; font-weight: 700; }
+        .back-link { font-weight: 600; }
+        .back-link:hover { color: var(--accent-hover); }
+
+        /* --- Project Detail Section --- */
+        .project-detail-section {
+            padding: 10rem 0 6rem;
         }
-        #editor-toolbar {
-            background-color: #fff;
-            padding: 1rem;
-            border-radius: 12px;
-            box-shadow: var(--card-shadow);
-            margin-bottom: 2rem;
+        
+        #project-title {
+            margin-bottom: 1rem;
+        }
+
+        .project-meta {
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-        .toolbar-group { display: flex; align-items: center; gap: 0.5rem; }
-        .toolbar-group label { font-weight: 500; font-size: 0.9rem; }
-        #editor-toolbar select, #editor-toolbar input[type="color"] {
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 0.35rem;
-            font-family: 'Inter', sans-serif;
-            background-color: #fff;
-        }
-        #editor-toolbar input[type="color"] { width: 40px; height: 34px; cursor: pointer; padding: 2px;}
-        #save-changes-btn { flex-shrink: 0; }
-        
-        #project-content-wrapper {
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: var(--card-shadow);
-            transition: background-color 0.3s, color 0.3s;
-        }
-        #project-content-wrapper h1 {
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-        #project-content-wrapper p {
-            font-size: 1.1rem;
-            line-height: 1.7;
-        }
-        [contenteditable="true"] {
-            outline: 2px dashed transparent;
-            transition: outline 0.3s;
-            padding: 0.25rem;
-            margin: -0.25rem;
-            border-radius: 4px;
-        }
-        [contenteditable="true"]:focus {
-            outline: 2px dashed var(--accent-color);
-            background-color: rgba(45, 104, 196, 0.05);
-        }
-        .project-link-container {
-            text-align: center;
-            margin: 2rem 0 1rem 0;
-        }
-        .loader {
-            text-align: center;
-            padding: 5rem;
-            font-size: 1.5rem;
-            font-weight: 500;
+            gap: 0.5rem 1.5rem;
+            margin-bottom: 2.5rem;
             color: var(--secondary-text);
         }
-        #save-notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--primary-text);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            z-index: 1002;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
-        }
-        #save-notification.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translate(-50%, -10px);
-        }
-        .hidden {
-            display: none !important;
+
+        .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .project-tag { font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; color: white; text-transform: capitalize; }
+        
+        .tag-tableau { background-color: #2E75B6; }
+        .tag-powerbi { background-color: #F2C811; color: #333; }
+        .tag-python { background-color: #fd7e14; }
+        .tag-sql { background-color: #dc3545; }
+        .tag-r { background-color: #6610f2; }
+        .tag-excel { background-color: #217346; }
+
+        #project-image {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 2.5rem;
+            box-shadow: var(--card-shadow);
         }
 
-        /* Responsive Adjustments */
-        @media (max-width: 600px) {
-            .container { padding: 0 1rem; }
-            #project-detail-section { padding: 2rem 0; }
-            #project-content-wrapper { padding: 1.5rem; }
-            #editor-toolbar { flex-direction: column; align-items: stretch; }
-            #save-changes-btn { width: 100%; justify-content: center; }
-            nav .nav-buttons { gap: 0.5rem; }
-            .btn { padding: 8px 12px; font-size: 0.9rem; }
-            .logo { font-size: 1.1rem; }
+        .btn {
+            padding: 12px 24px; border-radius: 8px; font-weight: 600; text-align: center;
+            transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent;
+            display: inline-flex; align-items: center; gap: 0.5rem;
         }
+        .btn-primary { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
+        .btn-primary:hover { background-color: var(--accent-hover); border-color: var(--accent-hover); transform: translateY(-3px); box-shadow: var(--card-hover-shadow); }
+
+        /* --- Footer --- */
+        footer { text-align: center; padding: 2rem; background-color: var(--light-bg); border-top: 1px solid var(--border-color); color: var(--secondary-text); }
+        
+        /* --- Loading State --- */
+        .loading-text {
+            text-align: center;
+            font-size: 1.5rem;
+            padding: 8rem 0;
+        }
+
     </style>
 </head>
 <body>
-    <div id="particles-js"></div>
 
     <header class="main-header">
-        <div class="container">
-            <nav>
-                <div class="logo"><a href="index.html">Akshay M</a></div>
-                <div class="nav-buttons">
-                    <a href="index.html" class="btn btn-secondary">Home</a>
-                    <a href="index.html#contact" class="btn btn-primary">Contact Me</a>
-                </div>
-            </nav>
-        </div>
+        <nav>
+            <div class="logo">Akshay M</div>
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i>Back to Portfolio</a>
+        </nav>
     </header>
 
     <main>
-        <section id="project-detail-section">
-            <div class="container">
-                <div id="project-banner">
-                     <div class="loader"></div>
+        <section class="project-detail-section">
+            <div id="project-container" class="container" style="display: none;">
+                <h1 id="project-title"></h1>
+                <div class="project-meta">
+                    <div id="project-skills" class="project-tags"></div>
                 </div>
-                
-                <div id="editor-toolbar" class="hidden">
-                    <div class="toolbar-group">
-                        <label for="text-color-picker">Text Color:</label>
-                        <input type="color" id="text-color-picker" value="#1a202c">
-                    </div>
-                    <div class="toolbar-group">
-                        <label for="font-family-select">Font:</label>
-                        <select id="font-family-select">
-                            <option value="'Inter', sans-serif">Inter</option>
-                            <option value="'Georgia', serif">Georgia</option>
-                            <option value="'Times New Roman', serif">Times New Roman</option>
-                        </select>
-                    </div>
-                    <button id="save-changes-btn" class="btn btn-primary">Save Changes</button>
-                </div>
-
-                <div id="project-content-wrapper">
-                    <!-- Content will be loaded here -->
-                    <div class="loader">Loading Project...</div>
-                </div>
+                <img id="project-image" src="" alt="Project Thumbnail">
+                <div id="project-description"></div>
+                <a id="project-link" href="#" class="btn btn-primary" target="_blank">View Live Project <i class="fas fa-external-link-alt" style="font-size: 0.8rem;"></i></a>
+            </div>
+            <div id="loading-state" class="container loading-text">
+                <p>Loading Project...</p>
             </div>
         </section>
     </main>
 
-    <div id="save-notification">Changes saved!</div>
-    
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Akshay M. Crafted with care in Mysore.</p>
+        </div>
+    </footer>
 
+    <script type="module">
+        // Firebase Imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
         // --- Firebase Configuration ---
         const firebaseConfig = {
          apiKey: "AIzaSyC7vrrY03l1hJEiMoyRoaxNxxu5wY61q7Y",
@@ -238,166 +160,90 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
 
         // --- DOM Elements ---
-        const bannerContainer = document.getElementById('project-banner');
-        const contentWrapper = document.getElementById('project-content-wrapper');
-        const editorToolbar = document.getElementById('editor-toolbar');
-        const textColorPicker = document.getElementById('text-color-picker');
-        const fontFamilySelect = document.getElementById('font-family-select');
-        const saveBtn = document.getElementById('save-changes-btn');
-        const saveNotification = document.getElementById('save-notification');
+        const projectContainer = document.getElementById('project-container');
+        const loadingState = document.getElementById('loading-state');
+        const projectTitle = document.getElementById('project-title');
+        const projectSkills = document.getElementById('project-skills');
+        const projectImage = document.getElementById('project-image');
+        const projectDescription = document.getElementById('project-description');
+        const projectLink = document.getElementById('project-link');
 
-        let projectDocRef;
-        const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
-
-        // --- Main Function to Load Project ---
+        // --- Fetch and Display Project ---
         async function loadProject() {
-            const params = new URLSearchParams(window.location.search);
-            const projectId = params.get('id');
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('id');
 
             if (!projectId) {
-                bannerContainer.style.display = 'none';
-                contentWrapper.innerHTML = `
-                    <h1>Error</h1>
-                    <p>No project ID provided. Please return to the <a href="index.html">portfolio page</a> and select a project.</p>
-                `;
+                loadingState.innerHTML = '<p>Error: Project ID not found.</p>';
                 return;
             }
 
-            projectDocRef = doc(db, "visualization_projects", projectId);
             try {
-                const docSnap = await getDoc(projectDocRef);
+                const docRef = doc(db, "visualization_projects", projectId);
+                const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-                    renderProject(data);
-                    applyStyles(data.styles);
-                    
-                    if (isAdmin) {
-                        editorToolbar.classList.remove('hidden');
-                        setupEventListeners();
-                    }
+                    displayProjectDetails(data);
                 } else {
-                    bannerContainer.style.display = 'none';
-                    contentWrapper.innerHTML = `<h1>Project not found</h1><p>The requested project does not exist. Please check the project ID in the URL or return to the <a href="index.html">home page</a>.</p>`;
+                    loadingState.innerHTML = '<p>Error: Project not found.</p>';
                 }
             } catch (error) {
                 console.error("Error fetching project:", error);
-                bannerContainer.style.display = 'none';
-                contentWrapper.innerHTML = `<h1>Error</h1><p>Could not load the project. Please ensure you are connected to the internet and try again.</p>`;
+                loadingState.innerHTML = '<p>Error loading project details.</p>';
             }
         }
 
-        function renderProject(data) {
-            // Set document title
-            document.title = `${data.title} | Akshay M`;
-
-            // Set banner image
-            if (data.thumbnail) {
-                bannerContainer.innerHTML = `<img src="${data.thumbnail}" alt="${data.title} banner">`;
-            } else {
-                bannerContainer.style.display = 'none'; // Hide banner if no image
-            }
-
-            const isEditable = isAdmin ? 'contenteditable="true"' : '';
-            contentWrapper.innerHTML = `
-                <div class="project-link-container">
-                    <a href="${data.link}" target="_blank" class="btn btn-primary">View Live Project</a>
-                </div>
-                <h1 id="project-title" ${isEditable}>${data.title}</h1>
-                <p id="project-description" ${isEditable}>${data.description.replace(/\n/g, '<br>')}</p>
-            `;
-        }
-        
-        function applyStyles(styles) {
-            if (!styles) return;
-
-            if (styles.textColor) {
-                contentWrapper.style.color = styles.textColor;
-                // Apply to children that might not inherit, like headings
-                contentWrapper.querySelectorAll('h1, p').forEach(el => el.style.color = styles.textColor);
-                textColorPicker.value = styles.textColor;
-            }
-            if (styles.fontFamily) {
-                contentWrapper.style.fontFamily = styles.fontFamily;
-                fontFamilySelect.value = styles.fontFamily;
-            }
-        }
-
-        function setupEventListeners() {
-            // Update styles live as the user changes them
-            textColorPicker.addEventListener('input', (e) => {
-                contentWrapper.style.color = e.target.value;
-                 contentWrapper.querySelectorAll('h1, p').forEach(el => el.style.color = e.target.value);
-            });
-
-            fontFamilySelect.addEventListener('change', (e) => {
-                contentWrapper.style.fontFamily = e.target.value;
-            });
-
-            saveBtn.addEventListener('click', saveChanges);
-        }
-
-        async function saveChanges() {
-            if (!isAdmin || !projectDocRef) return; // Security check
-
-            const newTitle = document.getElementById('project-title').innerText;
-            const newDescription = document.getElementById('project-description').innerText;
+        function displayProjectDetails(data) {
+            projectTitle.textContent = data.title;
+            projectImage.src = data.thumbnail || 'https://placehold.co/600x400/1F2937/9CA3AF?text=No+Image';
+            projectImage.alt = data.title;
             
-            const newStyles = {
-                textColor: textColorPicker.value,
-                fontFamily: fontFamilySelect.value,
-            };
+            // Convert description newlines to <p> tags
+            const descriptionHTML = data.description.split('\n').map(p => `<p>${p}</p>`).join('');
+            projectDescription.innerHTML = descriptionHTML;
+            
+            projectLink.href = data.link;
 
-            try {
-                saveBtn.disabled = true;
-                saveBtn.textContent = 'Saving...';
-                await updateDoc(projectDocRef, {
-                    title: newTitle,
-                    description: newDescription,
-                    styles: newStyles
-                });
-                showSaveNotification();
-            } catch (error) {
-                console.error("Error updating document: ", error);
-                alert("Failed to save changes. Please check the console.");
-            } finally {
-                saveBtn.disabled = false;
-                saveBtn.textContent = 'Save Changes';
+            // Display skills
+            let skillsToRender = [];
+            if (data.skills && Array.isArray(data.skills)) {
+                skillsToRender = data.skills;
+            } else if (data.type) { // Fallback for old data structure
+                skillsToRender = [data.type];
             }
-        }
+            
+            const skillNameMap = { powerbi: 'Power BI' };
+            const skillTagsHTML = skillsToRender
+                .map(skill => {
+                    const displayName = skillNameMap[skill] || skill;
+                    return `<span class="project-tag tag-${skill}">${displayName}</span>`;
+                })
+                .join('');
+            projectSkills.innerHTML = skillTagsHTML;
 
-        function showSaveNotification() {
-            saveNotification.classList.add('visible');
-            setTimeout(() => {
-                saveNotification.classList.remove('visible');
-            }, 2500);
+            // Show content
+            loadingState.style.display = 'none';
+            projectContainer.style.display = 'block';
         }
 
         // --- Initial Load ---
-        loadProject();
-
-        // --- Particle.js Hero Background ---
-        if (document.getElementById('particles-js')) {
-            particlesJS('particles-js', {
-                "particles": {
-                    "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
-                    "color": { "value": "#dddddd" },
-                    "shape": { "type": "circle" },
-                    "opacity": { "value": 0.5, "random": false },
-                    "size": { "value": 3, "random": true },
-                    "line_linked": { "enable": true, "distance": 150, "color": "#dddddd", "opacity": 0.4, "width": 1 },
-                    "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
-                },
-                "interactivity": {
-                    "detect_on": "canvas",
-                    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false }, "resize": true },
-                    "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.8 } } }
-                },
-                "retina_detect": true
-           });
+        async function startApp() {
+            try {
+                await signInAnonymously(auth);
+                loadProject();
+            } catch (error) {
+                console.error("Anonymous sign-in failed:", error);
+                loadingState.innerHTML = '<p>Authentication failed. Cannot load project.</p>';
+            }
         }
+
+        startApp();
+
     </script>
+
 </body>
 </html>
