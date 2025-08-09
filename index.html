@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,13 +71,23 @@
         /* --- Hero Section --- */
         .hero { min-height: 100vh; display: flex; align-items: center; text-align: left; position: relative; overflow: hidden; }
         #particles-js { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; }
-        .hero-content { max-width: 750px; position: relative; z-index: 2; }
+        
+        .hero-content { 
+            position: relative;
+            z-index: 2;
+            max-width: 750px;
+        }
         
         .hero-eyebrow {
-            font-size: 1.25rem;
+            display: inline-block;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--accent-color);
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            padding: 0.35rem 1rem;
+            border-radius: 999px;
+            background-color: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--accent-color);
         }
         .hero-description {
             max-width: 650px;
@@ -128,13 +137,13 @@
         /* --- Section Background --- */
         .section-bg { background-color: var(--light-bg); }
 
-        /* --- Education Section --- */
-        .education-grid {
+        /* --- Education & Certification Section --- */
+        .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
-        .education-card {
+        .info-card {
             background-color: var(--card-bg);
             padding: 2rem;
             border-radius: 12px;
@@ -143,16 +152,16 @@
             display: flex;
             flex-direction: column;
         }
-        .education-card:hover {
+        .info-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--card-hover-shadow);
         }
-        .edu-header {
+        .info-header {
             display: flex;
             align-items: center;
             margin-bottom: 1.5rem;
         }
-        .edu-icon {
+        .info-icon {
             background-color: var(--accent-color);
             color: white;
             border-radius: 50%;
@@ -164,43 +173,47 @@
             justify-content: center;
             font-size: 1.5rem;
         }
-        .edu-title {
+        .info-title {
             margin-left: 1rem;
         }
-        .edu-title h3 {
+        .info-title h3 {
             font-size: 1.25rem;
             margin: 0;
         }
-        .edu-title p {
+        .info-title p {
             font-size: 0.9rem;
             font-weight: 500;
             color: var(--accent-color);
             margin: 0;
         }
-        .edu-body {
+        .info-body {
             flex-grow: 1;
         }
-        .edu-body h4 {
+        .info-body h4 {
             font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: var(--accent-hover);
         }
-        .edu-body p {
+        .info-body p {
             font-size: 0.95rem;
             margin-bottom: 0.25rem;
         }
-        .edu-body p strong {
+        .info-body p strong {
             color: var(--primary-text);
             font-weight: 700;
         }
-        .edu-footer {
+        .info-footer {
             margin-top: 1rem;
             padding-top: 1rem;
             border-top: 1px solid var(--border-color);
             font-size: 0.85rem;
             color: var(--secondary-text);
         }
+        .info-footer a:hover {
+            text-decoration: underline;
+        }
+
 
         /* --- Skills Section --- */
         .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; }
@@ -219,9 +232,10 @@
 
         .viz-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, 320px);
-            gap: 2rem;
-            justify-content: center;
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 950px;
+            margin: 0 auto;
+            gap: 2.5rem;
         }
 
         .viz-card-link {
@@ -345,17 +359,6 @@
             transform: translateY(-2px);
         }
         
-        /* --- Scroll Animations --- */
-        .fade-in-section {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
         /* --- Back to Top Button --- */
         #back-to-top {
             position: fixed; bottom: 20px; right: 20px; background-color: var(--accent-color);
@@ -370,13 +373,18 @@
         #back-to-top svg { width: 24px; height: 24px; }
 
         /* --- Responsive Design --- */
+        @media (max-width: 900px) {
+            .hero {
+                text-align: center;
+            }
+        }
+
         @media (max-width: 768px) {
             nav ul { display: none; }
-            .hero { text-align: center; }
             .hero-content { width: 100%; }
             .cta-buttons { justify-content: center; }
             .social-links { justify-content: center; }
-            .skills-grid, .education-grid { grid-template-columns: 1fr; }
+            .skills-grid, .info-grid, .viz-grid { grid-template-columns: 1fr; }
         }
         
         @media (min-width: 769px) { /* On desktop and larger */
@@ -409,7 +417,7 @@
         <section id="hero" class="hero">
             <div class="container">
                 <div class="hero-content">
-                    <p class="hero-eyebrow">Data Analyst Portfolio</p>
+                    <p class="hero-eyebrow"><i class="fas fa-chart-pie" style="margin-right: 0.5rem;"></i>Data Analyst Portfolio</p>
                     <h1>Akshay M</h1>
                     <p class="hero-description">
                         As a student of Information Science at Vidyavardhaka College of Engineering, I'm deeply fascinated by the power of data. My coursework and certifications have provided me with a strong foundation in data analysis, statistical modeling, and business intelligence. I thrive in collaborative environments and am committed to applying my analytical and problem-solving skills to real-world challenges. My goal is to help organizations make smarter, data-driven decisions.
@@ -430,61 +438,61 @@
         </section>
 
         <!-- EDUCATION SECTION -->
-        <section id="education" class="section-bg fade-in-section">
+        <section id="education" class="section-bg">
             <div class="container">
                 <h2>My Education</h2>
-                <div class="education-grid">
+                <div class="info-grid">
                     <!-- Card 1: University -->
-                    <div class="education-card">
-                        <div class="edu-header">
-                            <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
-                            <div class="edu-title">
+                    <div class="info-card">
+                        <div class="info-header">
+                            <div class="info-icon"><i class="fas fa-graduation-cap"></i></div>
+                            <div class="info-title">
                                 <h3>Engineering Degree</h3>
                                 <p>2023 - 2027 (Expected)</p>
                             </div>
                         </div>
-                        <div class="edu-body">
+                        <div class="info-body">
                             <h4>Vidyavardhaka College of Engineering</h4>
                             <p>B.E., Information Science</p>
                             <p>Current CGPA: <strong>8.4</strong></p>
                         </div>
-                        <div class="edu-footer">
+                        <div class="info-footer">
                             <i class="fas fa-map-marker-alt"></i> Mysore, Karnataka, India
                         </div>
                     </div>
                     <!-- Card 2: Pre-University -->
-                    <div class="education-card">
-                        <div class="edu-header">
-                            <div class="edu-icon"><i class="fas fa-book-open"></i></div>
-                            <div class="edu-title">
+                    <div class="info-card">
+                        <div class="info-header">
+                            <div class="info-icon"><i class="fas fa-book-open"></i></div>
+                            <div class="info-title">
                                 <h3>Pre-University</h3>
                                 <p>2021 - 2023</p>
                             </div>
                         </div>
-                        <div class="edu-body">
+                        <div class="info-body">
                             <h4>Pramathi Pre-University College</h4>
                             <p>Focus: Science, Maths, CS</p>
                             <p>Percentage: <strong>84.5%</strong></p>
                         </div>
-                        <div class="edu-footer">
+                        <div class="info-footer">
                             <i class="fas fa-map-marker-alt"></i> Mysore, Karnataka, India
                         </div>
                     </div>
                     <!-- Card 3: High School -->
-                    <div class="education-card">
-                        <div class="edu-header">
-                            <div class="edu-icon"><i class="fas fa-school"></i></div>
-                            <div class="edu-title">
+                    <div class="info-card">
+                        <div class="info-header">
+                            <div class="info-icon"><i class="fas fa-school"></i></div>
+                            <div class="info-title">
                                 <h3>High School</h3>
                                 <p>2020 - 2021</p>
                             </div>
                         </div>
-                        <div class="edu-body">
+                        <div class="info-body">
                             <h4>St. Joseph's High School</h4>
                             <p>Focus: Science & Mathematics</p>
                             <p>Percentage: <strong>98.08%</strong></p>
                         </div>
-                        <div class="edu-footer">
+                        <div class="info-footer">
                             <i class="fas fa-map-marker-alt"></i> Krishnarajanagar, Mysore
                         </div>
                     </div>
@@ -492,7 +500,7 @@
             </div>
         </section>
 
-        <section id="skills" class="fade-in-section">
+        <section id="skills" class="section-bg">
             <div class="container">
                 <h2>My Skillset</h2>
                 <div class="skills-grid">
@@ -523,7 +531,7 @@
             </div>
         </section>
 
-        <section id="visualizations" class="section-bg fade-in-section">
+        <section id="visualizations">
             <div class="container">
                 <div class="viz-header">
                     <h2>My Projects</h2>
@@ -535,7 +543,7 @@
             </div>
         </section>
         
-        <section id="contact" class="fade-in-section">
+        <section id="contact" class="section-bg">
             <div class="container" style="text-align: center;">
                 <h2 style="margin-bottom: 2rem;">Get In Touch</h2>
                 <div class="contact-content" >
@@ -620,7 +628,8 @@
     <script type="module">
         // Firebase Imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
         
         // --- Firebase Configuration ---
@@ -638,6 +647,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const analytics = getAnalytics(app);
+        const auth = getAuth(app);
 
         // --- App State ---
         let isAdmin = sessionStorage.getItem('isAdmin') === 'true';
@@ -774,11 +784,11 @@
                 showAlert('Invalid File', 'Please upload a valid image file.');
             }
         }
-
+        
         // --- Firestore Logic ---
         const projectsCollection = collection(db, "visualization_projects");
         const q = query(projectsCollection, orderBy("createdAt", "desc"));
-
+        
         onSnapshot(q, (snapshot) => {
             vizGrid.innerHTML = '';
             snapshot.docs.forEach(doc => {
@@ -881,19 +891,6 @@
         }
         
         // --- Interactivity ---
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.fade-in-section').forEach((section) => {
-            observer.observe(section);
-        });
-
         const backToTopButton = document.getElementById('back-to-top');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 300) {
@@ -927,6 +924,27 @@
                 "retina_detect": true
            });
         }
+
+        // --- Initial Load ---
+        async function startApp() {
+            try {
+                await signInAnonymously(auth);
+                console.log("Signed in anonymously");
+                onSnapshot(q, (snapshot) => {
+                    vizGrid.innerHTML = '';
+                    snapshot.docs.forEach(doc => {
+                        const projectData = doc.data();
+                        const projectElement = createProjectElement(doc.id, projectData);
+                        vizGrid.appendChild(projectElement);
+                    });
+                });
+            } catch (error) {
+                console.error("Anonymous sign-in failed:", error);
+            }
+        }
+
+        startApp();
+
     </script>
 
 </body>
