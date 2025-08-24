@@ -151,12 +151,22 @@
         .section-bg { background-color: var(--light-bg); }
 
         /* --- Education Section --- */
-        .info-grid { display: flex; flex-direction: column; align-items: center; gap: 2rem; margin-top: 3rem; }
+        .info-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem; 
+            margin-top: 3rem; 
+        }
         .info-card {
-            padding: 2rem; display: flex; flex-direction: column; width: 100%; max-width: 700px;
-            background-color: var(--card-bg); border-radius: 8px;
+            padding: 2rem; 
+            display: flex; 
+            flex-direction: column; 
+            width: 100%;
+            background-color: var(--card-bg); 
+            border-radius: 8px;
             border: 1px solid var(--border-color);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%; /* Ensure cards in a row are same height */
         }
         .info-card:hover {
             transform: translateY(-5px);
@@ -171,7 +181,7 @@
         .info-body h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--primary-text); }
         .info-body p { font-size: 0.95rem; margin-bottom: 0.25rem; }
         .info-body p strong { color: var(--primary-text); font-weight: 700; }
-        .info-footer { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--secondary-text); }
+        .info-footer { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--secondary-text); }
         
         /* --- Skills Section --- */
         .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; margin-top: 3rem; }
@@ -183,9 +193,9 @@
         .skill-tag { background-color: var(--light-bg); color: var(--secondary-text); padding: 0.5rem 1rem; border-radius: 6px; font-weight: 500; font-size: 0.9rem; }
 
         /* --- Visualizations Section --- */
-        .viz-header { text-align: left; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
-        .viz-header h2 { text-align: left; }
-        .viz-header h2::after { margin: 1rem 0 0; }
+        .viz-header { text-align: center; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
+        .viz-header h2 { text-align: center; }
+        .viz-header h2::after { margin: 1rem auto 0; }
         .viz-header p { font-size: 1.1rem; }
         .admin-view .viz-header #add-project-btn { display: inline-block; }
         .viz-grid {
@@ -267,8 +277,8 @@
                 <ul>
                     <li><a href="#hero">Home</a></li>
                     <li><a href="#education">Education</a></li>
-                    <li><a href="#skills">Skills</a></li>
                     <li><a href="#visualizations">Projects</a></li>
+                    <li><a href="#skills">Skills</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
@@ -281,7 +291,7 @@
             <div id="particles-js"></div>
             <div class="container">
                 <div class="hero-content">
-                    <p class="hero-eyebrow">Data Analyst Portfolio</p>
+                    <p class="hero-eyebrow">Analyst Portfolio</p>
                     <h1>Akshay M</h1>
                     <p class="hero-description">
                         As a student of Information Science at Vidyavardhaka College of Engineering, I'm deeply fascinated by the power of data. My coursework and certifications have provided me with a strong foundation in data analysis, statistical modeling, and business intelligence. I thrive in collaborative environments and am committed to applying my analytical and problem-solving skills to real-world challenges. My goal is to help organizations make smarter, data-driven decisions.
@@ -364,6 +374,19 @@
             </div>
         </section>
 
+        <section id="visualizations" class="section-bg">
+            <div class="container">
+                <div class="viz-header">
+                    <h2>My Projects</h2>
+                    <p>Every dataset tells a story. Here's a collection of my favorite projects where I turn raw data into compelling narratives and actionable insights.</p>
+                    <button id="add-project-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Project</button>
+                </div>
+                <div id="viz-grid" class="viz-grid">
+                    <!-- Projects from Firebase will be loaded here -->
+                </div>
+            </div>
+        </section>
+
         <section id="skills">
             <div class="container">
                 <h2>My Skillset</h2>
@@ -391,19 +414,6 @@
                             <span class="skill-tag">Agile Methodologies</span>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="visualizations" class="section-bg">
-            <div class="container">
-                <div class="viz-header">
-                    <h2>My Projects</h2>
-                    <p>Every dataset tells a story. Here's a collection of my favorite projects where I turn raw data into compelling narratives and actionable insights.</p>
-                    <button id="add-project-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Project</button>
-                </div>
-                <div id="viz-grid" class="viz-grid">
-                    <!-- Projects from Firebase will be loaded here -->
                 </div>
             </div>
         </section>
