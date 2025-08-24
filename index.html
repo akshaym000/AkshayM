@@ -15,7 +15,6 @@
         /* --- CSS Reset & Variables (Midnight Theme) --- */
         :root {
             --bg-color: #0a0e14; /* Near-black night sky */
-            /* REVERTED: Original brighter text colors for high contrast */
             --primary-text: #E6EDF3;
             --secondary-text: #8B949E;
             --accent-color: #8B5CF6; /* Vibrant Purple */
@@ -150,7 +149,7 @@
         /* --- Section Background --- */
         .section-bg { background-color: var(--light-bg); }
 
-        /* --- Education Section --- */
+        /* --- Education & Certification Section --- */
         .info-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -166,7 +165,7 @@
             border-radius: 8px;
             border: 1px solid var(--border-color);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 100%; /* Ensure cards in a row are same height */
+            height: 100%;
         }
         .info-card:hover {
             transform: translateY(-5px);
@@ -182,6 +181,8 @@
         .info-body p { font-size: 0.95rem; margin-bottom: 0.25rem; }
         .info-body p strong { color: var(--primary-text); font-weight: 700; }
         .info-footer { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--secondary-text); }
+        .info-footer a { color: var(--accent-color); font-weight: 600; }
+        .info-footer a:hover { text-decoration: underline; }
         
         /* --- Skills Section --- */
         .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; margin-top: 3rem; }
@@ -197,7 +198,7 @@
         .viz-header h2 { text-align: center; }
         .viz-header h2::after { margin: 1rem auto 0; }
         .viz-header p { font-size: 1.1rem; }
-        .admin-view .viz-header #add-project-btn { display: inline-block; }
+        .admin-view #add-project-btn, .admin-view #add-cert-btn { display: inline-block; }
         .viz-grid {
             display: grid; grid-template-columns: repeat(2, 1fr); max-width: 950px; margin: 0 auto; gap: 2.5rem;
         }
@@ -278,6 +279,7 @@
                     <li><a href="#hero">Home</a></li>
                     <li><a href="#education">Education</a></li>
                     <li><a href="#visualizations">Projects</a></li>
+                    <li><a href="#certifications">Certifications</a></li>
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -387,6 +389,20 @@
             </div>
         </section>
 
+        <!-- CERTIFICATIONS SECTION -->
+        <section id="certifications">
+            <div class="container">
+                <div class="viz-header">
+                    <h2>Certifications</h2>
+                    <p>A collection of certifications I've earned to sharpen my skills and deepen my knowledge in the field of data analysis.</p>
+                    <button id="add-cert-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Certification</button>
+                </div>
+                <div id="cert-grid" class="info-grid">
+                    <!-- Certifications will be loaded here -->
+                </div>
+            </div>
+        </section>
+
         <section id="skills">
             <div class="container">
                 <h2>My Skillset</h2>
@@ -443,12 +459,12 @@
         </svg>
     </a>
 
-    <!-- MODAL for adding projects (for admin use) -->
+    <!-- MODAL for adding projects -->
     <div id="add-project-modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Add New Project</h2>
-                <button id="close-modal-btn" class="close-modal">&times;</button>
+                <button id="close-project-modal-btn" class="close-modal">&times;</button>
             </div>
             <form id="project-form">
                 <div class="form-group">
@@ -487,6 +503,31 @@
         </div>
     </div>
 
+    <!-- MODAL for adding certifications -->
+    <div id="add-cert-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Certification</h2>
+                <button id="close-cert-modal-btn" class="close-modal">&times;</button>
+            </div>
+            <form id="cert-form">
+                <div class="form-group">
+                    <label for="cert-title-input">Certification Title</label>
+                    <input type="text" id="cert-title-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="cert-issuer-input">Issuing Organization</label>
+                    <input type="text" id="cert-issuer-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="cert-link-input">Credential Link</label>
+                    <input type="url" id="cert-link-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Add Certification</button>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL for Custom Alerts -->
     <div id="custom-alert-modal" class="modal-overlay">
         <div class="modal-content" style="max-width: 400px; text-align: center;">
@@ -504,7 +545,7 @@
     <script type="module">
         // Firebase Imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
         
@@ -531,9 +572,10 @@
 
         // --- DOM Elements ---
         const adminLoginBtn = document.getElementById('admin-login');
+        // Project elements
         const addProjectBtn = document.getElementById('add-project-btn');
         const projectModal = document.getElementById('add-project-modal');
-        const closeModalBtn = document.getElementById('close-modal-btn');
+        const closeProjectModalBtn = document.getElementById('close-project-modal-btn');
         const projectForm = document.getElementById('project-form');
         const vizGrid = document.getElementById('viz-grid');
         const dropZone = document.getElementById('thumbnail-drop-zone');
@@ -541,6 +583,13 @@
         const thumbnailPreview = document.getElementById('thumbnail-preview');
         const skillsSelector = document.getElementById('skills-selector');
         let thumbnailFile = null;
+        // Certification elements
+        const addCertBtn = document.getElementById('add-cert-btn');
+        const certModal = document.getElementById('add-cert-modal');
+        const closeCertModalBtn = document.getElementById('close-cert-modal-btn');
+        const certForm = document.getElementById('cert-form');
+        const certGrid = document.getElementById('cert-grid');
+
 
         // --- Custom Alert Modal Elements & Function ---
         const customAlertModal = document.getElementById('custom-alert-modal');
@@ -584,9 +633,11 @@
              if (isAdmin) {
                  document.body.classList.add('admin-view');
                  addProjectBtn.style.display = 'inline-flex'; 
+                 addCertBtn.style.display = 'inline-flex';
              } else {
                  document.body.classList.remove('admin-view');
                  addProjectBtn.style.display = 'none';
+                 addCertBtn.style.display = 'none';
              }
         }
         
@@ -598,7 +649,7 @@
                     isAdmin = true;
                     sessionStorage.setItem('isAdmin', 'true');
                     setAdminView(true);
-                    await showAlert("Success", "Admin mode activated. You can now add projects.");
+                    await showAlert("Success", "Admin mode activated. You can now add projects and certifications.");
                 } else if (password) {
                     await showAlert("Error", "Incorrect password.");
                 }
@@ -607,12 +658,20 @@
         
         setAdminView(isAdmin);
 
+        // Project Modal Listeners
         addProjectBtn.addEventListener('click', () => projectModal.classList.add('visible'));
-        closeModalBtn.addEventListener('click', () => closeProjectModal());
+        closeProjectModalBtn.addEventListener('click', () => closeProjectModal());
         projectModal.addEventListener('click', (e) => {
             if (e.target === projectModal) closeProjectModal();
         });
         
+        // Certification Modal Listeners
+        addCertBtn.addEventListener('click', () => certModal.classList.add('visible'));
+        closeCertModalBtn.addEventListener('click', () => closeCertModal());
+        certModal.addEventListener('click', (e) => {
+            if (e.target === certModal) closeCertModal();
+        });
+
         function closeProjectModal() {
             projectModal.classList.remove('visible');
             projectForm.reset();
@@ -623,6 +682,11 @@
             skillsSelector.querySelectorAll('.skill-choice.active').forEach(skill => {
                 skill.classList.remove('active');
             });
+        }
+
+        function closeCertModal() {
+            certModal.classList.remove('visible');
+            certForm.reset();
         }
 
         skillsSelector.addEventListener('click', (e) => {
@@ -660,21 +724,52 @@
         }
         
         // --- Firestore Logic ---
-        const projectsCollection = collection(db, "visualization_projects");
-        const q = query(projectsCollection, orderBy("createdAt", "desc"));
-        
-        onSnapshot(q, (snapshot) => {
-            vizGrid.innerHTML = '';
-            if (snapshot.empty) {
-                vizGrid.innerHTML = `<p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No projects have been added yet. Come back soon!</p>`;
-            } else {
-                snapshot.docs.forEach(doc => {
-                    const projectData = doc.data();
-                    const projectElement = createProjectElement(doc.id, projectData);
-                    vizGrid.appendChild(projectElement);
-                });
-            }
-        });
+        function initializeFirestoreListeners() {
+            // Projects
+            const projectsCollection = collection(db, "visualization_projects");
+            const projectsQuery = query(projectsCollection, orderBy("createdAt", "desc"));
+            
+            onSnapshot(projectsQuery, (snapshot) => {
+                vizGrid.innerHTML = '';
+                if (snapshot.empty) {
+                    vizGrid.innerHTML = `<p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No projects have been added yet. Come back soon!</p>`;
+                } else {
+                    snapshot.docs.forEach(doc => {
+                        const projectData = doc.data();
+                        const projectElement = createProjectElement(doc.id, projectData);
+                        vizGrid.appendChild(projectElement);
+                    });
+                }
+            }, (error) => {
+                console.error("Error fetching projects: ", error);
+                vizGrid.innerHTML = `<p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading projects. Check console for details.</p>`;
+            });
+
+            // Certifications
+            const certificationsCollection = collection(db, "certifications");
+            const certsQuery = query(certificationsCollection, orderBy("createdAt", "desc"));
+
+            onSnapshot(certsQuery, (snapshot) => {
+                certGrid.innerHTML = '';
+                if (snapshot.empty) {
+                    const placeholder = document.createElement('p');
+                    placeholder.textContent = "No certifications have been added yet.";
+                    placeholder.style.color = 'var(--secondary-text)';
+                    placeholder.style.textAlign = 'center';
+                    placeholder.style.gridColumn = '1 / -1';
+                    certGrid.appendChild(placeholder);
+                } else {
+                    snapshot.docs.forEach(doc => {
+                        const certData = doc.data();
+                        const certElement = createCertificationElement(doc.id, certData);
+                        certGrid.appendChild(certElement);
+                    });
+                }
+            }, (error) => {
+                console.error("Error fetching certifications: ", error);
+                certGrid.innerHTML = `<p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading certifications. Check console for details.</p>`;
+            });
+        }
 
         projectForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -698,7 +793,7 @@
             reader.onload = async (event) => {
                 const thumbnailBase64 = event.target.result;
                 try {
-                    await addDoc(projectsCollection, {
+                    await addDoc(collection(db, "visualization_projects"), {
                         title, description, link, 
                         skills, 
                         thumbnail: thumbnailBase64,
@@ -713,14 +808,34 @@
             reader.readAsDataURL(thumbnailFile);
         });
 
+        certForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('cert-title-input').value;
+            const issuer = document.getElementById('cert-issuer-input').value;
+            const link = document.getElementById('cert-link-input').value;
+
+            try {
+                await addDoc(collection(db, "certifications"), {
+                    title,
+                    issuer,
+                    link,
+                    createdAt: new Date()
+                });
+                closeCertModal();
+            } catch (error) {
+                console.error("Error adding certification: ", error);
+                showAlert("Error", "Failed to add certification. Check console for details.");
+            }
+        });
+
+
         function createProjectElement(id, data) {
             const cardLink = document.createElement('a');
             cardLink.className = 'viz-card-link';
-            // UPDATED: Link to the project detail page
-            cardLink.href = `project-detail.html?id=${id}`; 
+            cardLink.href = data.link; 
+            cardLink.target = "_blank";
             
             const skillNameMap = { powerbi: 'Power BI' };
-            
             let skillsToRender = (data.skills && Array.isArray(data.skills)) ? data.skills : [];
 
             const skillTagsHTML = skillsToRender
@@ -746,6 +861,27 @@
             `;
             
             return cardLink;
+        }
+
+        function createCertificationElement(id, data) {
+            const card = document.createElement('div');
+            card.className = 'info-card';
+            
+            card.innerHTML = `
+                <div class="info-header">
+                    <div class="info-icon"><i class="fas fa-certificate"></i></div>
+                    <div class="info-title">
+                        <h3>${data.title}</h3>
+                        <p>Issued by ${data.issuer}</p>
+                    </div>
+                </div>
+                <div class="info-footer">
+                    <a href="${data.link}" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-external-link-alt"></i> View Credential
+                    </a>
+                </div>
+            `;
+            return card;
         }
         
         // --- Interactivity & Initial Load ---
@@ -785,13 +921,26 @@
         }
 
         async function startApp() {
+            initParticles();
+            
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // User is signed in (anonymously).
+                    console.log("Authenticated successfully. User UID:", user.uid);
+                    initializeFirestoreListeners();
+                } else {
+                    // User is signed out.
+                    console.log("User is not authenticated.");
+                }
+            });
+
             try {
-                await signInAnonymously(auth);
-                console.log("Signed in anonymously");
-                initParticles();
+                if (!auth.currentUser) {
+                    await signInAnonymously(auth);
+                    console.log("Attempting anonymous sign-in...");
+                }
             } catch (error) {
                 console.error("Anonymous sign-in failed:", error);
-                initParticles();
             }
         }
 
