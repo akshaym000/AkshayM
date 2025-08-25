@@ -207,15 +207,16 @@
         .viz-card {
             background-color: var(--card-bg); border-radius: 8px; overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--border-color);
-            height: 100%; display: flex; flex-direction: column;
+            display: flex; flex-direction: column;
         }
-        .viz-card-link:hover .viz-card {
+        .viz-card-link { display: block; text-decoration: none; color: inherit; }
+        .viz-card-link:hover .project-thumbnail img { transform: scale(1.05); }
+        .viz-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--glow-shadow);
         }
         .project-thumbnail { height: 220px; overflow: hidden; background-color: var(--light-bg); }
         .project-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-        .viz-card-link:hover .project-thumbnail img { transform: scale(1.05); }
         .viz-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; text-align: left;}
         .viz-content h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--primary-text); }
         .viz-content p {  
@@ -541,10 +542,10 @@
                     <textarea id="cert-description-input" rows="4" required></textarea>
                 </div>
                  <div class="form-group">
-                    <label>Certification Image</label>
+                    <label>Certification Image or PDF</label>
                     <div id="cert-thumbnail-drop-zone" class="thumbnail-drop-zone">
-                        <p>Drag & drop an image here, or click to select</p>
-                        <input type="file" id="cert-thumbnail-upload" accept="image/*" hidden>
+                        <p>Drag & drop a file here, or click to select</p>
+                        <input type="file" id="cert-thumbnail-upload" accept="image/*,.pdf" hidden>
                         <img id="cert-thumbnail-preview" class="thumbnail-preview" src="" alt="Thumbnail Preview" style="display: none;">
                     </div>
                 </div>
@@ -573,6 +574,7 @@
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
         
         // --- Firebase Configuration ---
         const firebaseConfig = {
@@ -590,6 +592,7 @@
         const db = getFirestore(app);
         const analytics = getAnalytics(app);
         const auth = getAuth(app);
+        const storage = getStorage(app);
 
         // --- App State ---
         let isAdmin = sessionStorage.getItem('isAdmin') === 'true';
@@ -618,7 +621,7 @@
         const certDropZone = document.getElementById('cert-thumbnail-drop-zone');
         const certThumbnailUpload = document.getElementById('cert-thumbnail-upload');
         const certThumbnailPreview = document.getElementById('cert-thumbnail-preview');
-        let certThumbnailFile = null;
+        let certFile = null;
 
 
         // --- Custom Alert Modal Elements & Function ---
@@ -720,7 +723,7 @@
             certThumbnailPreview.style.display = 'none';
             certThumbnailPreview.src = '';
             certDropZone.querySelector('p').style.display = 'block';
-            certThumbnailFile = null;
+            certFile = null;
         }
 
         skillsSelector.addEventListener('click', (e) => {
@@ -730,7 +733,7 @@
         });
 
         // --- Thumbnail Upload Logic ---
-        function setupImageUpload(dropZone, uploadInput, previewImg, fileVarSetter) {
+        function setupFileUpload(dropZone, uploadInput, previewImg, fileVarSetter) {
             dropZone.addEventListener('click', () => uploadInput.click());
             dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
             dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
@@ -745,7 +748,10 @@
         }
 
         function handleFile(file, previewImg, dropZone, fileVarSetter) {
-            if(file && file.type.startsWith('image/')) {
+            const isImage = file && file.type.startsWith('image/');
+            const isPdf = file && file.type === 'application/pdf';
+
+            if(isImage) {
                 fileVarSetter(file);
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -754,13 +760,19 @@
                     dropZone.querySelector('p').style.display = 'none';
                 };
                 reader.readAsDataURL(file);
-            } else {
-                showAlert('Invalid File', 'Please upload a valid image file.');
+            } else if (isPdf) {
+                 fileVarSetter(file);
+                previewImg.src = 'https://placehold.co/600x400/1F2937/FFFFFF?text=PDF+Selected';
+                previewImg.style.display = 'block';
+                dropZone.querySelector('p').style.display = 'none';
+            }
+            else {
+                showAlert('Invalid File', 'Please upload a valid image (png, jpg) or a PDF file.');
             }
         }
 
-        setupImageUpload(projectDropZone, projectThumbnailUpload, projectThumbnailPreview, (file) => { projectThumbnailFile = file; });
-        setupImageUpload(certDropZone, certThumbnailUpload, certThumbnailPreview, (file) => { certThumbnailFile = file; });
+        setupFileUpload(projectDropZone, projectThumbnailUpload, projectThumbnailPreview, (file) => { projectThumbnailFile = file; });
+        setupFileUpload(certDropZone, certThumbnailUpload, certThumbnailPreview, (file) => { certFile = file; });
         
         // --- Firestore Logic ---
         function initializeFirestoreListeners() {
@@ -851,32 +863,38 @@
 
         certForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!certThumbnailFile) {
-                showAlert('Missing Image', 'Please upload a certification image.');
+            if (!certFile) {
+                showAlert('Missing File', 'Please upload a certification image or PDF.');
                 return;
             }
             const title = document.getElementById('cert-title-input').value;
             const issuer = document.getElementById('cert-issuer-input').value;
             const description = document.getElementById('cert-description-input').value;
             
-            const reader = new FileReader();
-            reader.onload = async (event) => {
-                const thumbnailBase64 = event.target.result;
-                try {
-                    await addDoc(collection(db, "certifications"), {
-                        title,
-                        issuer,
-                        description,
-                        thumbnail: thumbnailBase64,
-                        createdAt: new Date()
-                    });
-                    closeCertModal();
-                } catch (error) {
-                    console.error("Error adding certification: ", error);
-                    showAlert("Error", "Failed to add certification. Check console for details.");
-                }
-            };
-            reader.readAsDataURL(certThumbnailFile);
+            const isImage = certFile.type.startsWith('image/');
+            const isPdf = certFile.type === 'application/pdf';
+
+            try {
+                // 1. Upload file to Firebase Storage
+                const storageRef = ref(storage, `certifications/${Date.now()}_${certFile.name}`);
+                await uploadBytes(storageRef, certFile);
+                const downloadURL = await getDownloadURL(storageRef);
+
+                // 2. Save data to Firestore
+                await addDoc(collection(db, "certifications"), {
+                    title,
+                    issuer,
+                    description,
+                    fileURL: downloadURL,
+                    isImage: isImage,
+                    createdAt: new Date()
+                });
+                closeCertModal();
+
+            } catch (error) {
+                console.error("Error adding certification: ", error);
+                showAlert("Error", "Failed to add certification. Check console for details.");
+            }
         });
 
 
@@ -918,10 +936,12 @@
             const cardWrapper = document.createElement('div');
             cardWrapper.className = 'viz-card';
 
+            const thumbnail = data.isImage ? data.fileURL : 'https://placehold.co/600x400/1F2937/FFFFFF?text=PDF+Certificate';
+
             cardWrapper.innerHTML = `
-                <a href="${data.link || '#'}" target="_blank" class="viz-card-link">
+                <a href="${data.fileURL || '#'}" target="_blank" class="viz-card-link">
                     <div class="project-thumbnail">
-                        <img src="${data.thumbnail || 'https://placehold.co/600x400/1F2937/9CA3AF?text=Certificate'}" alt="${data.title}">
+                        <img src="${thumbnail}" alt="${data.title}">
                     </div>
                     <div class="viz-content">
                         <h3>${data.title}</h3>
