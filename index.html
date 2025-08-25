@@ -196,7 +196,7 @@
         .viz-header h2 { text-align: center; }
         .viz-header h2::after { margin: 1rem auto 0; }
         .viz-header p { font-size: 1.1rem; }
-        .admin-view #add-project-btn { display: inline-block; }
+        .admin-view #add-project-btn, .admin-view #add-cert-btn { display: inline-block; }
         .viz-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); max-width: 1100px; margin: 0 auto; gap: 2.5rem;
         }
@@ -249,9 +249,9 @@
         .form-group { margin-bottom: 1.5rem; }
         .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--primary-text); }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); font-size: 1rem; font-family: 'Inter', sans-serif; background-color: var(--light-bg); color: var(--primary-text); }
-        #thumbnail-drop-zone { padding: 2rem; border: 2px dashed var(--border-color); border-radius: 8px; text-align: center; cursor: pointer; transition: background-color 0.3s; }
-        #thumbnail-drop-zone.drag-over { background-color: rgba(139, 92, 246, 0.1); }
-        #thumbnail-preview { max-width: 100%; max-height: 150px; margin-top: 1rem; border-radius: 8px; }
+        .thumbnail-drop-zone { padding: 2rem; border: 2px dashed var(--border-color); border-radius: 8px; text-align: center; cursor: pointer; transition: background-color 0.3s; }
+        .thumbnail-drop-zone.drag-over { background-color: rgba(139, 92, 246, 0.1); }
+        .thumbnail-preview { max-width: 100%; max-height: 150px; margin-top: 1rem; border-radius: 8px; }
         .skills-selector { display: flex; flex-wrap: wrap; gap: 0.75rem; }
         .skill-choice { padding: 0.5rem 1rem; border: 1px solid var(--border-color); border-radius: 999px; cursor: pointer; transition: all 0.2s ease-in-out; font-weight: 500; background-color: var(--card-bg); color: var(--primary-text); }
         .skill-choice.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); transform: translateY(-2px); }
@@ -393,31 +393,10 @@
                 <div class="viz-header">
                     <h2>Certifications</h2>
                     <p>A collection of certifications I've earned to sharpen my skills and deepen my knowledge in the field of data analysis.</p>
+                    <button id="add-cert-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Certification</button>
                 </div>
                 <div id="cert-grid" class="viz-grid">
-                     <!-- 
-                        HOW TO ADD A NEW CERTIFICATION:
-                        1. Copy the entire <a ...>...</a> block for the sample certification below.
-                        2. Paste it right below the comment that says "<!-- ADD NEW CERTIFICATIONS HERE -->".
-                        3. Change the href="" to the link for your credential.
-                        4. Change the src="" for the image to a direct link of your certificate's image.
-                        5. Update the <h3> for the title and the <p> for the issuing organization.
-                    -->
-
-                    <!-- SAMPLE CERTIFICATION 1 -->
-                    <a href="#" class="viz-card-link" target="_blank">
-                        <div class="viz-card">
-                            <div class="project-thumbnail">
-                                <img src="https://placehold.co/600x400/1F2937/E6EDF3?text=My+Certificate" alt="Certification Title">
-                            </div>
-                            <div class="viz-content">
-                                <h3>Sample Certification Title</h3>
-                                <p>Issued by Sample Organization</p>
-                            </div>
-                        </div>
-                    </a>
-                    <!-- ADD NEW CERTIFICATIONS HERE -->
-
+                    <!-- Certifications from Firebase will be loaded here -->
                 </div>
             </div>
         </section>
@@ -521,6 +500,39 @@
             </form>
         </div>
     </div>
+
+    <!-- MODAL for adding certifications -->
+    <div id="add-cert-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Certification</h2>
+                <button id="close-cert-modal-btn" class="close-modal">&times;</button>
+            </div>
+            <form id="cert-form">
+                <div class="form-group">
+                    <label for="cert-title-input">Certification Title</label>
+                    <input type="text" id="cert-title-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="cert-issuer-input">Issuing Organization</label>
+                    <input type="text" id="cert-issuer-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="cert-link-input">Credential Link</label>
+                    <input type="url" id="cert-link-input" required>
+                </div>
+                 <div class="form-group">
+                    <label>Certification Image</label>
+                    <div id="cert-thumbnail-drop-zone" class="thumbnail-drop-zone">
+                        <p>Drag & drop an image here, or click to select</p>
+                        <input type="file" id="cert-thumbnail-upload" accept="image/*" hidden>
+                        <img id="cert-thumbnail-preview" class="thumbnail-preview" src="" alt="Thumbnail Preview" style="display: none;">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Add Certification</button>
+            </form>
+        </div>
+    </div>
     
     <!-- MODAL for Custom Alerts -->
     <div id="custom-alert-modal" class="modal-overlay">
@@ -566,6 +578,7 @@
 
         // --- DOM Elements ---
         const adminLoginBtn = document.getElementById('admin-login');
+        // Project elements
         const addProjectBtn = document.getElementById('add-project-btn');
         const projectModal = document.getElementById('add-project-modal');
         const closeProjectModalBtn = document.getElementById('close-project-modal-btn');
@@ -576,6 +589,18 @@
         const projectThumbnailPreview = document.getElementById('thumbnail-preview');
         const skillsSelector = document.getElementById('skills-selector');
         let projectThumbnailFile = null;
+        
+        // Certification elements
+        const addCertBtn = document.getElementById('add-cert-btn');
+        const certModal = document.getElementById('add-cert-modal');
+        const closeCertModalBtn = document.getElementById('close-cert-modal-btn');
+        const certForm = document.getElementById('cert-form');
+        const certGrid = document.getElementById('cert-grid');
+        const certDropZone = document.getElementById('cert-thumbnail-drop-zone');
+        const certThumbnailUpload = document.getElementById('cert-thumbnail-upload');
+        const certThumbnailPreview = document.getElementById('cert-thumbnail-preview');
+        let certThumbnailFile = null;
+
 
         // --- Custom Alert Modal Elements & Function ---
         const customAlertModal = document.getElementById('custom-alert-modal');
@@ -619,9 +644,11 @@
              if (isAdmin) {
                  document.body.classList.add('admin-view');
                  addProjectBtn.style.display = 'inline-flex'; 
+                 addCertBtn.style.display = 'inline-flex';
              } else {
                  document.body.classList.remove('admin-view');
                  addProjectBtn.style.display = 'none';
+                 addCertBtn.style.display = 'none';
              }
         }
         
@@ -633,7 +660,7 @@
                     isAdmin = true;
                     sessionStorage.setItem('isAdmin', 'true');
                     setAdminView(true);
-                    await showAlert("Success", "Admin mode activated. You can now add projects.");
+                    await showAlert("Success", "Admin mode activated. You can now add projects and certifications.");
                 } else if (password) {
                     await showAlert("Error", "Incorrect password.");
                 }
@@ -649,6 +676,13 @@
             if (e.target === projectModal) closeProjectModal();
         });
         
+        // Certification Modal Listeners
+        addCertBtn.addEventListener('click', () => certModal.classList.add('visible'));
+        closeCertModalBtn.addEventListener('click', () => closeCertModal());
+        certModal.addEventListener('click', (e) => {
+            if (e.target === certModal) closeCertModal();
+        });
+
         function closeProjectModal() {
             projectModal.classList.remove('visible');
             projectForm.reset();
@@ -661,6 +695,15 @@
             });
         }
 
+        function closeCertModal() {
+            certModal.classList.remove('visible');
+            certForm.reset();
+            certThumbnailPreview.style.display = 'none';
+            certThumbnailPreview.src = '';
+            certDropZone.querySelector('p').style.display = 'block';
+            certThumbnailFile = null;
+        }
+
         skillsSelector.addEventListener('click', (e) => {
             if (e.target.classList.contains('skill-choice')) {
                 e.target.classList.toggle('active');
@@ -668,35 +711,41 @@
         });
 
         // --- Thumbnail Upload Logic ---
-        projectDropZone.addEventListener('click', () => projectThumbnailUpload.click());
-        projectDropZone.addEventListener('dragover', (e) => { e.preventDefault(); projectDropZone.classList.add('drag-over'); });
-        projectDropZone.addEventListener('dragleave', () => projectDropZone.classList.remove('drag-over'));
-        projectDropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            projectDropZone.classList.remove('drag-over');
-            if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
-        });
-        projectThumbnailUpload.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) handleFile(e.target.files[0]);
-        });
+        function setupImageUpload(dropZone, uploadInput, previewImg, fileVarSetter) {
+            dropZone.addEventListener('click', () => uploadInput.click());
+            dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('drag-over');
+                if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0], previewImg, dropZone, fileVarSetter);
+            });
+            uploadInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) handleFile(e.target.files[0], previewImg, dropZone, fileVarSetter);
+            });
+        }
 
-        function handleFile(file) {
+        function handleFile(file, previewImg, dropZone, fileVarSetter) {
             if(file && file.type.startsWith('image/')) {
-                projectThumbnailFile = file;
+                fileVarSetter(file);
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    projectThumbnailPreview.src = e.target.result;
-                    projectThumbnailPreview.style.display = 'block';
-                    projectDropZone.querySelector('p').style.display = 'none';
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block';
+                    dropZone.querySelector('p').style.display = 'none';
                 };
                 reader.readAsDataURL(file);
             } else {
                 showAlert('Invalid File', 'Please upload a valid image file.');
             }
         }
+
+        setupImageUpload(projectDropZone, projectThumbnailUpload, projectThumbnailPreview, (file) => { projectThumbnailFile = file; });
+        setupImageUpload(certDropZone, certThumbnailUpload, certThumbnailPreview, (file) => { certThumbnailFile = file; });
         
         // --- Firestore Logic ---
         function initializeFirestoreListeners() {
+            // Projects
             const projectsCollection = collection(db, "visualization_projects");
             const projectsQuery = query(projectsCollection);
             
@@ -715,6 +764,32 @@
             }, (error) => {
                 console.error("Error fetching projects: ", error);
                 vizGrid.innerHTML = `<p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading projects. Check console for details.</p>`;
+            });
+
+            // Certifications
+            const certificationsCollection = collection(db, "certifications");
+            const certsQuery = query(certificationsCollection);
+
+            onSnapshot(certsQuery, (snapshot) => {
+                certGrid.innerHTML = '';
+                if (snapshot.empty) {
+                    const placeholder = document.createElement('p');
+                    placeholder.textContent = "No certifications have been added yet.";
+                    placeholder.style.color = 'var(--secondary-text)';
+                    placeholder.style.textAlign = 'center';
+                    placeholder.style.gridColumn = '1 / -1';
+                    certGrid.appendChild(placeholder);
+                } else {
+                     const sortedDocs = snapshot.docs.sort((a, b) => (b.data().createdAt?.toDate() || 0) - (a.data().createdAt?.toDate() || 0));
+                    sortedDocs.forEach(doc => {
+                        const certData = doc.data();
+                        const certElement = createCertificationElement(doc.id, certData);
+                        certGrid.appendChild(certElement);
+                    });
+                }
+            }, (error) => {
+                console.error("Error fetching certifications: ", error);
+                certGrid.innerHTML = `<p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading certifications. Check console for details.</p>`;
             });
         }
 
@@ -755,6 +830,37 @@
             reader.readAsDataURL(projectThumbnailFile);
         });
 
+        certForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!certThumbnailFile) {
+                showAlert('Missing Image', 'Please upload a certification image.');
+                return;
+            }
+            const title = document.getElementById('cert-title-input').value;
+            const issuer = document.getElementById('cert-issuer-input').value;
+            const link = document.getElementById('cert-link-input').value;
+
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                const thumbnailBase64 = event.target.result;
+                try {
+                    await addDoc(collection(db, "certifications"), {
+                        title,
+                        issuer,
+                        link,
+                        thumbnail: thumbnailBase64,
+                        createdAt: new Date()
+                    });
+                    closeCertModal();
+                } catch (error) {
+                    console.error("Error adding certification: ", error);
+                    showAlert("Error", "Failed to add certification. Check console for details.");
+                }
+            };
+            reader.readAsDataURL(certThumbnailFile);
+        });
+
+
         function createProjectElement(id, data) {
             const cardLink = document.createElement('a');
             cardLink.className = 'viz-card-link';
@@ -786,6 +892,26 @@
                 </div>
             `;
             
+            return cardLink;
+        }
+
+        function createCertificationElement(id, data) {
+            const cardLink = document.createElement('a');
+            cardLink.className = 'viz-card-link';
+            cardLink.href = data.link;
+            cardLink.target = "_blank";
+
+            cardLink.innerHTML = `
+                <div class="viz-card">
+                    <div class="project-thumbnail">
+                        <img src="${data.thumbnail || 'https://placehold.co/600x400/1F2937/9CA3AF?text=Certificate'}" alt="${data.title}">
+                    </div>
+                    <div class="viz-content">
+                        <h3>${data.title}</h3>
+                        <p>Issued by ${data.issuer}</p>
+                    </div>
+                </div>
+            `;
             return cardLink;
         }
         
