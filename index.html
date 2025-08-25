@@ -204,7 +204,6 @@
             margin: 0 auto; 
             gap: 2.5rem;
         }
-        .viz-card-link { display: block; text-decoration: none; color: inherit; position: relative; }
         .viz-card {
             background-color: var(--card-bg); border-radius: 8px; overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--border-color);
@@ -232,6 +231,22 @@
         .tag-sql { background-color: #dc3545; }
         .tag-r { background-color: #6610f2; }
         .tag-excel { background-color: #217346; }
+        .cert-description {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            font-size: 0.9rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+        .cert-description.show {
+            max-height: 500px; /* Adjust as needed */
+            padding-bottom: 1rem;
+        }
+        .toggle-desc-btn {
+            margin: 0 1.5rem 1rem;
+            align-self: flex-start;
+        }
         
         /* --- Contact Section --- */
         #contact h2::after { margin-bottom: 2rem; }
@@ -522,8 +537,8 @@
                     <input type="text" id="cert-issuer-input" required>
                 </div>
                 <div class="form-group">
-                    <label for="cert-link-input">Credential Link</label>
-                    <input type="url" id="cert-link-input" required>
+                    <label for="cert-description-input">Description</label>
+                    <textarea id="cert-description-input" rows="4" required></textarea>
                 </div>
                  <div class="form-group">
                     <label>Certification Image</label>
@@ -842,8 +857,8 @@
             }
             const title = document.getElementById('cert-title-input').value;
             const issuer = document.getElementById('cert-issuer-input').value;
-            const link = document.getElementById('cert-link-input').value;
-
+            const description = document.getElementById('cert-description-input').value;
+            
             const reader = new FileReader();
             reader.onload = async (event) => {
                 const thumbnailBase64 = event.target.result;
@@ -851,7 +866,7 @@
                     await addDoc(collection(db, "certifications"), {
                         title,
                         issuer,
-                        link,
+                        description,
                         thumbnail: thumbnailBase64,
                         createdAt: new Date()
                     });
@@ -900,13 +915,11 @@
         }
 
         function createCertificationElement(id, data) {
-            const cardLink = document.createElement('a');
-            cardLink.className = 'viz-card-link';
-            cardLink.href = data.link;
-            cardLink.target = "_blank";
+            const cardWrapper = document.createElement('div');
+            cardWrapper.className = 'viz-card';
 
-            cardLink.innerHTML = `
-                <div class="viz-card">
+            cardWrapper.innerHTML = `
+                <a href="${data.link || '#'}" target="_blank" class="viz-card-link">
                     <div class="project-thumbnail">
                         <img src="${data.thumbnail || 'https://placehold.co/600x400/1F2937/9CA3AF?text=Certificate'}" alt="${data.title}">
                     </div>
@@ -914,9 +927,24 @@
                         <h3>${data.title}</h3>
                         <p>Issued by ${data.issuer}</p>
                     </div>
-                </div>
+                </a>
+                <div class="cert-description">${data.description}</div>
+                <button class="btn btn-secondary toggle-desc-btn">Show Description</button>
             `;
-            return cardLink;
+
+            const toggleBtn = cardWrapper.querySelector('.toggle-desc-btn');
+            const descriptionDiv = cardWrapper.querySelector('.cert-description');
+
+            toggleBtn.addEventListener('click', () => {
+                descriptionDiv.classList.toggle('show');
+                if (descriptionDiv.classList.contains('show')) {
+                    toggleBtn.textContent = 'Hide Description';
+                } else {
+                    toggleBtn.textContent = 'Show Description';
+                }
+            });
+            
+            return cardWrapper;
         }
         
         // --- Interactivity & Initial Load ---
