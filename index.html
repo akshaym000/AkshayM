@@ -600,6 +600,7 @@
 
         // --- App State ---
         let isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+        let isAuthReady = false;
         const ADMIN_PASSWORD = "Iambe5t#"; // Change this to a secure password
 
         // --- DOM Elements ---
@@ -831,6 +832,10 @@
 
         projectForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!isAuthReady) {
+                showAlert('Not Ready', 'The application is still connecting. Please wait a moment and try again.');
+                return;
+            }
             if (!projectThumbnailFile) {
                 showAlert('Missing Thumbnail', 'Please upload a project thumbnail.');
                 return;
@@ -879,6 +884,10 @@
 
         certForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+             if (!isAuthReady) {
+                showAlert('Not Ready', 'The application is still connecting. Please wait a moment and try again.');
+                return;
+            }
             if (!certFile) {
                 showAlert('Missing File', 'Please upload a certification image or PDF.');
                 return;
@@ -1030,10 +1039,14 @@
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     // User is signed in.
-                    console.log("Authenticated successfully. User UID:", user.uid);
-                    initializeFirestoreListeners();
+                    console.log("Authentication is ready. User UID:", user.uid);
+                    if (!isAuthReady) {
+                        isAuthReady = true;
+                        initializeFirestoreListeners();
+                    }
                 } else {
                     // User is signed out.
+                    isAuthReady = false;
                     console.log("User is not authenticated. Attempting to sign in anonymously...");
                     signInAnonymously(auth).catch((error) => {
                         console.error("Anonymous sign-in failed:", error);
