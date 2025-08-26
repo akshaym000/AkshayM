@@ -118,13 +118,17 @@
             transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent;
             display: inline-flex; align-items: center; gap: 0.5rem;
         }
+        .btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
         .btn-primary {
             background: linear-gradient(45deg, var(--accent-color), var(--highlight-color));
             background-size: 150% 150%;
             color: white;
             border: none;
         }
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             transform: translateY(-3px);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             background-position: right center;
@@ -134,7 +138,7 @@
              color: var(--primary-text);
              border: 1px solid var(--border-color);
         }
-        .btn-secondary:hover {
+        .btn-secondary:hover:not(:disabled) {
             background-color: var(--card-bg);
             border-color: var(--secondary-text);
             transform: translateY(-3px);
@@ -486,11 +490,11 @@
             </div>
             <form id="project-form">
                 <div class="form-group">
-                    <label for="project-title">Project Title</label>
+                    <label for="project-title-input">Project Title</label>
                     <input type="text" id="project-title-input" required>
                 </div>
                 <div class="form-group">
-                    <label for="project-description">Project Description</label>
+                    <label for="project-description-input">Project Description</label>
                     <textarea id="project-description-input" rows="3" required></textarea>
                 </div>
                  <div class="form-group">
@@ -505,7 +509,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="project-link">Project Link (to original dashboard)</label>
+                    <label for="project-link-input">Project Link (to original dashboard)</label>
                     <input type="url" id="project-link-input" required>
                 </div>
                 <div class="form-group">
@@ -572,7 +576,7 @@
         // Firebase Imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
         
@@ -656,8 +660,8 @@
                     customAlertCancel.removeEventListener('click', cancelListener);
                 }
 
-                customAlertOk.addEventListener('click', okListener);
-                customAlertCancel.addEventListener('click', cancelListener);
+                customAlertOk.addEventListener('click', okListener, { once: true });
+                customAlertCancel.addEventListener('click', cancelListener, { once: true });
             });
         }
 
@@ -750,8 +754,9 @@
         function handleFile(file, previewImg, dropZone, fileVarSetter) {
             const isImage = file && file.type.startsWith('image/');
             const isPdf = file && file.type === 'application/pdf';
+            const isForCerts = dropZone.id.includes('cert');
 
-            if(isImage) {
+            if (isImage) {
                 fileVarSetter(file);
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -760,14 +765,14 @@
                     dropZone.querySelector('p').style.display = 'none';
                 };
                 reader.readAsDataURL(file);
-            } else if (isPdf) {
+            } else if (isPdf && isForCerts) {
                  fileVarSetter(file);
-                previewImg.src = 'https://placehold.co/600x400/1F2937/FFFFFF?text=PDF+Selected';
-                previewImg.style.display = 'block';
-                dropZone.querySelector('p').style.display = 'none';
+                 previewImg.src = 'https://placehold.co/600x400/1F2937/FFFFFF?text=PDF+Selected';
+                 previewImg.style.display = 'block';
+                 dropZone.querySelector('p').style.display = 'none';
             }
             else {
-                showAlert('Invalid File', 'Please upload a valid image (png, jpg) or a PDF file.');
+                showAlert('Invalid File', isForCerts ? 'Please upload a valid image or PDF file.' : 'Please upload a valid image file.');
             }
         }
 
@@ -842,23 +847,34 @@
             const description = document.getElementById('project-description-input').value;
             const link = document.getElementById('project-link-input').value;
 
-            const reader = new FileReader();
-            reader.onload = async (event) => {
-                const thumbnailBase64 = event.target.result;
-                try {
-                    await addDoc(collection(db, "visualization_projects"), {
-                        title, description, link, 
-                        skills, 
-                        thumbnail: thumbnailBase64,
-                        createdAt: new Date()
-                    });
-                    closeProjectModal();
-                } catch (error) {
-                    console.error("Error adding document: ", error);
-                    showAlert("Error", "Failed to add project. Check the console for details.");
-                }
-            };
-            reader.readAsDataURL(projectThumbnailFile);
+            const submitBtn = projectForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Uploading...';
+
+            try {
+                // 1. Upload thumbnail to Firebase Storage
+                const storageRef = ref(storage, `project_thumbnails/${Date.now()}_${projectThumbnailFile.name}`);
+                await uploadBytes(storageRef, projectThumbnailFile);
+                const thumbnailUrl = await getDownloadURL(storageRef);
+
+                // 2. Save project data to Firestore
+                await addDoc(collection(db, "visualization_projects"), {
+                    title,
+                    description,
+                    link,
+                    skills,
+                    thumbnail: thumbnailUrl, // Store the URL
+                    createdAt: new Date()
+                });
+                closeProjectModal();
+            } catch (error) {
+                console.error("Error adding project: ", error);
+                showAlert("Error", `Failed to add project. Error: ${error.message}. Check console for details.`);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
         });
 
         certForm.addEventListener('submit', async (e) => {
@@ -871,8 +887,10 @@
             const issuer = document.getElementById('cert-issuer-input').value;
             const description = document.getElementById('cert-description-input').value;
             
-            const isImage = certFile.type.startsWith('image/');
-            const isPdf = certFile.type === 'application/pdf';
+            const submitBtn = certForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Uploading...';
 
             try {
                 // 1. Upload file to Firebase Storage
@@ -886,14 +904,17 @@
                     issuer,
                     description,
                     fileURL: downloadURL,
-                    isImage: isImage,
+                    isImage: certFile.type.startsWith('image/'),
                     createdAt: new Date()
                 });
                 closeCertModal();
 
             } catch (error) {
                 console.error("Error adding certification: ", error);
-                showAlert("Error", "Failed to add certification. Check console for details.");
+                showAlert("Error", `Failed to add certification. Error: ${error.message}. Check the console for details.`);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
             }
         });
 
@@ -917,7 +938,7 @@
             cardLink.innerHTML = `
                 <div class="viz-card">
                     <div class="project-thumbnail">
-                        <img src="${data.thumbnail || 'https://placehold.co/600x400/1F2937/9CA3AF?text=No+Image'}" alt="${data.title}">
+                        <img src="${data.thumbnail || 'https://placehold.co/600x400/1F2937/9CA3AF?text=No+Image'}" alt="${data.title}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1F2937/9CA3AF?text=Image+Error';">
                     </div>
                     <div class="viz-content">
                         <h3>${data.title}</h3>
@@ -941,7 +962,7 @@
             cardWrapper.innerHTML = `
                 <a href="${data.fileURL || '#'}" target="_blank" class="viz-card-link">
                     <div class="project-thumbnail">
-                        <img src="${thumbnail}" alt="${data.title}">
+                        <img src="${thumbnail}" alt="${data.title}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1F2937/9CA3AF?text=Image+Error';">
                     </div>
                     <div class="viz-content">
                         <h3>${data.title}</h3>
@@ -1011,18 +1032,13 @@
                     console.log("Authenticated successfully. User UID:", user.uid);
                     initializeFirestoreListeners();
                 } else {
-                    console.log("User is not authenticated.");
+                    console.log("User is not authenticated. Attempting to sign in anonymously...");
+                    signInAnonymously(auth).catch((error) => {
+                        console.error("Anonymous sign-in failed:", error);
+                        showAlert("Authentication Error", "Could not connect to the database. Please refresh the page.");
+                    });
                 }
             });
-
-            try {
-                if (!auth.currentUser) {
-                    await signInAnonymously(auth);
-                    console.log("Attempting anonymous sign-in...");
-                }
-            } catch (error) {
-                console.error("Anonymous sign-in failed:", error);
-            }
         }
 
         startApp();
