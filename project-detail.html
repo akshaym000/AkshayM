@@ -216,6 +216,14 @@
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2.5rem;
         }
+        
+        /* CORRECTED: Specific class for 2-column certification grid */
+        .two-col-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+        }
+
         .viz-card {
             background-color: var(--card-bg); border-radius: 8px; overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--border-color);
@@ -292,13 +300,21 @@
         #back-to-top svg { width: 24px; height: 24px; }
 
         /* --- Responsive Design --- */
-        @media (max-width: 900px) { .hero { text-align: center; } .hero-content { padding: 0 1rem; } }
+        @media (max-width: 1100px) {
+            .two-col-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 900px) { 
+            .hero { text-align: center; } 
+            .hero-content { padding: 0 1rem; } 
+        }
         @media (max-width: 768px) { 
             nav ul { display: none; } 
             .hero-content { width: 100%; } 
             .cta-buttons { justify-content: center; } 
             .social-links { justify-content: center; } 
-            .skills-grid, .viz-grid, .info-grid { grid-template-columns: 1fr; } 
+            .skills-grid, .viz-grid, .info-grid, .two-col-grid { grid-template-columns: 1fr; } 
         }
         @media (min-width: 769px) { 
             .hero .social-links { 
@@ -415,8 +431,7 @@
                     <h2>My Certifications</h2>
                     <button id="add-cert-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Certification</button>
                 </div>
-                <!-- CORRECTED: Using a dedicated class for the certification grid -->
-                <div id="cert-grid" class="viz-grid two-col-grid">
+                <div id="cert-grid" class="two-col-grid">
                 </div>
             </div>
         </section>
