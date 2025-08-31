@@ -152,7 +152,7 @@
         /* --- Section Background --- */
         .section-bg { background-color: var(--light-bg); }
 
-        /* --- Education & Certification Section --- */
+        /* --- Education Section --- */
         .section-header { text-align: center; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
         .section-header h2 { text-align: center; }
         .section-header h2::after { margin: 1rem auto 0; }
@@ -186,7 +186,6 @@
         .info-body h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--primary-text); }
         .info-body p { font-size: 0.95rem; margin-bottom: 0.25rem; }
         .info-body p strong { color: var(--primary-text); font-weight: 700; }
-        .info-card-image { width: 100%; height: auto; border-radius: 4px; margin-bottom: 1rem; }
         .info-card-body-link {
             display: inline-block;
             margin-top: 1rem;
@@ -206,7 +205,7 @@
         .skills-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
         .skill-tag { background-color: var(--light-bg); color: var(--secondary-text); padding: 0.5rem 1rem; border-radius: 6px; font-weight: 500; font-size: 0.9rem; }
 
-        /* --- Visualizations Section --- */
+        /* --- Certifications & Visualizations Section --- */
         .viz-header { text-align: center; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
         .viz-header h2 { text-align: center; }
         .viz-header h2::after { margin: 1rem auto 0; }
@@ -221,7 +220,7 @@
             background-color: var(--card-bg); border-radius: 8px; overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--border-color);
             display: flex; flex-direction: column;
-            height: 100%; /* Ensure cards take full height of grid cell */
+            height: 100%;
         }
         .viz-card-link { display: flex; text-decoration: none; color: inherit; }
         .viz-card-link:hover .card-thumbnail img { transform: scale(1.05); }
@@ -230,7 +229,6 @@
             box-shadow: var(--glow-shadow);
         }
         
-        /* UPDATED: Unified card thumbnail class */
         .card-thumbnail {
             height: 220px;
             overflow: hidden;
@@ -295,13 +293,16 @@
 
         /* --- Responsive Design --- */
         @media (max-width: 900px) { .hero { text-align: center; } .hero-content { padding: 0 1rem; } }
-        @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons { justify-content: center; } .social-links { justify-content: center; } .skills-grid, .viz-grid, .info-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { 
+            nav ul { display: none; } 
+            .hero-content { width: 100%; } 
+            .cta-buttons { justify-content: center; } 
+            .social-links { justify-content: center; } 
+            .skills-grid, .viz-grid, .info-grid { grid-template-columns: 1fr; } 
+        }
         @media (min-width: 769px) { 
             .hero .social-links { 
                 justify-content: flex-start; 
-            }
-            #cert-grid {
-                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -414,8 +415,9 @@
                     <h2>My Certifications</h2>
                     <button id="add-cert-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Certification</button>
                 </div>
-                <div id="cert-grid" class="viz-grid">
-                    </div>
+                <!-- CORRECTED: Using a dedicated class for the certification grid -->
+                <div id="cert-grid" class="viz-grid two-col-grid">
+                </div>
             </div>
         </section>
 
@@ -427,7 +429,7 @@
                     <button id="add-project-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Project</button>
                 </div>
                 <div id="viz-grid" class="viz-grid">
-                    </div>
+                </div>
             </div>
         </section>
 
