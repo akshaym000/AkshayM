@@ -158,7 +158,7 @@
         .section-header h2::after { margin: 1rem auto 0; }
         .info-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 2.5rem; 
             margin-top: 3rem; 
         }
@@ -296,7 +296,14 @@
         /* --- Responsive Design --- */
         @media (max-width: 900px) { .hero { text-align: center; } .hero-content { padding: 0 1rem; } }
         @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons { justify-content: center; } .social-links { justify-content: center; } .skills-grid, .viz-grid, .info-grid { grid-template-columns: 1fr; } }
-        @media (min-width: 769px) { .hero .social-links { justify-content: flex-start; } }
+        @media (min-width: 769px) { 
+            .hero .social-links { 
+                justify-content: flex-start; 
+            }
+            #cert-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
@@ -1027,3 +1034,4 @@
 
 </body>
 </html>
+
