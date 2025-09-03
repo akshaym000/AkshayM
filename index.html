@@ -11,21 +11,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
-        /* --- CSS Reset & Variables (Midnight Theme) --- */
+        /* --- CSS Reset & Variables (Simple Dark Theme) --- */
         :root {
-            --bg-color: #0a0e14; /* Near-black night sky */
-            --primary-text: #E6EDF3;
-            --secondary-text: #8B949E;
-            --accent-color: #8B5CF6; /* Vibrant Purple */
-            --accent-hover: #A78BFA;
-            --highlight-color: #22D3EE; /* Vibrant Cyan */
-            --light-bg: #111827; /* Slightly lighter than main bg */
-            --card-bg: #1F2937; 
-            --border-color: #30363D;
+            --bg-color: #121212;
+            --light-bg: #121212; /* Uniform background */
+            --card-bg: #1E1E1E; /* Slightly lighter cards */
+            --primary-text: #E0E0E0;
+            --secondary-text: #A0A0A0;
+            --accent-color: #3B82F6;
+            --accent-hover: #60A5FA;
+            --border-color: #333333;
             --danger-color: #e53e3e;
-            --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-            --card-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            --glow-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
+            --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            --card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -43,9 +41,7 @@
         h1, h2, h3 { font-weight: 700; line-height: 1.2; color: var(--primary-text); }
         h1 { 
             font-size: clamp(2.5rem, 5vw, 4.5rem); 
-            background: -webkit-linear-gradient(45deg, var(--accent-color), var(--highlight-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #FFFFFF;
         }
         h2 {
             font-size: clamp(2rem, 4vw, 2.75rem);
@@ -61,7 +57,7 @@
             display: block;
             width: 70px;
             height: 4px;
-            background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
+            background: var(--accent-color);
             border-radius: 2px;
             margin: 1rem auto 0;
         }
@@ -69,26 +65,33 @@
         p { color: var(--secondary-text); margin-bottom: 1rem; }
         a { color: var(--primary-text); text-decoration: none; font-weight: 500; }
 
-        /* --- Header & Navigation --- */
+        /* --- Header & Navigation (Floating) --- */
         .main-header {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            background: rgba(10, 14, 20, 0.75);
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 1100px;
+            z-index: 1000;
+            background: rgba(30, 30, 30, 0.75);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
         .logo { font-size: 1.5rem; font-weight: 700; }
         nav ul { display: flex; list-style: none; gap: 2rem; }
         nav a {
             color: var(--primary-text);
-            transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+            transition: color 0.3s ease, transform 0.3s ease;
             font-weight: 500;
             padding: 5px 0;
         }
         nav a:hover {
-            color: var(--highlight-color);
+            color: var(--accent-color);
             transform: translateY(-2px);
-            text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
         }
         
         /* --- Hero Section --- */
@@ -122,18 +125,17 @@
             opacity: 0.7;
         }
         .btn-primary {
-            background: linear-gradient(45deg, var(--accent-color), var(--highlight-color));
-            background-size: 150% 150%;
+            background-color: var(--accent-color);
             color: white;
             border: none;
         }
         .btn-primary:hover:not(:disabled) {
             transform: translateY(-3px);
+            background-color: var(--accent-hover);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            background-position: right center;
         }
         .btn-secondary {
-             background-color: var(--light-bg);
+             background-color: transparent;
              color: var(--primary-text);
              border: 1px solid var(--border-color);
         }
@@ -152,7 +154,7 @@
         /* --- Section Background --- */
         .section-bg { background-color: var(--light-bg); }
 
-        /* --- Education & Certification Section --- */
+        /* --- Education Section --- */
         .section-header { text-align: center; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
         .section-header h2 { text-align: center; }
         .section-header h2::after { margin: 1rem auto 0; }
@@ -161,6 +163,7 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem; 
             margin-top: 3rem; 
+            align-items: stretch;
         }
         .info-card {
             padding: 2rem; 
@@ -171,30 +174,28 @@
             border-radius: 8px;
             border: 1px solid var(--border-color);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 100%;
+            text-decoration: none;
+            color: inherit;
         }
         .info-card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--glow-shadow);
+            box-shadow: var(--card-hover-shadow);
         }
-        .info-header { display: flex; align-items: center; margin-bottom: 1.5rem; }
-        .info-icon { color: var(--highlight-color); font-size: 1.5rem; }
+        .info-header { 
+            display: flex; 
+            align-items: center; 
+            margin-bottom: 1.5rem;
+            min-height: 80px;
+        }
+        .info-icon { color: var(--accent-color); font-size: 1.5rem; }
         .info-title { margin-left: 1rem; }
         .info-title h3 { font-size: 1.25rem; margin: 0; }
         .info-title p { font-size: 0.9rem; font-weight: 500; color: var(--secondary-text); margin: 0; }
-        .info-body { flex-grow: 1; }
+        .info-body { flex-grow: 1; display: flex; flex-direction: column; }
         .info-body h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--primary-text); }
         .info-body p { font-size: 0.95rem; margin-bottom: 0.25rem; }
         .info-body p strong { color: var(--primary-text); font-weight: 700; }
-        .info-card-image { width: 100%; height: auto; border-radius: 4px; margin-bottom: 1rem; }
-        .info-card-body-link {
-            display: inline-block;
-            margin-top: 1rem;
-            color: var(--highlight-color);
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-        .info-card-body-link:hover { color: var(--accent-hover); }
+        
         .info-footer { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--secondary-text); }
         
         /* --- Skills Section --- */
@@ -204,7 +205,7 @@
             border-radius: 8px; border: 1px solid var(--border-color);
         }
         .skills-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-        .skill-tag { background-color: var(--light-bg); color: var(--secondary-text); padding: 0.5rem 1rem; border-radius: 6px; font-weight: 500; font-size: 0.9rem; }
+        .skill-tag { background-color: var(--bg-color); color: var(--secondary-text); padding: 0.5rem 1rem; border-radius: 6px; font-weight: 500; font-size: 0.9rem; }
 
         /* --- Visualizations Section --- */
         .viz-header { text-align: center; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
@@ -218,36 +219,81 @@
             max-width: 950px; 
             margin: 0 auto; 
             gap: 2.5rem;
+            align-items: stretch;
         }
         .viz-card {
             background-color: var(--card-bg); border-radius: 8px; overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--border-color);
             display: flex; flex-direction: column;
+            width: 100%;
         }
-        .viz-card-link { display: block; text-decoration: none; color: inherit; }
+        .viz-card-link { display: flex; text-decoration: none; color: inherit; height: 100%; }
         .viz-card-link:hover .project-thumbnail img { transform: scale(1.05); }
         .viz-card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--glow-shadow);
+            box-shadow: var(--card-hover-shadow);
         }
         .project-thumbnail { height: 220px; overflow: hidden; background-color: var(--light-bg); }
         .project-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
         .viz-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; text-align: left;}
-        .viz-content h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--primary-text); }
-        .viz-content p {  
-            font-size: 0.95rem;  margin-bottom: 1rem; color: var(--secondary-text);
-            overflow: hidden; text-overflow: ellipsis; display: -webkit-box;
-            -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+        .viz-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-text);
+            height: 3em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .viz-content p {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-text);
+            height: 3.1em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
         .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; }
-        .project-tag { font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; color: white; text-transform: capitalize; }
-        .tag-tableau { background-color: #2E75B6; }
-        .tag-powerbi { background-color: #F2C811; color: #333; }
-        .tag-python { background-color: #fd7e14; }
-        .tag-sql { background-color: #dc3545; }
-        .tag-r { background-color: #6610f2; }
-        .tag-excel { background-color: #217346; }
+        .project-tag { 
+            font-size: 0.75rem; 
+            padding: 0.25rem 0.75rem; 
+            border-radius: 999px; 
+            font-weight: 600; 
+            background-color: var(--light-bg);
+            color: var(--secondary-text);
+            text-transform: capitalize; 
+        }
         
+        /* --- Certifications Section --- */
+        #cert-grid {
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+            padding: 1rem 2px 2rem 2px;
+            margin-top: 3rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-color) var(--light-bg);
+        }
+        #cert-grid::-webkit-scrollbar { height: 8px; }
+        #cert-grid::-webkit-scrollbar-track { background: var(--light-bg); border-radius: 4px; }
+        #cert-grid::-webkit-scrollbar-thumb { background-color: var(--accent-color); border-radius: 4px; }
+        #cert-grid > .viz-card-link {
+            flex: 0 0 450px;
+            width: 450px;
+        }
+        @media (max-width: 900px) {
+            #cert-grid > .viz-card-link {
+                flex-basis: 380px;
+                width: 380px;
+            }
+        }
+
         /* --- Contact Section --- */
         #contact h2::after { margin-bottom: 2rem; }
         
@@ -269,7 +315,7 @@
         .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--primary-text); }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); font-size: 1rem; font-family: 'Inter', sans-serif; background-color: var(--light-bg); color: var(--primary-text); }
         .thumbnail-drop-zone { padding: 2rem; border: 2px dashed var(--border-color); border-radius: 8px; text-align: center; cursor: pointer; transition: background-color 0.3s; }
-        .thumbnail-drop-zone.drag-over { background-color: rgba(139, 92, 246, 0.1); }
+        .thumbnail-drop-zone.drag-over { background-color: rgba(59, 130, 246, 0.1); }
         .thumbnail-preview { max-width: 100%; max-height: 150px; margin-top: 1rem; border-radius: 8px; }
         .skills-selector { display: flex; flex-wrap: wrap; gap: 0.75rem; }
         .skill-choice { padding: 0.5rem 1rem; border: 1px solid var(--border-color); border-radius: 999px; cursor: pointer; transition: all 0.2s ease-in-out; font-weight: 500; background-color: var(--card-bg); color: var(--primary-text); }
@@ -283,7 +329,7 @@
 
         /* --- Responsive Design --- */
         @media (max-width: 900px) { .hero { text-align: center; } .hero-content { padding: 0 1rem; } }
-        @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons { justify-content: center; } .social-links { justify-content: center; } .skills-grid, .viz-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons { justify-content: center; } .social-links { justify-content: center; } .skills-grid, .viz-grid, .info-grid { grid-template-columns: 1fr; } }
         @media (min-width: 769px) { .hero .social-links { justify-content: flex-start; } }
     </style>
 </head>
@@ -295,8 +341,8 @@
                 <ul>
                     <li><a href="#hero">Home</a></li>
                     <li><a href="#education">Education</a></li>
-                    <li><a href="#certifications">Certifications</a></li>
                     <li><a href="#visualizations">Projects</a></li>
+                    <li><a href="#certifications">Certifications</a></li>
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -330,7 +376,7 @@
             </div>
         </section>
 
-        <section id="education" class="section-bg">
+        <section id="education">
             <div class="container">
                 <h2>My Education</h2>
                 <div class="info-grid">
@@ -389,18 +435,7 @@
             </div>
         </section>
 
-        <section id="certifications">
-            <div class="container">
-                <div class="section-header">
-                    <h2>My Certifications</h2>
-                    <button id="add-cert-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Certification</button>
-                </div>
-                <div id="cert-grid" class="info-grid">
-                    </div>
-            </div>
-        </section>
-
-        <section id="visualizations" class="section-bg">
+        <section id="visualizations">
             <div class="container">
                 <div class="viz-header">
                     <h2>My Projects</h2>
@@ -408,7 +443,20 @@
                     <button id="add-project-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Project</button>
                 </div>
                 <div id="viz-grid" class="viz-grid">
-                    </div>
+                    <!-- Projects will be dynamically loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications">
+            <div class="container">
+                <div class="section-header">
+                    <h2>My Certifications</h2>
+                    <button id="add-cert-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Certification</button>
+                </div>
+                <div id="cert-grid">
+                    <!-- Certifications will be dynamically loaded here -->
+                </div>
             </div>
         </section>
 
@@ -455,7 +503,7 @@
 
     </main>
 
-    <footer>
+    <footer >
         <div class="container">
             <p>&copy; 2025 Akshay M. Crafted with care in Mysuru.</p>
             <p><a href="#" id="admin-login">Admin Login</a></p>
@@ -561,24 +609,24 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+        // import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
         
         // --- Firebase Configuration ---
         const firebaseConfig = {
-  apiKey: "AIzaSyDePnsa2ZoMyoPty8LZ_oNzyHc5Ji4D7Z0",
-  authDomain: "akshaymportfolio.firebaseapp.com",
-  projectId: "akshaymportfolio",
-  storageBucket: "akshaymportfolio.firebasestorage.app",
-  messagingSenderId: "777668262058",
-  appId: "1:777668262058:web:9aaa39a124c51bffbd78d3",
-  measurementId: "G-D565DF8FPS"
-};
+     apiKey: "AIzaSyDePnsa2ZoMyoPty8LZ_oNzyHc5Ji4D7Z0",
+     authDomain: "akshaymportfolio.firebaseapp.com",
+     projectId: "akshaymportfolio",
+     storageBucket: "akshaymportfolio.appspot.com",
+     messagingSenderId: "777668262058",
+     appId: "1:77668262058:web:9aaa39a124c51bffbd78d3",
+     measurementId: "G-D565DF8FPS"
+    };
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const analytics = getAnalytics(app);
+        // const analytics = getAnalytics(app);
         const auth = getAuth(app);
         const storage = getStorage(app);
 
@@ -652,13 +700,13 @@
         // --- Admin & Modal Logic ---
         function setAdminView(isAdmin) {
              if (isAdmin) {
-                 document.body.classList.add('admin-view');
-                 addProjectBtn.style.display = 'inline-flex'; 
-                 addCertBtn.style.display = 'inline-flex';
+                  document.body.classList.add('admin-view');
+                  addProjectBtn.style.display = 'inline-flex'; 
+                  addCertBtn.style.display = 'inline-flex';
              } else {
-                 document.body.classList.remove('admin-view');
-                 addProjectBtn.style.display = 'none';
-                 addCertBtn.style.display = 'none';
+                  document.body.classList.remove('admin-view');
+                  addProjectBtn.style.display = 'none';
+                  addCertBtn.style.display = 'none';
              }
         }
         
@@ -764,7 +812,7 @@
             onSnapshot(projectsQuery, (snapshot) => {
                 vizGrid.innerHTML = '';
                 if (snapshot.empty) {
-                    vizGrid.innerHTML = `<p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No projects have been added yet. Come back soon!</p>`;
+                    vizGrid.innerHTML = <p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No projects have been added yet. Come back soon!</p>;
                 } else {
                     const sortedDocs = snapshot.docs.sort((a, b) => (b.data().createdAt?.toDate() || 0) - (a.data().createdAt?.toDate() || 0));
                     sortedDocs.forEach(doc => {
@@ -775,7 +823,7 @@
                 }
             }, (error) => {
                 console.error("Error fetching projects: ", error);
-                vizGrid.innerHTML = `<p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading projects. Check console for details.</p>`;
+                vizGrid.innerHTML = <p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading projects. Check console for details.</p>;
             });
 
             // Certifications Listener
@@ -785,7 +833,7 @@
             onSnapshot(certsQuery, (snapshot) => {
                 certGrid.innerHTML = '';
                 if (snapshot.empty) {
-                    certGrid.innerHTML = `<p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No certifications have been added yet. Come back soon!</p>`;
+                    certGrid.innerHTML = <p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No certifications have been added yet. Come back soon!</p>;
                 } else {
                     const sortedDocs = snapshot.docs.sort((a, b) => (b.data().createdAt?.toDate() || 0) - (a.data().createdAt?.toDate() || 0));
                     sortedDocs.forEach(doc => {
@@ -796,7 +844,7 @@
                 }
             }, (error) => {
                 console.error("Error fetching certifications: ", error);
-                certGrid.innerHTML = `<p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading certifications. Check console for details.</p>`;
+                certGrid.innerHTML = <p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading certifications. Check console for details.</p>;
             });
         }
 
@@ -829,7 +877,7 @@
 
             try {
                 // 1. Upload thumbnail to Firebase Storage
-                const storageRef = ref(storage, `project_thumbnails/${Date.now()}_${projectThumbnailFile.name}`);
+                const storageRef = ref(storage, project_thumbnails/${Date.now()}_${projectThumbnailFile.name});
                 await uploadBytes(storageRef, projectThumbnailFile);
                 const thumbnailUrl = await getDownloadURL(storageRef);
 
@@ -845,7 +893,7 @@
                 closeProjectModal();
             } catch (error) {
                 console.error("Error adding project: ", error);
-                showAlert("Error", `Failed to add project. Error: ${error.message}. Check console for details.`);
+                showAlert("Error", Failed to add project. Error: ${error.message}. Check console for details.);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
@@ -874,7 +922,7 @@
             
             try {
                 // 1. Upload thumbnail to Storage
-                const storageRef = ref(storage, `certification_thumbnails/${Date.now()}_${certThumbnailFile.name}`);
+                const storageRef = ref(storage, certification_thumbnails/${Date.now()}_${certThumbnailFile.name});
                 await uploadBytes(storageRef, certThumbnailFile);
                 const thumbnailUrl = await getDownloadURL(storageRef);
 
@@ -889,7 +937,7 @@
                 closeCertModal();
             } catch (error) {
                 console.error("Error adding certification: ", error);
-                showAlert("Error", `Failed to add certification. Error: ${error.message}.`);
+                showAlert("Error", Failed to add certification. Error: ${error.message}.);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
@@ -899,8 +947,7 @@
         function createProjectElement(id, data) {
             const cardLink = document.createElement('a');
             cardLink.className = 'viz-card-link';
-            cardLink.href = data.link; 
-            cardLink.target = "_blank";
+            cardLink.href = project.html?id=${id}; 
             
             const skillNameMap = { powerbi: 'Power BI' };
             let skillsToRender = (data.skills && Array.isArray(data.skills)) ? data.skills : [];
@@ -908,7 +955,7 @@
             const skillTagsHTML = skillsToRender
                 .map(skill => {
                     const displayName = skillNameMap[skill] || skill;
-                    return `<span class="project-tag tag-${skill}">${displayName}</span>`;
+                    return <span class="project-tag tag-${skill}">${displayName}</span>;
                 })
                 .join('');
 
@@ -931,25 +978,25 @@
         }
 
         function createCertificationElement(id, data) {
-            const card = document.createElement('div');
-            card.className = 'info-card';
+            const cardLink = document.createElement('a');
+            cardLink.className = 'viz-card-link'; // Re-use project card link style
+            cardLink.href = data.url;
+            cardLink.target = "_blank";
+            cardLink.rel = "noopener noreferrer";
             
-            card.innerHTML = `
-                <div class="info-header">
-                    <div class="info-icon"><i class="fas fa-certificate"></i></div>
-                    <div class="info-title">
+            cardLink.innerHTML = `
+                <div class="viz-card">
+                    <div class="project-thumbnail">
+                        <img src="${data.thumbnail}" alt="${data.title} Thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1F2937/9CA3AF?text=Image+Error';">
+                    </div>
+                    <div class="viz-content">
                         <h3>${data.title}</h3>
                         <p>${data.organization}</p>
+                        <div class="project-tags"></div>
                     </div>
                 </div>
-                <div class="info-body">
-                    <img src="${data.thumbnail}" alt="${data.title} Thumbnail" class="info-card-image">
-                    <a href="${data.url}" target="_blank" class="info-card-body-link">
-                        Verify Credential <i class="fas fa-external-link-alt" style="font-size: 0.8em;"></i>
-                    </a>
-                </div>
             `;
-            return card;
+            return cardLink;
         }
 
         // --- Interactivity & Initial Load ---
@@ -970,18 +1017,18 @@
             if (document.getElementById('particles-js')) {
                 particlesJS('particles-js', {
                     "particles": {
-                        "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
-                        "color": { "value": "#8B949E" },
+                        "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
+                        "color": { "value": "#A0A0A0" },
                         "shape": { "type": "circle" },
-                        "opacity": { "value": 0.4, "random": true },
+                        "opacity": { "value": 0.2, "random": true },
                         "size": { "value": 3, "random": true },
-                        "line_linked": { "enable": true, "distance": 150, "color": "#8B949E", "opacity": 0.2, "width": 1 },
-                        "move": { "enable": true, "speed": 1.5, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+                        "line_linked": { "enable": true, "distance": 150, "color": "#A0A0A0", "opacity": 0.1, "width": 1 },
+                        "move": { "enable": true, "speed": 1, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
                     },
                     "interactivity": {
                         "detect_on": "canvas",
                         "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false }, "resize": true },
-                        "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } } }
+                        "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.3 } } }
                     },
                     "retina_detect": true
                 });
