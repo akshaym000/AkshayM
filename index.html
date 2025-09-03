@@ -199,13 +199,54 @@
         .info-footer { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--secondary-text); }
         
         /* --- Skills Section --- */
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; margin-top: 3rem; }
-        .skill-card {
-            padding: 2rem; display: flex; flex-direction: column; background-color: var(--card-bg);
-            border-radius: 8px; border: 1px solid var(--border-color);
+        .skills-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+            gap: 2.5rem; 
+            margin-top: 3rem; 
         }
-        .skills-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-        .skill-tag { background-color: var(--bg-color); color: var(--secondary-text); padding: 0.5rem 1rem; border-radius: 6px; font-weight: 500; font-size: 0.9rem; }
+        .skill-card {
+            padding: 2.5rem;
+            display: flex; 
+            flex-direction: column; 
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .skill-card h3 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .skills-list { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 1rem;
+            justify-content: center;
+        }
+        .skill-item {
+            background-color: var(--bg-color);
+            color: var(--primary-text);
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .skill-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+        .skill-item svg, .skill-item i {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
 
         /* --- Visualizations Section --- */
         .viz-header { text-align: center; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
@@ -467,24 +508,55 @@
                     <div class="skill-card">
                         <h3>Technical Skills</h3>
                         <div class="skills-list">
-                            <span class="skill-tag">Python (Pandas, NumPy)</span>
-                            <span class="skill-tag">SQL</span>
-                            <span class="skill-tag">R</span>
-                            <span class="skill-tag">Power BI</span>
-                            <span class="skill-tag">Tableau</span>
-                            <span class="skill-tag">Microsoft Excel</span>
-                            <span class="skill-tag">Data Visualization</span>
-                            <span class="skill-tag">Statistical Analysis</span>
+                            <div class="skill-item">
+                                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Python</title><path d="M12.25.25c-3.23 0-5.41.39-7.04 1.2a5.1 5.1 0 00-1.8 2.05A6.9 6.9 0 002.5 7.6a11 11 0 00-.8 3.53c0 .87.09 1.63.26 2.27.18.64.44 1.2.78 1.69a4.2 4.2 0 001.62 1.43c.6.3 1.27.5 2 .6v-3.72a3.8 3.8 0 01-1.3-.46c-.34-.2-.61-.48-.82-.82a3.4 3.4 0 01-.46-1.3c-.09-.43-.13-.9-.13-1.42 0-1.2.22-2.2.67-2.98.45-.78 1.12-1.39 2-1.82.87-.43 1.88-.65 3.03-.65h8.5v3.25h-8.5c-.5 0-.93.07-1.3.22-.37.15-.68.37-.9.67-.23.3-.4.65-.5 1.05-.1.4-.15.83-.15 1.28s.05.88.15 1.28c.1.4.27.75.5 1.05.22.3.53.52.9.67.37.15.8.22 1.3.22h8.5v3.25h-8.5c-1.15 0-2.16-.22-3.03-.65a5.1 5.1 0 01-2-1.82 5.3 5.3 0 01-.67-2.98c0-.52.04-.99.14-1.42a3.4 3.4 0 01.46-1.3c.2-.34.48-.61.82-.82a3.8 3.8 0 011.3-.46V4.1a11 11 0 00-.8 3.53c0 .87.09 1.63.26 2.27.18.64.44 1.2.78 1.69a4.2 4.2 0 001.62 1.43c.6.3 1.27.5 2 .6v-3.72a3.8 3.8 0 01-1.3-.46c-.34-.2-.61-.48-.82-.82a3.4 3.4 0 01-.46-1.3c-.09-.43-.13-.9-.13-1.42 0-1.2.22-2.2.67-2.98.45-.78 1.12-1.39 2-1.82.87-.43 1.88-.65 3.03-.65h8.5v3.25h-8.5c-.5 0-.93.07-1.3.22-.37.15-.68.37-.9.67-.23.3-.4.65-.5 1.05-.1.4-.15.83-.15 1.28s.05.88.15 1.28c.1.4.27.75.5 1.05.22.3.53.52.9.67.37.15.8.22 1.3.22h8.5v3.25h-8.5c-1.15 0-2.16-.22-3.03-.65a5.1 5.1 0 01-2-1.82 5.3 5.3 0 01-.67-2.98 6.9 6.9 0 01.9-4.07 5.1 5.1 0 012.63-2.9A8.1 8.1 0 0112.25.25z" fill-rule="evenodd" clip-rule="evenodd"/></svg>
+                                <span>Python</span>
+                            </div>
+                            <div class="skill-item">
+                                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Microsoft SQL Server</title><path d="M3.555 0v24h16.89v-24H3.555zM17.11 3.222h-3.222v3.333h3.222V3.222zm-4.333 0H8.445v3.333h4.333V3.222zM6.667 6.556V3.222h.667v3.333H6.667zm0 14.222H6V6.556h1.333v14.222zm1.333 0V6.556h4.333v14.222H8zm5.444 0h-3.222V6.556h3.222v14.222zM18.222 20.778h-.667V6.556h.667v14.222zm.667-15.334V3.222h.667v3.333h-.667zm0 1.111v14.222H18v-3.333h-5.444v-2h5.444v-2h-5.444v-2h5.444v-2h-5.444v-2h5.444V6.556h.889z"/></svg>
+                                <span>SQL</span>
+                            </div>
+                             <div class="skill-item">
+                                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>R</title><path d="M18.888 24H5.112a2.222 2.222 0 01-1.92-1.111A2.222 2.222 0 013.2 20.667L10.667 12 3.2 3.333A2.222 2.222 0 013.2 1.11 2.222 2.222 0 015.112 0h13.776A2.222 2.222 0 0120.8 1.111a2.222 2.222 0 01-.008 2.222L13.333 12l7.467 8.667a2.222 2.222 0 01-.008 2.222 2.222 2.222 0 01-1.904 1.111zM16 11.111h-3.111L16 14.222v-3.11zm-7.111-4h3.11L8.89 4v3.111z"/></svg>
+                                <span>R</span>
+                            </div>
+                            <div class="skill-item">
+                               <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Power BI</title><path d="M1.613 13.573v8.814h14.805V3.113H1.613v9.349zm0-10.46h14.805v1.111H1.613V3.113zm0 18.274h14.805v1.111H1.613v-1.11zM17.53 3.113h4.858v19.384H17.53V3.113z"/></svg>
+                                <span>Power BI</span>
+                            </div>
+                            <div class="skill-item">
+                                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Tableau</title><path d="M4.667 10.667h3.555V4.667H4.667v6zm0 8.666h3.555V12.89H4.667v6.444zM9.333 19.333h3.556v-4.666H9.333v4.666zm0-7.555h3.556V7.11H9.333v4.667zm5.778 6.444h3.555V10.667h-3.555v8.111zm0-9.222h3.555V4.667h-3.555v6.444z"/></svg>
+                                <span>Tableau</span>
+                            </div>
+                            <div class="skill-item">
+                                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Microsoft Excel</title><path d="M22.502 0H1.498A1.498 1.498 0 000 1.498v21.004A1.498 1.498 0 001.498 24h21.004A1.498 1.498 0 0024 22.502V1.498A1.498 1.498 0 0022.502 0zM14.54 12.01l-3.32 5.42h-2.58l3.32-5.42-3.2-5.42h2.55l3.23 5.42z"/></svg>
+                                <span>Excel</span>
+                            </div>
                         </div>
                     </div>
                     <div class="skill-card">
                         <h3>Soft Skills</h3>
                         <div class="skills-list">
-                            <span class="skill-tag">Analytical Thinking</span>
-                            <span class="skill-tag">Problem Solving</span>
-                            <span class="skill-tag">Teamwork & Collaboration</span>
-                            <span class="skill-tag">Communication</span>
-                            <span class="skill-tag">Agile Methodologies</span>
+                           <div class="skill-item">
+                                <i class="fas fa-brain"></i>
+                                <span>Analytical Thinking</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Problem Solving</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-users"></i>
+                                <span>Teamwork</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-comments"></i>
+                                <span>Communication</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-sync-alt"></i>
+                                <span>Agile Methodologies</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -812,7 +884,7 @@
             onSnapshot(projectsQuery, (snapshot) => {
                 vizGrid.innerHTML = '';
                 if (snapshot.empty) {
-                    vizGrid.innerHTML = <p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No projects have been added yet. Come back soon!</p>;
+                    vizGrid.innerHTML = `<p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No projects have been added yet. Come back soon!</p>`;
                 } else {
                     const sortedDocs = snapshot.docs.sort((a, b) => (b.data().createdAt?.toDate() || 0) - (a.data().createdAt?.toDate() || 0));
                     sortedDocs.forEach(doc => {
@@ -823,7 +895,7 @@
                 }
             }, (error) => {
                 console.error("Error fetching projects: ", error);
-                vizGrid.innerHTML = <p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading projects. Check console for details.</p>;
+                vizGrid.innerHTML = `<p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading projects. Check console for details.</p>`;
             });
 
             // Certifications Listener
@@ -833,7 +905,7 @@
             onSnapshot(certsQuery, (snapshot) => {
                 certGrid.innerHTML = '';
                 if (snapshot.empty) {
-                    certGrid.innerHTML = <p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No certifications have been added yet. Come back soon!</p>;
+                    certGrid.innerHTML = `<p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No certifications have been added yet. Come back soon!</p>`;
                 } else {
                     const sortedDocs = snapshot.docs.sort((a, b) => (b.data().createdAt?.toDate() || 0) - (a.data().createdAt?.toDate() || 0));
                     sortedDocs.forEach(doc => {
@@ -844,7 +916,7 @@
                 }
             }, (error) => {
                 console.error("Error fetching certifications: ", error);
-                certGrid.innerHTML = <p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading certifications. Check console for details.</p>;
+                certGrid.innerHTML = `<p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading certifications. Check console for details.</p>`;
             });
         }
 
@@ -877,7 +949,7 @@
 
             try {
                 // 1. Upload thumbnail to Firebase Storage
-                const storageRef = ref(storage, project_thumbnails/${Date.now()}_${projectThumbnailFile.name});
+                const storageRef = ref(storage, `project_thumbnails/${Date.now()}_${projectThumbnailFile.name}`);
                 await uploadBytes(storageRef, projectThumbnailFile);
                 const thumbnailUrl = await getDownloadURL(storageRef);
 
@@ -893,7 +965,7 @@
                 closeProjectModal();
             } catch (error) {
                 console.error("Error adding project: ", error);
-                showAlert("Error", Failed to add project. Error: ${error.message}. Check console for details.);
+                showAlert("Error", `Failed to add project. Error: ${error.message}. Check console for details.`);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
@@ -922,7 +994,7 @@
             
             try {
                 // 1. Upload thumbnail to Storage
-                const storageRef = ref(storage, certification_thumbnails/${Date.now()}_${certThumbnailFile.name});
+                const storageRef = ref(storage, `certification_thumbnails/${Date.now()}_${certThumbnailFile.name}`);
                 await uploadBytes(storageRef, certThumbnailFile);
                 const thumbnailUrl = await getDownloadURL(storageRef);
 
@@ -937,7 +1009,7 @@
                 closeCertModal();
             } catch (error) {
                 console.error("Error adding certification: ", error);
-                showAlert("Error", Failed to add certification. Error: ${error.message}.);
+                showAlert("Error", `Failed to add certification. Error: ${error.message}.`);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
@@ -947,7 +1019,7 @@
         function createProjectElement(id, data) {
             const cardLink = document.createElement('a');
             cardLink.className = 'viz-card-link';
-            cardLink.href = project.html?id=${id}; 
+            cardLink.href = `project.html?id=${id}`; 
             
             const skillNameMap = { powerbi: 'Power BI' };
             let skillsToRender = (data.skills && Array.isArray(data.skills)) ? data.skills : [];
@@ -955,7 +1027,7 @@
             const skillTagsHTML = skillsToRender
                 .map(skill => {
                     const displayName = skillNameMap[skill] || skill;
-                    return <span class="project-tag tag-${skill}">${displayName}</span>;
+                    return `<span class="project-tag tag-${skill}">${displayName}</span>`;
                 })
                 .join('');
 
