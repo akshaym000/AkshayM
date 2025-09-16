@@ -196,26 +196,11 @@
         .viz-header { text-align: center; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
         .admin-view .add-btn { display: inline-flex !important; }
         
-        .viz-grid {
+        /* MODIFICATION: Both grids now share the exact same style for consistency */
+        .viz-grid, .cert-grid {
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2.5rem;
-        }
-
-        /* MODIFICATION: Styles for horizontal scrollable certifications restored and combined */
-        .cert-grid {
-            display: flex;
-            overflow-x: auto;
-            gap: 2.5rem; /* Matches project gap */
-            padding: 4px 4px 1.5rem 4px; /* Space for box-shadow and scrollbar */
-            -webkit-overflow-scrolling: touch;
-        }
-        .cert-grid::-webkit-scrollbar { height: 8px; }
-        .cert-grid::-webkit-scrollbar-track { background: var(--light-bg); border-radius: 4px; }
-        .cert-grid::-webkit-scrollbar-thumb { background-color: var(--accent-color); border-radius: 4px; }
-        .cert-grid > .viz-card-link {
-            flex: 0 0 350px; /* Each card will have a fixed width like projects */
-            width: 350px;
         }
         
         .viz-card {
@@ -309,7 +294,7 @@
 
         /* --- Responsive Design --- */
         @media (max-width: 900px) { .hero { text-align: center; } .hero-content { padding: 0 1rem; } }
-        @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons, .social-links { justify-content: center; } .skills-grid, .viz-grid, .info-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons, .social-links { justify-content: center; } .skills-grid, .viz-grid, .info-grid, .cert-grid { grid-template-columns: 1fr; } }
         @media (min-width: 769px) { .hero .social-links { justify-content: flex-start; } }
     </style>
 </head>
@@ -956,7 +941,7 @@
             const certGrid = document.getElementById('cert-grid');
             certGrid.innerHTML = '';
             if (docs.length === 0) {
-                certGrid.innerHTML = `<p style="color: var(--secondary-text);">No certifications added yet.</p>`;
+                certGrid.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; color: var(--secondary-text);">No certifications added yet.</p>`;
                 return;
             }
             docs.forEach(doc => {
