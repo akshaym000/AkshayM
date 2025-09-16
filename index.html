@@ -11,19 +11,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
-        /* --- CSS Reset & Variables (Simple Dark Theme) --- */
+        /* --- CSS Reset & Variables (Midnight Theme) --- */
         :root {
-            --bg-color: #121212;
-            --light-bg: #121212; /* Uniform background */
-            --card-bg: #1E1E1E; /* Slightly lighter cards */
-            --primary-text: #E0E0E0;
-            --secondary-text: #A0A0A0;
-            --accent-color: #3B82F6;
-            --accent-hover: #60A5FA;
-            --border-color: #333333;
-            --danger-color: #e53e3e;
-            --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-            --card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --bg-color: #0a0e14;
+            --primary-text: #E6EDF3;
+            --secondary-text: #8B949E;
+            --accent-color: #8B5CF6;
+            --accent-hover: #A78BFA;
+            --highlight-color: #22D3EE;
+            --light-bg: #111827;
+            --card-bg: #1F2937; 
+            --border-color: #30363D;
+            --danger-color: #f87171;
+            --danger-hover: #ef4444;
+            --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+            --card-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            --glow-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -41,7 +44,9 @@
         h1, h2, h3 { font-weight: 700; line-height: 1.2; color: var(--primary-text); }
         h1 { 
             font-size: clamp(2.5rem, 5vw, 4.5rem); 
-            color: #FFFFFF;
+            background: -webkit-linear-gradient(45deg, var(--accent-color), var(--highlight-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         h2 {
             font-size: clamp(2rem, 4vw, 2.75rem);
@@ -57,7 +62,7 @@
             display: block;
             width: 70px;
             height: 4px;
-            background: var(--accent-color);
+            background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
             border-radius: 2px;
             margin: 1rem auto 0;
         }
@@ -65,45 +70,31 @@
         p { color: var(--secondary-text); margin-bottom: 1rem; }
         a { color: var(--primary-text); text-decoration: none; font-weight: 500; }
 
-        /* --- Header & Navigation (Floating) --- */
+        /* --- Header & Navigation --- */
         .main-header {
-            position: fixed;
-            top: 1rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 95%;
-            max-width: 1100px;
-            z-index: 1000;
-            background: rgba(30, 30, 30, 0.75);
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(10, 14, 20, 0.75);
             backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid var(--border-color);
         }
         nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
         .logo { font-size: 1.5rem; font-weight: 700; }
         nav ul { display: flex; list-style: none; gap: 2rem; }
         nav a {
             color: var(--primary-text);
-            transition: color 0.3s ease, transform 0.3s ease;
+            transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
             font-weight: 500;
             padding: 5px 0;
         }
         nav a:hover {
-            color: var(--accent-color);
+            color: var(--highlight-color);
             transform: translateY(-2px);
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
         }
         
         /* --- Hero Section --- */
         .hero { min-height: 100vh; display: flex; align-items: center; text-align: left; position: relative; overflow: hidden; }
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
+        #particles-js { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; }
         .hero-content { max-width: 750px; position: relative; z-index: 2; }
         .hero-eyebrow {
             font-size: 1rem;
@@ -120,29 +111,34 @@
             transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent;
             display: inline-flex; align-items: center; gap: 0.5rem;
         }
-        .btn:disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
+        .btn:disabled { cursor: not-allowed; opacity: 0.7; }
         .btn-primary {
-            background-color: var(--accent-color);
+            background: linear-gradient(45deg, var(--accent-color), var(--highlight-color));
+            background-size: 150% 150%;
             color: white;
             border: none;
         }
         .btn-primary:hover:not(:disabled) {
             transform: translateY(-3px);
-            background-color: var(--accent-hover);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background-position: right center;
         }
         .btn-secondary {
-             background-color: transparent;
-             color: var(--primary-text);
-             border: 1px solid var(--border-color);
+            background-color: var(--light-bg);
+            color: var(--primary-text);
+            border: 1px solid var(--border-color);
         }
         .btn-secondary:hover:not(:disabled) {
             background-color: var(--card-bg);
             border-color: var(--secondary-text);
             transform: translateY(-3px);
+        }
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: var(--danger-hover);
         }
         
         /* --- Social Links --- */
@@ -156,187 +152,118 @@
 
         /* --- Education Section --- */
         .section-header { text-align: center; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
-        .section-header h2 { text-align: center; }
-        .section-header h2::after { margin: 1rem auto 0; }
         .info-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem; 
             margin-top: 3rem; 
-            align-items: stretch;
         }
         .info-card {
             padding: 2rem; 
             display: flex; 
             flex-direction: column; 
-            width: 100%;
             background-color: var(--card-bg); 
             border-radius: 8px;
             border: 1px solid var(--border-color);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-decoration: none;
-            color: inherit;
+            height: 100%;
         }
         .info-card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--card-hover-shadow);
+            box-shadow: var(--glow-shadow);
         }
-        .info-header { 
-            display: flex; 
-            align-items: center; 
-            margin-bottom: 1.5rem;
-            min-height: 80px;
-        }
-        .info-icon { color: var(--accent-color); font-size: 1.5rem; }
+        .info-header { display: flex; align-items: center; margin-bottom: 1.5rem; }
+        .info-icon { color: var(--highlight-color); font-size: 1.5rem; }
         .info-title { margin-left: 1rem; }
         .info-title h3 { font-size: 1.25rem; margin: 0; }
         .info-title p { font-size: 0.9rem; font-weight: 500; color: var(--secondary-text); margin: 0; }
-        .info-body { flex-grow: 1; display: flex; flex-direction: column; }
+        .info-body { flex-grow: 1; }
         .info-body h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--primary-text); }
         .info-body p { font-size: 0.95rem; margin-bottom: 0.25rem; }
         .info-body p strong { color: var(--primary-text); font-weight: 700; }
-        
+        .info-card-body-link {
+            display: inline-block; margin-top: 1rem; color: var(--highlight-color);
+            font-weight: 600; transition: color 0.3s;
+        }
+        .info-card-body-link:hover { color: var(--accent-hover); }
         .info-footer { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--secondary-text); }
         
         /* --- Skills Section --- */
-        .skills-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
-            gap: 2.5rem; 
-            margin-top: 3rem; 
-        }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; margin-top: 3rem; }
         .skill-card {
-            padding: 2.5rem;
-            display: flex; 
-            flex-direction: column; 
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
+            padding: 2rem; display: flex; flex-direction: column; background-color: var(--card-bg);
+            border-radius: 8px; border: 1px solid var(--border-color);
         }
-        .skill-card h3 {
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .skills-list { 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 1rem;
-            justify-content: center;
-        }
-        .skill-item {
-            background-color: var(--bg-color);
-            color: var(--primary-text);
-            padding: 0.75rem 1.25rem;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-        .skill-item:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-        }
-        .skill-item svg, .skill-item i {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
+        .skills-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .skill-tag { background-color: var(--light-bg); color: var(--secondary-text); padding: 0.5rem 1rem; border-radius: 6px; font-weight: 500; font-size: 0.9rem; }
 
-        /* --- Visualizations Section --- */
+        /* --- Certifications & Visualizations Section --- */
         .viz-header { text-align: center; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
-        .viz-header h2 { text-align: center; }
-        .viz-header h2::after { margin: 1rem auto 0; }
-        .viz-header p { font-size: 1.1rem; }
-        .admin-view #add-project-btn, .admin-view #add-cert-btn { display: inline-block; }
-        .viz-grid {
+        .admin-view .add-btn { display: inline-flex !important; }
+        .viz-grid, .cert-grid {
             display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            max-width: 950px; 
-            margin: 0 auto; 
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2.5rem;
-            align-items: stretch;
         }
+        
         .viz-card {
             background-color: var(--card-bg); border-radius: 8px; overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--border-color);
             display: flex; flex-direction: column;
-            width: 100%;
-        }
-        .viz-card-link { display: flex; text-decoration: none; color: inherit; height: 100%; }
-        .viz-card-link:hover .project-thumbnail img { transform: scale(1.05); }
-        .viz-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--card-hover-shadow);
-        }
-        .project-thumbnail { height: 220px; overflow: hidden; background-color: var(--light-bg); }
-        .project-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-        .viz-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; text-align: left;}
-        .viz-content h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary-text);
-            height: 3em;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-        }
-        .viz-content p {
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-            color: var(--secondary-text);
-            height: 3.1em;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-        }
-        .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; }
-        .project-tag { 
-            font-size: 0.75rem; 
-            padding: 0.25rem 0.75rem; 
-            border-radius: 999px; 
-            font-weight: 600; 
-            background-color: var(--light-bg);
-            color: var(--secondary-text);
-            text-transform: capitalize; 
+            height: 100%; position: relative;
         }
         
-        /* --- Certifications Section --- */
-        #cert-grid {
-            display: flex;
-            overflow-x: auto;
-            gap: 2rem;
-            padding: 1rem 2px 2rem 2px;
-            margin-top: 3rem;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent-color) var(--light-bg);
-        }
-        #cert-grid::-webkit-scrollbar { height: 8px; }
-        #cert-grid::-webkit-scrollbar-track { background: var(--light-bg); border-radius: 4px; }
-        #cert-grid::-webkit-scrollbar-thumb { background-color: var(--accent-color); border-radius: 4px; }
-        #cert-grid > .viz-card-link {
-            flex: 0 0 450px;
-            width: 450px;
-        }
-        @media (max-width: 900px) {
-            #cert-grid > .viz-card-link {
-                flex-basis: 380px;
-                width: 380px;
-            }
+        .viz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--glow-shadow);
         }
 
-        /* --- Contact Section --- */
-        #contact h2::after { margin-bottom: 2rem; }
+        .viz-card-link { display: block; text-decoration: none; color: inherit; height: 100%; }
+        .viz-card-link:hover .card-thumbnail img { transform: scale(1.05); }
+
+        .card-thumbnail {
+            height: 220px; overflow: hidden; background-color: var(--light-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .card-thumbnail img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        
+        .viz-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; text-align: left;}
+        .viz-content h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--primary-text); }
+        .viz-content p {  
+            font-size: 0.95rem;  margin-bottom: 1rem; color: var(--secondary-text);
+            overflow: hidden; text-overflow: ellipsis; display: -webkit-box;
+            -webkit-line-clamp: 2; -webkit-box-orient: vertical; min-height: 45px;
+        }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; padding-top: 1rem; }
+        .project-tag { font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; color: white; text-transform: capitalize; }
+        .tag-tableau { background-color: #2E75B6; }
+        .tag-powerbi { background-color: #F2C811; color: #333; }
+        .tag-python { background-color: #fd7e14; }
+        .tag-sql { background-color: #dc3545; }
+        .tag-r { background-color: #6610f2; }
+        .tag-excel { background-color: #217346; }
+
+        /* --- Admin Controls --- */
+        .admin-controls {
+            position: absolute; top: 10px; right: 10px; z-index: 10;
+            display: flex; gap: 0.5rem;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .viz-card:hover .admin-controls { opacity: 1; }
+        .admin-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid var(--border-color);
+            color: var(--primary-text);
+            border-radius: 50%; width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+        }
+        .admin-btn:hover { background-color: var(--card-bg); }
+        .admin-btn.delete:hover { color: var(--danger-color); }
+        .admin-btn.edit:hover { color: var(--highlight-color); }
         
         /* --- Footer --- */
         footer { text-align: center; padding: 2rem; background-color: var(--light-bg); border-top: 1px solid var(--border-color); color: var(--secondary-text); }
@@ -344,7 +271,7 @@
         #admin-login:hover { color: var(--primary-text); }
 
         /* --- Modal Styles --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1001; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 1001; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
         .modal-overlay.visible { opacity: 1; visibility: visible; }
         .modal-content { background-color: var(--card-bg); padding: 2.5rem; border-radius: 12px; width: 90%; max-width: 500px; transform: scale(0.95); transition: transform 0.3s; max-height: 90vh; overflow-y: auto; }
         .modal-overlay.visible .modal-content { transform: scale(1); }
@@ -356,7 +283,7 @@
         .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--primary-text); }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); font-size: 1rem; font-family: 'Inter', sans-serif; background-color: var(--light-bg); color: var(--primary-text); }
         .thumbnail-drop-zone { padding: 2rem; border: 2px dashed var(--border-color); border-radius: 8px; text-align: center; cursor: pointer; transition: background-color 0.3s; }
-        .thumbnail-drop-zone.drag-over { background-color: rgba(59, 130, 246, 0.1); }
+        .thumbnail-drop-zone.drag-over { background-color: rgba(139, 92, 246, 0.1); }
         .thumbnail-preview { max-width: 100%; max-height: 150px; margin-top: 1rem; border-radius: 8px; }
         .skills-selector { display: flex; flex-wrap: wrap; gap: 0.75rem; }
         .skill-choice { padding: 0.5rem 1rem; border: 1px solid var(--border-color); border-radius: 999px; cursor: pointer; transition: all 0.2s ease-in-out; font-weight: 500; background-color: var(--card-bg); color: var(--primary-text); }
@@ -370,7 +297,7 @@
 
         /* --- Responsive Design --- */
         @media (max-width: 900px) { .hero { text-align: center; } .hero-content { padding: 0 1rem; } }
-        @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons { justify-content: center; } .social-links { justify-content: center; } .skills-grid, .viz-grid, .info-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons, .social-links { justify-content: center; } .skills-grid, .viz-grid, .info-grid, .cert-grid { grid-template-columns: 1fr; } }
         @media (min-width: 769px) { .hero .social-links { justify-content: flex-start; } }
     </style>
 </head>
@@ -382,8 +309,8 @@
                 <ul>
                     <li><a href="#hero">Home</a></li>
                     <li><a href="#education">Education</a></li>
-                    <li><a href="#visualizations">Projects</a></li>
                     <li><a href="#certifications">Certifications</a></li>
+                    <li><a href="#visualizations">Projects</a></li>
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -392,12 +319,11 @@
     </header>
 
     <main>
-
         <section id="hero" class="hero">
             <div id="particles-js"></div>
             <div class="container">
                 <div class="hero-content">
-                    <p class="hero-eyebrow">Analyst Portfolio</p>
+                    <p class="hero-eyebrow">Data Analyst Portfolio</p>
                     <h1>Akshay M</h1>
                     <p class="hero-description">
                         As a student of Information Science at Vidyavardhaka College of Engineering, I'm deeply fascinated by the power of data. My coursework and certifications have provided me with a strong foundation in data analysis, statistical modeling, and business intelligence. I thrive in collaborative environments and am committed to applying my analytical and problem-solving skills to real-world challenges. My goal is to help organizations make smarter, data-driven decisions.
@@ -411,13 +337,13 @@
                         </a>
                     </div>
                     <div class="cta-buttons">
-                        <a href="https://drive.google.com/file/d/1REhf2W6wH99NzCROnTisE4VdrsCkWsUx/view?usp=drivesdk" class="btn btn-primary" download>Download Resume</a>
+                        <a href="https://drive.google.com/file/d/1REhf2W6wH99NzCROnTisE4VdrsCkWsUx/view?usp=drivesdk" class="btn btn-primary" target="_blank" rel="noopener noreferrer">View Resume</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="education">
+        <section id="education" class="section-bg">
             <div class="container">
                 <h2>My Education</h2>
                 <div class="info-grid">
@@ -476,28 +402,26 @@
             </div>
         </section>
 
-        <section id="visualizations">
-            <div class="container">
-                <div class="viz-header">
-                    <h2>My Projects</h2>
-                    <p>Every dataset tells a story. Here's a collection of my favorite projects where I turn raw data into compelling narratives and actionable insights.</p>
-                    <button id="add-project-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Project</button>
-                </div>
-                <div id="viz-grid" class="viz-grid">
-                    <!-- Projects will be dynamically loaded here -->
-                </div>
-            </div>
-        </section>
-
         <section id="certifications">
             <div class="container">
                 <div class="section-header">
                     <h2>My Certifications</h2>
-                    <button id="add-cert-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Certification</button>
+                    <button id="add-cert-btn" class="btn btn-secondary add-btn" style="display:none; margin-top: 1rem;">Add New Certification</button>
                 </div>
-                <div id="cert-grid">
-                    <!-- Certifications will be dynamically loaded here -->
+                <div id="cert-grid" class="cert-grid">
+                    </div>
+            </div>
+        </section>
+
+        <section id="visualizations" class="section-bg">
+            <div class="container">
+                <div class="viz-header">
+                    <h2>My Projects</h2>
+                    <p>Every dataset tells a story. Here's a collection of my favorite projects where I turn raw data into compelling narratives and actionable insights.</p>
+                    <button id="add-project-btn" class="btn btn-secondary add-btn" style="display:none; margin-top: 1rem;">Add New Project</button>
                 </div>
+                <div id="viz-grid" class="viz-grid">
+                    </div>
             </div>
         </section>
 
@@ -508,55 +432,24 @@
                     <div class="skill-card">
                         <h3>Technical Skills</h3>
                         <div class="skills-list">
-                            <div class="skill-item">
-                                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Python</title><path d="M12.25.25c-3.23 0-5.41.39-7.04 1.2a5.1 5.1 0 00-1.8 2.05A6.9 6.9 0 002.5 7.6a11 11 0 00-.8 3.53c0 .87.09 1.63.26 2.27.18.64.44 1.2.78 1.69a4.2 4.2 0 001.62 1.43c.6.3 1.27.5 2 .6v-3.72a3.8 3.8 0 01-1.3-.46c-.34-.2-.61-.48-.82-.82a3.4 3.4 0 01-.46-1.3c-.09-.43-.13-.9-.13-1.42 0-1.2.22-2.2.67-2.98.45-.78 1.12-1.39 2-1.82.87-.43 1.88-.65 3.03-.65h8.5v3.25h-8.5c-.5 0-.93.07-1.3.22-.37.15-.68.37-.9.67-.23.3-.4.65-.5 1.05-.1.4-.15.83-.15 1.28s.05.88.15 1.28c.1.4.27.75.5 1.05.22.3.53.52.9.67.37.15.8.22 1.3.22h8.5v3.25h-8.5c-1.15 0-2.16-.22-3.03-.65a5.1 5.1 0 01-2-1.82 5.3 5.3 0 01-.67-2.98c0-.52.04-.99.14-1.42a3.4 3.4 0 01.46-1.3c.2-.34.48-.61.82-.82a3.8 3.8 0 011.3-.46V4.1a11 11 0 00-.8 3.53c0 .87.09 1.63.26 2.27.18.64.44 1.2.78 1.69a4.2 4.2 0 001.62 1.43c.6.3 1.27.5 2 .6v-3.72a3.8 3.8 0 01-1.3-.46c-.34-.2-.61-.48-.82-.82a3.4 3.4 0 01-.46-1.3c-.09-.43-.13-.9-.13-1.42 0-1.2.22-2.2.67-2.98.45-.78 1.12-1.39 2-1.82.87-.43 1.88-.65 3.03-.65h8.5v3.25h-8.5c-.5 0-.93.07-1.3.22-.37.15-.68.37-.9.67-.23.3-.4.65-.5 1.05-.1.4-.15.83-.15 1.28s.05.88.15 1.28c.1.4.27.75.5 1.05.22.3.53.52.9.67.37.15.8.22 1.3.22h8.5v3.25h-8.5c-1.15 0-2.16-.22-3.03-.65a5.1 5.1 0 01-2-1.82 5.3 5.3 0 01-.67-2.98 6.9 6.9 0 01.9-4.07 5.1 5.1 0 012.63-2.9A8.1 8.1 0 0112.25.25z" fill-rule="evenodd" clip-rule="evenodd"/></svg>
-                                <span>Python</span>
-                            </div>
-                            <div class="skill-item">
-                                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Microsoft SQL Server</title><path d="M3.555 0v24h16.89v-24H3.555zM17.11 3.222h-3.222v3.333h3.222V3.222zm-4.333 0H8.445v3.333h4.333V3.222zM6.667 6.556V3.222h.667v3.333H6.667zm0 14.222H6V6.556h1.333v14.222zm1.333 0V6.556h4.333v14.222H8zm5.444 0h-3.222V6.556h3.222v14.222zM18.222 20.778h-.667V6.556h.667v14.222zm.667-15.334V3.222h.667v3.333h-.667zm0 1.111v14.222H18v-3.333h-5.444v-2h5.444v-2h-5.444v-2h5.444v-2h-5.444v-2h5.444V6.556h.889z"/></svg>
-                                <span>SQL</span>
-                            </div>
-                             <div class="skill-item">
-                                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>R</title><path d="M18.888 24H5.112a2.222 2.222 0 01-1.92-1.111A2.222 2.222 0 013.2 20.667L10.667 12 3.2 3.333A2.222 2.222 0 013.2 1.11 2.222 2.222 0 015.112 0h13.776A2.222 2.222 0 0120.8 1.111a2.222 2.222 0 01-.008 2.222L13.333 12l7.467 8.667a2.222 2.222 0 01-.008 2.222 2.222 2.222 0 01-1.904 1.111zM16 11.111h-3.111L16 14.222v-3.11zm-7.111-4h3.11L8.89 4v3.111z"/></svg>
-                                <span>R</span>
-                            </div>
-                            <div class="skill-item">
-                               <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Power BI</title><path d="M1.613 13.573v8.814h14.805V3.113H1.613v9.349zm0-10.46h14.805v1.111H1.613V3.113zm0 18.274h14.805v1.111H1.613v-1.11zM17.53 3.113h4.858v19.384H17.53V3.113z"/></svg>
-                                <span>Power BI</span>
-                            </div>
-                            <div class="skill-item">
-                                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Tableau</title><path d="M4.667 10.667h3.555V4.667H4.667v6zm0 8.666h3.555V12.89H4.667v6.444zM9.333 19.333h3.556v-4.666H9.333v4.666zm0-7.555h3.556V7.11H9.333v4.667zm5.778 6.444h3.555V10.667h-3.555v8.111zm0-9.222h3.555V4.667h-3.555v6.444z"/></svg>
-                                <span>Tableau</span>
-                            </div>
-                            <div class="skill-item">
-                                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Microsoft Excel</title><path d="M22.502 0H1.498A1.498 1.498 0 000 1.498v21.004A1.498 1.498 0 001.498 24h21.004A1.498 1.498 0 0024 22.502V1.498A1.498 1.498 0 0022.502 0zM14.54 12.01l-3.32 5.42h-2.58l3.32-5.42-3.2-5.42h2.55l3.23 5.42z"/></svg>
-                                <span>Excel</span>
-                            </div>
+                            <span class="skill-tag">Python (Pandas, NumPy)</span>
+                            <span class="skill-tag">SQL</span>
+                            <span class="skill-tag">R</span>
+                            <span class="skill-tag">Power BI</span>
+                            <span class="skill-tag">Tableau</span>
+                            <span class="skill-tag">Microsoft Excel</span>
+                            <span class="skill-tag">Data Visualization</span>
+                            <span class="skill-tag">Statistical Analysis</span>
                         </div>
                     </div>
                     <div class="skill-card">
                         <h3>Soft Skills</h3>
                         <div class="skills-list">
-                           <div class="skill-item">
-                                <i class="fas fa-brain"></i>
-                                <span>Analytical Thinking</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-lightbulb"></i>
-                                <span>Problem Solving</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-users"></i>
-                                <span>Teamwork</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-comments"></i>
-                                <span>Communication</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-sync-alt"></i>
-                                <span>Agile Methodologies</span>
-                            </div>
+                            <span class="skill-tag">Analytical Thinking</span>
+                            <span class="skill-tag">Problem Solving</span>
+                            <span class="skill-tag">Teamwork & Collaboration</span>
+                            <span class="skill-tag">Communication</span>
+                            <span class="skill-tag">Agile Methodologies</span>
                         </div>
                     </div>
                 </div>
@@ -572,10 +465,9 @@
                 </div>
             </div>
         </section>
-
     </main>
 
-    <footer >
+    <footer>
         <div class="container">
             <p>&copy; 2025 Akshay M. Crafted with care in Mysuru.</p>
             <p><a href="#" id="admin-login">Admin Login</a></p>
@@ -588,13 +480,14 @@
         </svg>
     </a>
 
-    <div id="add-project-modal" class="modal-overlay">
+    <div id="project-modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Add New Project</h2>
-                <button id="close-project-modal-btn" class="close-modal">&times;</button>
+                <h2 id="project-modal-title">Add New Project</h2>
+                <button class="close-modal">&times;</button>
             </div>
             <form id="project-form">
+                <input type="hidden" id="project-id-input">
                 <div class="form-group">
                     <label for="project-title-input">Project Title</label>
                     <input type="text" id="project-title-input" required>
@@ -603,7 +496,7 @@
                     <label for="project-description-input">Project Description</label>
                     <textarea id="project-description-input" rows="3" required></textarea>
                 </div>
-                 <div class="form-group">
+                <div class="form-group">
                     <label>Skills Used (Select at least one)</label>
                     <div id="skills-selector" class="skills-selector">
                         <span class="skill-choice" data-skill="python">Python</span>
@@ -615,29 +508,30 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="project-link-input">Project Link (to original dashboard)</label>
+                    <label for="project-link-input">Project Link (e.g., Tableau Public, GitHub)</label>
                     <input type="url" id="project-link-input" required>
                 </div>
                 <div class="form-group">
                     <label>Project Thumbnail</label>
-                    <div id="thumbnail-drop-zone" class="thumbnail-drop-zone">
+                    <div id="project-thumbnail-drop-zone" class="thumbnail-drop-zone">
                         <p>Drag & drop an image here, or click to select</p>
-                        <input type="file" id="thumbnail-upload" accept="image/*" hidden>
-                        <img id="thumbnail-preview" class="thumbnail-preview" src="" alt="Thumbnail Preview" style="display: none;">
+                        <input type="file" id="project-thumbnail-upload" accept="image/*" hidden>
+                        <img id="project-thumbnail-preview" class="thumbnail-preview" src="" alt="Thumbnail Preview" style="display: none;">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Add Project</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" id="project-submit-btn">Add Project</button>
             </form>
         </div>
     </div>
     
-    <div id="add-cert-modal" class="modal-overlay">
+    <div id="cert-modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Add New Certification</h2>
-                <button id="close-cert-modal-btn" class="close-modal">&times;</button>
+                <h2 id="cert-modal-title">Add New Certification</h2>
+                <button class="close-modal">&times;</button>
             </div>
             <form id="cert-form">
+                <input type="hidden" id="cert-id-input">
                 <div class="form-group">
                     <label for="cert-title-input">Certification Title</label>
                     <input type="text" id="cert-title-input" required>
@@ -658,7 +552,7 @@
                         <img id="cert-thumbnail-preview" class="thumbnail-preview" src="" alt="Certificate Thumbnail Preview" style="display: none;">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Add Certification</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" id="cert-submit-btn">Add Certification</button>
             </form>
         </div>
     </div>
@@ -666,7 +560,7 @@
     <div id="custom-alert-modal" class="modal-overlay">
         <div class="modal-content" style="max-width: 400px; text-align: center;">
             <h3 id="custom-alert-title" style="margin-bottom: 1rem;"></h3>
-            <p id="custom-alert-message"></p>
+            <p id="custom-alert-message" style="margin-bottom: 0;"></p>
             <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
                 <button id="custom-alert-cancel" class="btn btn-secondary">Cancel</button>
                 <button id="custom-alert-ok" class="btn btn-primary">OK</button>
@@ -680,131 +574,68 @@
         // Firebase Imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        // import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+        import { getFirestore, collection, doc, addDoc, getDoc, updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
         
-        // --- Firebase Configuration ---
         const firebaseConfig = {
-     apiKey: "AIzaSyDePnsa2ZoMyoPty8LZ_oNzyHc5Ji4D7Z0",
-     authDomain: "akshaymportfolio.firebaseapp.com",
-     projectId: "akshaymportfolio",
-     storageBucket: "akshaymportfolio.appspot.com",
-     messagingSenderId: "777668262058",
-     appId: "1:77668262058:web:9aaa39a124c51bffbd78d3",
-     measurementId: "G-D565DF8FPS"
-    };
+            apiKey: "YOUR_API_KEY", // Replace with your actual Firebase config
+            authDomain: "akshaymportfolio.firebaseapp.com",
+            projectId: "akshaymportfolio",
+            storageBucket: "akshaymportfolio.appspot.com",
+            messagingSenderId: "777668262058",
+            appId: "1:777668262058:web:9aaa39a124c51bffbd78d3"
+        };
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        // const analytics = getAnalytics(app);
         const auth = getAuth(app);
         const storage = getStorage(app);
 
         // --- App State ---
         let isAdmin = sessionStorage.getItem('isAdmin') === 'true';
         let isAuthReady = false;
-        const ADMIN_PASSWORD = "Iambe5t#"; // Change this to a secure password
+        const ADMIN_PASSWORD = "Iambe5t#"; // IMPORTANT: Change this password
 
         // --- DOM Elements ---
         const adminLoginBtn = document.getElementById('admin-login');
-        // Project elements
-        const addProjectBtn = document.getElementById('add-project-btn');
-        const projectModal = document.getElementById('add-project-modal');
-        const closeProjectModalBtn = document.getElementById('close-project-modal-btn');
-        const projectForm = document.getElementById('project-form');
-        const vizGrid = document.getElementById('viz-grid');
-        const projectDropZone = document.getElementById('thumbnail-drop-zone');
-        const projectThumbnailUpload = document.getElementById('thumbnail-upload');
-        const projectThumbnailPreview = document.getElementById('thumbnail-preview');
-        const skillsSelector = document.getElementById('skills-selector');
-        let projectThumbnailFile = null;
-
-        // Certification elements
-        const addCertBtn = document.getElementById('add-cert-btn');
-        const certModal = document.getElementById('add-cert-modal');
-        const closeCertModalBtn = document.getElementById('close-cert-modal-btn');
-        const certForm = document.getElementById('cert-form');
-        const certGrid = document.getElementById('cert-grid');
-        const certDropZone = document.getElementById('cert-thumbnail-drop-zone');
-        const certThumbnailUpload = document.getElementById('cert-thumbnail-upload');
-        const certThumbnailPreview = document.getElementById('cert-thumbnail-preview');
-        let certThumbnailFile = null;
         
-        // --- Custom Alert Modal Elements & Function ---
-        const customAlertModal = document.getElementById('custom-alert-modal');
-        const customAlertTitle = document.getElementById('custom-alert-title');
-        const customAlertMessage = document.getElementById('custom-alert-message');
-        const customAlertOk = document.getElementById('custom-alert-ok');
-        const customAlertCancel = document.getElementById('custom-alert-cancel');
+        // --- Generic Modal & Form Handling ---
+        function setupModal(modalId, openBtnId, formId, closeCb) {
+            const modal = document.getElementById(modalId);
+            const openBtn = document.getElementById(openBtnId);
+            const form = document.getElementById(formId);
+            
+            openBtn?.addEventListener('click', () => {
+                form.reset();
+                closeCb(); // Run cleanup specific to this modal
+                modal.classList.add('visible');
+            });
 
-        function showAlert(title, message, isConfirmation = false) {
-            return new Promise((resolve) => {
-                customAlertTitle.textContent = title;
-                customAlertMessage.textContent = message;
-                customAlertCancel.style.display = isConfirmation ? 'inline-block' : 'none';
-                customAlertOk.textContent = isConfirmation ? 'Confirm' : 'OK';
-                customAlertModal.classList.add('visible');
-
-                const okListener = () => {
-                    customAlertModal.classList.remove('visible');
-                    resolve(true);
-                    cleanup();
-                };
-
-                const cancelListener = () => {
-                    customAlertModal.classList.remove('visible');
-                    resolve(false);
-                    cleanup();
-                };
-
-                function cleanup() {
-                    customAlertOk.removeEventListener('click', okListener);
-                    customAlertCancel.removeEventListener('click', cancelListener);
+            modal.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('close-modal')) {
+                    modal.classList.remove('visible');
+                    closeCb();
                 }
-
-                customAlertOk.addEventListener('click', okListener, { once: true });
-                customAlertCancel.addEventListener('click', cancelListener, { once: true });
             });
         }
 
-        // --- Admin & Modal Logic ---
-        function setAdminView(isAdmin) {
-             if (isAdmin) {
-                  document.body.classList.add('admin-view');
-                  addProjectBtn.style.display = 'inline-flex'; 
-                  addCertBtn.style.display = 'inline-flex';
-             } else {
-                  document.body.classList.remove('admin-view');
-                  addProjectBtn.style.display = 'none';
-                  addCertBtn.style.display = 'none';
-             }
-        }
+        // Project Modal
+        let projectThumbnailFile = null;
+        const projectModal = document.getElementById('project-modal');
+        const projectForm = document.getElementById('project-form');
+        const projectDropZone = document.getElementById('project-thumbnail-drop-zone');
+        const projectThumbnailUpload = document.getElementById('project-thumbnail-upload');
+        const projectThumbnailPreview = document.getElementById('project-thumbnail-preview');
+        const skillsSelector = document.getElementById('skills-selector');
         
-        adminLoginBtn.addEventListener('click', async (e) => {
-            e.preventDefault();
-            if (!isAdmin) {
-                const password = prompt("Please enter the admin password:");
-                if (password === ADMIN_PASSWORD) {
-                    isAdmin = true;
-                    sessionStorage.setItem('isAdmin', 'true');
-                    setAdminView(true);
-                    await showAlert("Success", "Admin mode activated. You can now add projects and certifications.");
-                } else if (password) {
-                    await showAlert("Error", "Incorrect password.");
-                }
-            }
-        });
-        
-        setAdminView(isAdmin);
-
-        // Project Modal Listeners
-        addProjectBtn.addEventListener('click', () => projectModal.classList.add('visible'));
-        closeProjectModalBtn.addEventListener('click', () => closeProjectModal());
-        projectModal.addEventListener('click', (e) => {
-            if (e.target === projectModal) closeProjectModal();
-        });
+        // Certification Modal
+        let certThumbnailFile = null;
+        const certModal = document.getElementById('cert-modal');
+        const certForm = document.getElementById('cert-form');
+        const certDropZone = document.getElementById('cert-thumbnail-drop-zone');
+        const certThumbnailUpload = document.getElementById('cert-thumbnail-upload');
+        const certThumbnailPreview = document.getElementById('cert-thumbnail-preview');
         
         function closeProjectModal() {
             projectModal.classList.remove('visible');
@@ -813,18 +644,10 @@
             projectThumbnailPreview.src = '';
             projectDropZone.querySelector('p').style.display = 'block';
             projectThumbnailFile = null;
-            skillsSelector.querySelectorAll('.skill-choice.active').forEach(skill => {
-                skill.classList.remove('active');
-            });
+            skillsSelector.querySelectorAll('.skill-choice.active').forEach(s => s.classList.remove('active'));
+            document.getElementById('project-id-input').value = '';
         }
-
-        // Certification Modal Listeners
-        addCertBtn.addEventListener('click', () => certModal.classList.add('visible'));
-        closeCertModalBtn.addEventListener('click', () => closeCertModal());
-        certModal.addEventListener('click', (e) => {
-            if(e.target === certModal) closeCertModal();
-        });
-
+        
         function closeCertModal() {
             certModal.classList.remove('visible');
             certForm.reset();
@@ -832,14 +655,69 @@
             certThumbnailPreview.src = '';
             certDropZone.querySelector('p').style.display = 'block';
             certThumbnailFile = null;
+            document.getElementById('cert-id-input').value = '';
+        }
+        
+        setupModal('project-modal', 'add-project-btn', 'project-form', closeProjectModal);
+        setupModal('cert-modal', 'add-cert-btn', 'cert-form', closeCertModal);
+
+        // --- Custom Alert Modal ---
+        const customAlertModal = document.getElementById('custom-alert-modal');
+        function showAlert(title, message, isConfirmation = false) {
+            return new Promise((resolve) => {
+                customAlertModal.querySelector('#custom-alert-title').textContent = title;
+                customAlertModal.querySelector('#custom-alert-message').textContent = message;
+                const okBtn = customAlertModal.querySelector('#custom-alert-ok');
+                const cancelBtn = customAlertModal.querySelector('#custom-alert-cancel');
+                
+                cancelBtn.style.display = isConfirmation ? 'inline-flex' : 'none';
+                okBtn.className = isConfirmation ? 'btn btn-danger' : 'btn btn-primary';
+                okBtn.textContent = isConfirmation ? 'Confirm' : 'OK';
+
+                customAlertModal.classList.add('visible');
+
+                const okListener = () => { cleanup(); resolve(true); };
+                const cancelListener = () => { cleanup(); resolve(false); };
+                const cleanup = () => {
+                    okBtn.removeEventListener('click', okListener);
+                    cancelBtn.removeEventListener('click', cancelListener);
+                    customAlertModal.classList.remove('visible');
+                };
+
+                okBtn.addEventListener('click', okListener, { once: true });
+                cancelBtn.addEventListener('click', cancelListener, { once: true });
+            });
         }
 
-        skillsSelector.addEventListener('click', (e) => {
-            if (e.target.classList.contains('skill-choice')) {
-                e.target.classList.toggle('active');
+        // --- Admin Logic ---
+        function setAdminView(isAdmin) {
+            document.body.classList.toggle('admin-view', isAdmin);
+            document.querySelectorAll('.admin-controls').forEach(el => {
+                el.style.display = isAdmin ? 'flex' : 'none';
+            });
+        }
+        
+        adminLoginBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            if (isAdmin) {
+                if (await showAlert("Log Out", "Are you sure you want to log out of admin mode?", true)) {
+                    isAdmin = false;
+                    sessionStorage.removeItem('isAdmin');
+                    setAdminView(false);
+                }
+            } else {
+                const password = prompt("Please enter the admin password:");
+                if (password === ADMIN_PASSWORD) {
+                    isAdmin = true;
+                    sessionStorage.setItem('isAdmin', 'true');
+                    setAdminView(true);
+                    showAlert("Success", "Admin mode activated.");
+                } else if (password) {
+                    showAlert("Error", "Incorrect password.");
+                }
             }
         });
-
+        
         // --- Thumbnail Upload Logic ---
         function setupFileUpload(dropZone, uploadInput, previewImg, fileVarSetter) {
             dropZone.addEventListener('click', () => uploadInput.click());
@@ -848,17 +726,15 @@
             dropZone.addEventListener('drop', (e) => {
                 e.preventDefault();
                 dropZone.classList.remove('drag-over');
-                if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0], previewImg, dropZone, fileVarSetter);
+                if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0], previewImg, dropZone, fileVarSetter);
             });
             uploadInput.addEventListener('change', (e) => {
-                if (e.target.files.length > 0) handleFile(e.target.files[0], previewImg, dropZone, fileVarSetter);
+                if (e.target.files.length) handleFile(e.target.files[0], previewImg, dropZone, fileVarSetter);
             });
         }
 
         function handleFile(file, previewImg, dropZone, fileVarSetter) {
-            const isImage = file && file.type.startsWith('image/');
-            
-            if (isImage) {
+            if (file && file.type.startsWith('image/')) {
                 fileVarSetter(file);
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -874,265 +750,284 @@
 
         setupFileUpload(projectDropZone, projectThumbnailUpload, projectThumbnailPreview, (file) => { projectThumbnailFile = file; });
         setupFileUpload(certDropZone, certThumbnailUpload, certThumbnailPreview, (file) => { certThumbnailFile = file; });
+
+        skillsSelector.addEventListener('click', (e) => {
+            if (e.target.classList.contains('skill-choice')) {
+                e.target.classList.toggle('active');
+            }
+        });
+
+        // --- Firestore CRUD ---
         
-        // --- Firestore Logic ---
-        function initializeFirestoreListeners() {
-            // Projects Listener
-            const projectsCollection = collection(db, "visualization_projects");
-            const projectsQuery = query(projectsCollection);
-            
-            onSnapshot(projectsQuery, (snapshot) => {
-                vizGrid.innerHTML = '';
-                if (snapshot.empty) {
-                    vizGrid.innerHTML = `<p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No projects have been added yet. Come back soon!</p>`;
-                } else {
-                    const sortedDocs = snapshot.docs.sort((a, b) => (b.data().createdAt?.toDate() || 0) - (a.data().createdAt?.toDate() || 0));
-                    sortedDocs.forEach(doc => {
-                        const projectData = doc.data();
-                        const projectElement = createProjectElement(doc.id, projectData);
-                        vizGrid.appendChild(projectElement);
-                    });
-                }
-            }, (error) => {
-                console.error("Error fetching projects: ", error);
-                vizGrid.innerHTML = `<p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading projects. Check console for details.</p>`;
-            });
-
-            // Certifications Listener
-            const certsCollection = collection(db, "certifications");
-            const certsQuery = query(certsCollection);
-
-            onSnapshot(certsQuery, (snapshot) => {
-                certGrid.innerHTML = '';
-                if (snapshot.empty) {
-                    certGrid.innerHTML = `<p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No certifications have been added yet. Come back soon!</p>`;
-                } else {
-                    const sortedDocs = snapshot.docs.sort((a, b) => (b.data().createdAt?.toDate() || 0) - (a.data().createdAt?.toDate() || 0));
-                    sortedDocs.forEach(doc => {
-                        const certData = doc.data();
-                        const certElement = createCertificationElement(doc.id, certData);
-                        certGrid.appendChild(certElement);
-                    });
-                }
-            }, (error) => {
-                console.error("Error fetching certifications: ", error);
-                certGrid.innerHTML = `<p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading certifications. Check console for details.</p>`;
-            });
+        // UPLOAD HELPER
+        async function uploadThumbnail(file, path) {
+            if (!file) return null;
+            const storageRef = ref(storage, `${path}/${Date.now()}_${file.name}`);
+            await uploadBytes(storageRef, file);
+            return await getDownloadURL(storageRef);
         }
 
+        // DELETE HELPER
+        async function deleteItem(id, collectionName, thumbnailURL) {
+            if (!await showAlert('Confirm Deletion', 'Are you sure you want to permanently delete this item?', true)) return;
+            try {
+                // Delete from Firestore
+                await deleteDoc(doc(db, collectionName, id));
+                // Delete image from Storage
+                if (thumbnailURL) {
+                    const imageRef = ref(storage, thumbnailURL);
+                    await deleteObject(imageRef);
+                }
+                showAlert('Success', 'Item deleted successfully.');
+            } catch (error) {
+                console.error(`Error deleting item:`, error);
+                showAlert('Error', `Failed to delete item. Check console for details.`);
+            }
+        }
+
+        // Project Form Submission (Add & Edit)
         projectForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!isAuthReady) {
-                showAlert('Not Ready', 'The application is still connecting. Please wait a moment and try again.');
-                return;
-            }
-            if (!projectThumbnailFile) {
-                showAlert('Missing Thumbnail', 'Please upload a project thumbnail.');
-                return;
-            }
+            const id = document.getElementById('project-id-input').value;
+            const isEditing = !!id;
 
-            const selectedSkillNodes = skillsSelector.querySelectorAll('.skill-choice.active');
-            if (selectedSkillNodes.length === 0) {
-                showAlert('No Skills Selected', 'Please select at least one skill for the project.');
-                return;
+            const selectedSkills = [...skillsSelector.querySelectorAll('.skill-choice.active')].map(n => n.dataset.skill);
+            if (selectedSkills.length === 0) {
+                return showAlert('Validation Error', 'Please select at least one skill.');
+            }
+            if (!isEditing && !projectThumbnailFile) {
+                return showAlert('Validation Error', 'A thumbnail image is required for new projects.');
             }
             
-            const skills = Array.from(selectedSkillNodes).map(node => node.dataset.skill);
-            const title = document.getElementById('project-title-input').value;
-            const description = document.getElementById('project-description-input').value;
-            const link = document.getElementById('project-link-input').value;
-
-            const submitBtn = projectForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
+            const submitBtn = document.getElementById('project-submit-btn');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Uploading...';
-
+            submitBtn.textContent = 'Saving...';
+            
             try {
-                // 1. Upload thumbnail to Firebase Storage
-                const storageRef = ref(storage, `project_thumbnails/${Date.now()}_${projectThumbnailFile.name}`);
-                await uploadBytes(storageRef, projectThumbnailFile);
-                const thumbnailUrl = await getDownloadURL(storageRef);
+                let thumbnailUrl = document.getElementById('project-thumbnail-preview').src;
+                if (projectThumbnailFile) {
+                    thumbnailUrl = await uploadThumbnail(projectThumbnailFile, 'project_thumbnails');
+                }
+                
+                const data = {
+                    title: document.getElementById('project-title-input').value,
+                    description: document.getElementById('project-description-input').value,
+                    link: document.getElementById('project-link-input').value,
+                    skills: selectedSkills,
+                    thumbnail: thumbnailUrl,
+                    createdAt: serverTimestamp()
+                };
 
-                // 2. Save project data to Firestore
-                await addDoc(collection(db, "visualization_projects"), {
-                    title,
-                    description,
-                    link,
-                    skills,
-                    thumbnail: thumbnailUrl, // Store the URL
-                    createdAt: new Date()
-                });
+                if (isEditing) {
+                    await updateDoc(doc(db, "visualization_projects", id), data);
+                } else {
+                    await addDoc(collection(db, "visualization_projects"), data);
+                }
+                
                 closeProjectModal();
             } catch (error) {
-                console.error("Error adding project: ", error);
-                showAlert("Error", `Failed to add project. Error: ${error.message}. Check console for details.`);
+                console.error("Error saving project:", error);
+                showAlert('Error', 'Failed to save project.');
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
+                submitBtn.textContent = isEditing ? 'Save Changes' : 'Add Project';
+            }
+        });
+
+        // Certification Form Submission (Add & Edit)
+        certForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('cert-id-input').value;
+            const isEditing = !!id;
+
+            if (!isEditing && !certThumbnailFile) {
+                return showAlert('Validation Error', 'A thumbnail image is required for new certifications.');
+            }
+
+            const submitBtn = document.getElementById('cert-submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Saving...';
+
+            try {
+                let thumbnailUrl = document.getElementById('cert-thumbnail-preview').src;
+                if (certThumbnailFile) {
+                    thumbnailUrl = await uploadThumbnail(certThumbnailFile, 'certification_thumbnails');
+                }
+
+                const data = {
+                    title: document.getElementById('cert-title-input').value,
+                    organization: document.getElementById('cert-org-input').value,
+                    url: document.getElementById('cert-url-input').value,
+                    thumbnail: thumbnailUrl,
+                    createdAt: serverTimestamp()
+                };
+
+                if (isEditing) {
+                    await updateDoc(doc(db, "certifications", id), data);
+                } else {
+                    await addDoc(collection(db, "certifications"), data);
+                }
+                
+                closeCertModal();
+            } catch (error) {
+                console.error("Error saving certification:", error);
+                showAlert('Error', 'Failed to save certification.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = isEditing ? 'Save Changes' : 'Add Certification';
             }
         });
         
-        certForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!isAuthReady) {
-                showAlert('Not Ready', 'The application is still connecting. Please wait a moment and try again.');
-                return;
+        // --- Render Functions ---
+        function renderProjects(docs) {
+            const vizGrid = document.getElementById('viz-grid');
+            vizGrid.innerHTML = '';
+            if (docs.length === 0) {
+                 vizGrid.innerHTML = `<p style="grid-column: 1 / -1; text-align: center;">No projects added yet.</p>`;
+                 return;
             }
-            if (!certThumbnailFile) {
-                showAlert('Missing Thumbnail', 'Please upload a certification thumbnail image.');
-                return;
-            }
-
-            const title = document.getElementById('cert-title-input').value;
-            const organization = document.getElementById('cert-org-input').value;
-            const url = document.getElementById('cert-url-input').value;
-            
-            const submitBtn = certForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Uploading...';
-            
-            try {
-                // 1. Upload thumbnail to Storage
-                const storageRef = ref(storage, `certification_thumbnails/${Date.now()}_${certThumbnailFile.name}`);
-                await uploadBytes(storageRef, certThumbnailFile);
-                const thumbnailUrl = await getDownloadURL(storageRef);
-
-                // 2. Save data to Firestore
-                await addDoc(collection(db, "certifications"), {
-                    title,
-                    organization,
-                    url,
-                    thumbnail: thumbnailUrl,
-                    createdAt: new Date()
-                });
-                closeCertModal();
-            } catch (error) {
-                console.error("Error adding certification: ", error);
-                showAlert("Error", `Failed to add certification. Error: ${error.message}.`);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
-            }
-        });
-
-        function createProjectElement(id, data) {
-            const cardLink = document.createElement('a');
-            cardLink.className = 'viz-card-link';
-            cardLink.href = `project.html?id=${id}`; 
-            
-            const skillNameMap = { powerbi: 'Power BI' };
-            let skillsToRender = (data.skills && Array.isArray(data.skills)) ? data.skills : [];
-
-            const skillTagsHTML = skillsToRender
-                .map(skill => {
-                    const displayName = skillNameMap[skill] || skill;
-                    return `<span class="project-tag tag-${skill}">${displayName}</span>`;
-                })
-                .join('');
-
-            cardLink.innerHTML = `
-                <div class="viz-card">
-                    <div class="project-thumbnail">
-                        <img src="${data.thumbnail || 'https://placehold.co/600x400/1F2937/9CA3AF?text=No+Image'}" alt="${data.title}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1F2937/9CA3AF?text=Image+Error';">
+            docs.forEach(doc => {
+                const data = doc.data();
+                const card = document.createElement('div');
+                card.className = 'viz-card';
+                const skillsHTML = (data.skills || []).map(s => `<span class="project-tag tag-${s.toLowerCase().replace(' ', '')}">${s}</span>`).join('');
+                
+                card.innerHTML = `
+                    <div class="admin-controls" style="display:${isAdmin ? 'flex' : 'none'}">
+                        <button class="admin-btn edit"><i class="fas fa-pencil-alt"></i></button>
+                        <button class="admin-btn delete"><i class="fas fa-trash-alt"></i></button>
                     </div>
-                    <div class="viz-content">
-                        <h3>${data.title}</h3>
-                        <p>${data.description}</p>
-                        <div class="project-tags">
-                            ${skillTagsHTML}
+                    <a href="project-detail.html?id=${doc.id}" class="viz-card-link">
+                        <div class="card-thumbnail">
+                            <img src="${data.thumbnail}" alt="${data.title} Thumbnail">
                         </div>
-                    </div>
-                </div>
-            `;
-            
-            return cardLink;
-        }
+                        <div class="viz-content">
+                            <h3>${data.title}</h3>
+                            <p>${data.description}</p>
+                            <div class="project-tags">${skillsHTML}</div>
+                        </div>
+                    </a>`;
+                
+                card.querySelector('.edit').addEventListener('click', async () => {
+                    const docSnap = await getDoc(doc.ref);
+                    const data = docSnap.data();
+                    document.getElementById('project-id-input').value = docSnap.id;
+                    document.getElementById('project-title-input').value = data.title;
+                    document.getElementById('project-description-input').value = data.description;
+                    document.getElementById('project-link-input').value = data.link;
+                    
+                    skillsSelector.querySelectorAll('.skill-choice').forEach(s => s.classList.remove('active'));
+                    data.skills.forEach(skill => {
+                        skillsSelector.querySelector(`[data-skill="${skill}"]`)?.classList.add('active');
+                    });
 
-        function createCertificationElement(id, data) {
-            const cardLink = document.createElement('a');
-            cardLink.className = 'viz-card-link'; // Re-use project card link style
-            cardLink.href = data.url;
-            cardLink.target = "_blank";
-            cardLink.rel = "noopener noreferrer";
-            
-            cardLink.innerHTML = `
-                <div class="viz-card">
-                    <div class="project-thumbnail">
-                        <img src="${data.thumbnail}" alt="${data.title} Thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1F2937/9CA3AF?text=Image+Error';">
+                    projectThumbnailPreview.src = data.thumbnail;
+                    projectThumbnailPreview.style.display = 'block';
+                    projectDropZone.querySelector('p').style.display = 'none';
+
+                    document.getElementById('project-modal-title').textContent = 'Edit Project';
+                    document.getElementById('project-submit-btn').textContent = 'Save Changes';
+                    projectModal.classList.add('visible');
+                });
+                
+                card.querySelector('.delete').addEventListener('click', () => deleteItem(doc.id, 'visualization_projects', data.thumbnail));
+                
+                vizGrid.appendChild(card);
+            });
+        }
+        
+        function renderCertifications(docs) {
+            const certGrid = document.getElementById('cert-grid');
+            certGrid.innerHTML = '';
+            if (docs.length === 0) {
+                certGrid.innerHTML = `<p style="grid-column: 1 / -1; text-align: center;">No certifications added yet.</p>`;
+                return;
+            }
+            docs.forEach(doc => {
+                const data = doc.data();
+                const card = document.createElement('div');
+                card.className = 'viz-card';
+                
+                card.innerHTML = `
+                    <div class="admin-controls" style="display:${isAdmin ? 'flex' : 'none'}">
+                        <button class="admin-btn edit"><i class="fas fa-pencil-alt"></i></button>
+                        <button class="admin-btn delete"><i class="fas fa-trash-alt"></i></button>
                     </div>
-                    <div class="viz-content">
-                        <h3>${data.title}</h3>
-                        <p>${data.organization}</p>
-                        <div class="project-tags"></div>
-                    </div>
-                </div>
-            `;
-            return cardLink;
+                    <a href="${data.url}" target="_blank" rel="noopener noreferrer" class="viz-card-link">
+                        <div class="card-thumbnail">
+                            <img src="${data.thumbnail}" alt="${data.title} Thumbnail">
+                        </div>
+                        <div class="viz-content">
+                            <h3>${data.title}</h3>
+                            <p>${data.organization}</p>
+                             <div class="project-tags">
+                                <span class="info-card-body-link">
+                                    Verify Credential <i class="fas fa-external-link-alt" style="font-size: 0.8em;"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </a>`;
+
+                card.querySelector('.edit').addEventListener('click', async (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                    const docSnap = await getDoc(doc.ref);
+                    const data = docSnap.data();
+                    document.getElementById('cert-id-input').value = docSnap.id;
+                    document.getElementById('cert-title-input').value = data.title;
+                    document.getElementById('cert-org-input').value = data.organization;
+                    document.getElementById('cert-url-input').value = data.url;
+
+                    certThumbnailPreview.src = data.thumbnail;
+                    certThumbnailPreview.style.display = 'block';
+                    certDropZone.querySelector('p').style.display = 'none';
+
+                    document.getElementById('cert-modal-title').textContent = 'Edit Certification';
+                    document.getElementById('cert-submit-btn').textContent = 'Save Changes';
+                    certModal.classList.add('visible');
+                });
+
+                card.querySelector('.delete').addEventListener('click', (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                    deleteItem(doc.id, 'certifications', data.thumbnail);
+                });
+
+                certGrid.appendChild(card);
+            });
         }
 
         // --- Interactivity & Initial Load ---
-        const backToTopButton = document.getElementById('back-to-top');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopButton.classList.add('visible');
-            } else {
-                backToTopButton.classList.remove('visible');
-            }
-        });
-        backToTopButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-        
-        function initParticles() {
-            if (document.getElementById('particles-js')) {
-                particlesJS('particles-js', {
-                    "particles": {
-                        "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
-                        "color": { "value": "#A0A0A0" },
-                        "shape": { "type": "circle" },
-                        "opacity": { "value": 0.2, "random": true },
-                        "size": { "value": 3, "random": true },
-                        "line_linked": { "enable": true, "distance": 150, "color": "#A0A0A0", "opacity": 0.1, "width": 1 },
-                        "move": { "enable": true, "speed": 1, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
-                    },
-                    "interactivity": {
-                        "detect_on": "canvas",
-                        "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false }, "resize": true },
-                        "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.3 } } }
-                    },
-                    "retina_detect": true
-                });
-            }
-        }
-
-        async function startApp() {
-            initParticles();
+        function initPage() {
+            setAdminView(isAdmin);
             
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // User is signed in.
-                    console.log("Authentication is ready. User UID:", user.uid);
-                    if (!isAuthReady) {
-                        isAuthReady = true;
-                        initializeFirestoreListeners();
-                    }
-                } else {
-                    // User is signed out.
-                    isAuthReady = false;
-                    console.log("User is not authenticated. Attempting to sign in anonymously...");
-                    signInAnonymously(auth).catch((error) => {
-                        console.error("Anonymous sign-in failed:", error);
-                        showAlert("Authentication Error", "Could not connect to the database. Please refresh the page.");
-                    });
-                }
+            // Back to Top Button
+            const backToTopButton = document.getElementById('back-to-top');
+            window.addEventListener('scroll', () => {
+                backToTopButton.classList.toggle('visible', window.scrollY > 300);
             });
+            backToTopButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Particles.js
+            if (document.getElementById('particles-js')) {
+                particlesJS('particles-js', {"particles":{"number":{"value":60,"density":{"enable":true,"value_area":800}},"color":{"value":"#8B949E"},"shape":{"type":"circle"},"opacity":{"value":0.4,"random":true},"size":{"value":3,"random":true},"line_linked":{"enable":true,"distance":150,"color":"#8B949E","opacity":0.2,"width":1},"move":{"enable":true,"speed":1.5,"direction":"none","random":false,"straight":false,"out_mode":"out","bounce":false}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"grab"},"onclick":{"enable":false},"resize":true},"modes":{"grab":{"distance":140,"line_linked":{"opacity":0.5}}}},"retina_detect":true});
+            }
+
+            // Firestore Listeners
+            onSnapshot(query(collection(db, "visualization_projects"), orderBy("createdAt", "desc")), (snapshot) => renderProjects(snapshot.docs));
+            onSnapshot(query(collection(db, "certifications"), orderBy("createdAt", "desc")), (snapshot) => renderCertifications(snapshot.docs));
         }
 
-        startApp();
-
+        onAuthStateChanged(auth, (user) => {
+            if (user && !isAuthReady) {
+                console.log("Authenticated anonymously. UID:", user.uid);
+                isAuthReady = true;
+                initPage();
+            } else if (!user) {
+                signInAnonymously(auth).catch((error) => console.error("Anonymous sign-in failed:", error));
+            }
+        });
     </script>
-
 </body>
 </html>
