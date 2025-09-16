@@ -200,10 +200,27 @@
         /* --- Certifications & Visualizations Section --- */
         .viz-header { text-align: center; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
         .admin-view .add-btn { display: inline-flex !important; }
-        .viz-grid, .cert-grid {
+        
+        .viz-grid {
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2.5rem;
+        }
+
+        /* MODIFICATION: Styles for horizontal scrollable certifications */
+        .cert-grid {
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+            padding-bottom: 1.5rem; /* Space for scrollbar */
+            -webkit-overflow-scrolling: touch;
+        }
+        .cert-grid::-webkit-scrollbar { height: 8px; }
+        .cert-grid::-webkit-scrollbar-track { background: var(--light-bg); border-radius: 4px; }
+        .cert-grid::-webkit-scrollbar-thumb { background-color: var(--accent-color); border-radius: 4px; }
+        .cert-grid > .viz-card {
+            flex: 0 0 380px; /* Each card will have a fixed width */
+            width: 380px;
         }
         
         .viz-card {
@@ -297,7 +314,7 @@
 
         /* --- Responsive Design --- */
         @media (max-width: 900px) { .hero { text-align: center; } .hero-content { padding: 0 1rem; } }
-        @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons, .social-links { justify-content: center; } .skills-grid, .viz-grid, .info-grid, .cert-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons, .social-links { justify-content: center; } .skills-grid, .viz-grid, .info-grid { grid-template-columns: 1fr; } }
         @media (min-width: 769px) { .hero .social-links { justify-content: flex-start; } }
     </style>
 </head>
@@ -309,8 +326,8 @@
                 <ul>
                     <li><a href="#hero">Home</a></li>
                     <li><a href="#education">Education</a></li>
-                    <li><a href="#certifications">Certifications</a></li>
                     <li><a href="#visualizations">Projects</a></li>
+                    <li><a href="#certifications">Certifications</a></li>
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -402,17 +419,6 @@
             </div>
         </section>
 
-        <section id="certifications">
-            <div class="container">
-                <div class="section-header">
-                    <h2>My Certifications</h2>
-                    <button id="add-cert-btn" class="btn btn-secondary add-btn" style="display:none; margin-top: 1rem;">Add New Certification</button>
-                </div>
-                <div id="cert-grid" class="cert-grid">
-                    </div>
-            </div>
-        </section>
-
         <section id="visualizations" class="section-bg">
             <div class="container">
                 <div class="viz-header">
@@ -421,6 +427,17 @@
                     <button id="add-project-btn" class="btn btn-secondary add-btn" style="display:none; margin-top: 1rem;">Add New Project</button>
                 </div>
                 <div id="viz-grid" class="viz-grid">
+                    </div>
+            </div>
+        </section>
+
+        <section id="certifications">
+            <div class="container">
+                <div class="section-header">
+                    <h2>My Certifications</h2>
+                    <button id="add-cert-btn" class="btn btn-secondary add-btn" style="display:none; margin-top: 1rem;">Add New Certification</button>
+                </div>
+                <div id="cert-grid" class="cert-grid">
                     </div>
             </div>
         </section>
@@ -578,14 +595,13 @@
         import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
         
         const firebaseConfig = {
-  apiKey: "AIzaSyDePnsa2ZoMyoPty8LZ_oNzyHc5Ji4D7Z0",
-  authDomain: "akshaymportfolio.firebaseapp.com",
-  projectId: "akshaymportfolio",
-  storageBucket: "akshaymportfolio.firebasestorage.app",
-  messagingSenderId: "777668262058",
-  appId: "1:777668262058:web:ff635a1e17c78085bd78d3",
-  measurementId: "G-BCZFQC51H8"
-};
+            apiKey: "AIzaSyDePnsa2ZoMyoPty8LZ_oNzyHc5Ji4D7Z0",
+            authDomain: "akshaymportfolio.firebaseapp.com",
+            projectId: "akshaymportfolio",
+            storageBucket: "akshaymportfolio.appspot.com",
+            messagingSenderId: "777668262058",
+            appId: "1:777668262058:web:9aaa39a124c51bffbd78d3"
+        };
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
@@ -816,12 +832,12 @@
                     link: document.getElementById('project-link-input').value,
                     skills: selectedSkills,
                     thumbnail: thumbnailUrl,
-                    createdAt: serverTimestamp()
                 };
 
                 if (isEditing) {
                     await updateDoc(doc(db, "visualization_projects", id), data);
                 } else {
+                    data.createdAt = serverTimestamp();
                     await addDoc(collection(db, "visualization_projects"), data);
                 }
                 
@@ -860,12 +876,12 @@
                     organization: document.getElementById('cert-org-input').value,
                     url: document.getElementById('cert-url-input').value,
                     thumbnail: thumbnailUrl,
-                    createdAt: serverTimestamp()
                 };
 
                 if (isEditing) {
                     await updateDoc(doc(db, "certifications", id), data);
                 } else {
+                    data.createdAt = serverTimestamp();
                     await addDoc(collection(db, "certifications"), data);
                 }
                 
@@ -891,7 +907,11 @@
                 const data = doc.data();
                 const card = document.createElement('div');
                 card.className = 'viz-card';
-                const skillsHTML = (data.skills || []).map(s => `<span class="project-tag tag-${s.toLowerCase().replace(' ', '')}">${s}</span>`).join('');
+                const skillsHTML = (data.skills || []).map(s => {
+                    const skillNameMap = { 'powerbi': 'Power BI' };
+                    const displayName = skillNameMap[s] || s;
+                    return `<span class="project-tag tag-${s.toLowerCase().replace(' ', '')}">${displayName}</span>`;
+                }).join('');
                 
                 card.innerHTML = `
                     <div class="admin-controls" style="display:${isAdmin ? 'flex' : 'none'}">
@@ -941,7 +961,7 @@
             const certGrid = document.getElementById('cert-grid');
             certGrid.innerHTML = '';
             if (docs.length === 0) {
-                certGrid.innerHTML = `<p style="grid-column: 1 / -1; text-align: center;">No certifications added yet.</p>`;
+                certGrid.innerHTML = `<p>No certifications added yet.</p>`;
                 return;
             }
             docs.forEach(doc => {
