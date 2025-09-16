@@ -196,11 +196,44 @@
         .viz-header { text-align: center; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
         .admin-view .add-btn { display: inline-flex !important; }
         
-        /* CORRECTED SECTION: Both grids now share the exact same style for consistency */
-        .viz-grid, .cert-grid {
+        /* ORIGINAL GRID FOR PROJECTS */
+        .viz-grid {
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2.5rem;
+        }
+
+        /* NEW SCROLLABLE ROW FOR CERTIFICATIONS */
+        .cert-grid {
+            display: flex;
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            gap: 2.5rem;
+            padding-bottom: 1.5rem; /* Space for the scrollbar */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        }
+        
+        /* Custom scrollbar for certification section */
+        .cert-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+        .cert-grid::-webkit-scrollbar-track {
+            background: var(--light-bg);
+            border-radius: 4px;
+        }
+        .cert-grid::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        .cert-grid::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-text);
+        }
+
+        /* Set a fixed base width for certification cards so they don't shrink */
+        .cert-grid .viz-card-link {
+            flex: 0 0 350px; /* Do not grow, do not shrink, base width 350px */
+            display: block; /* Ensure the link takes up the full flex item space */
+            height: auto; /* Allow height to be determined by content */
         }
         
         .viz-card {
@@ -294,7 +327,7 @@
 
         /* --- Responsive Design --- */
         @media (max-width: 900px) { .hero { text-align: center; } .hero-content { padding: 0 1rem; } }
-        @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons, .social-links { justify-content: center; } .skills-grid, .viz-grid, .info-grid, .cert-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons, .social-links { justify-content: center; } .skills-grid, .viz-grid, .info-grid { grid-template-columns: 1fr; } /* Removed .cert-grid from here */ }
         @media (min-width: 769px) { .hero .social-links { justify-content: flex-start; } }
     </style>
 </head>
@@ -898,7 +931,7 @@
                         <button class="admin-btn edit"><i class="fas fa-pencil-alt"></i></button>
                         <button class="admin-btn delete"><i class="fas fa-trash-alt"></i></button>
                     </div>
-                    <a href="project-detail.html?id=${doc.id}" class="viz-card-link">
+                    <a href="${data.link}" target="_blank" rel="noopener noreferrer" class="viz-card-link">
                         <div class="card-thumbnail">
                             <img src="${data.thumbnail}" alt="${data.title} Thumbnail">
                         </div>
@@ -909,7 +942,8 @@
                         </div>
                     </a>`;
                 
-                card.querySelector('.edit').addEventListener('click', async () => {
+                card.querySelector('.edit').addEventListener('click', async (e) => {
+                    e.preventDefault(); e.stopPropagation();
                     const docSnap = await getDoc(doc.ref);
                     const data = docSnap.data();
                     document.getElementById('project-id-input').value = docSnap.id;
@@ -931,7 +965,10 @@
                     projectModal.classList.add('visible');
                 });
                 
-                card.querySelector('.delete').addEventListener('click', () => deleteItem(doc.id, 'visualization_projects', data.thumbnail));
+                card.querySelector('.delete').addEventListener('click', (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                    deleteItem(doc.id, 'visualization_projects', data.thumbnail);
+                });
                 
                 vizGrid.appendChild(card);
             });
@@ -955,9 +992,9 @@
                 cardLink.innerHTML = `
                     <div class="viz-card">
                          <div class="admin-controls" style="display:${isAdmin ? 'flex' : 'none'}">
-                            <button class="admin-btn edit"><i class="fas fa-pencil-alt"></i></button>
-                            <button class="admin-btn delete"><i class="fas fa-trash-alt"></i></button>
-                        </div>
+                             <button class="admin-btn edit"><i class="fas fa-pencil-alt"></i></button>
+                             <button class="admin-btn delete"><i class="fas fa-trash-alt"></i></button>
+                         </div>
                         <div class="card-thumbnail">
                             <img src="${data.thumbnail}" alt="${data.title} Thumbnail">
                         </div>
@@ -1030,4 +1067,3 @@
     </script>
 </body>
 </html>
-what about the logo and the nav bar at top, make logo such that on clicking it should redirect to home, and nav bar must be bold and must be center aligned, with increased font size, and the skills section should also come up before certification, and remove the particles.js from my code, it is making my website slow
