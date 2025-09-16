@@ -181,11 +181,6 @@
         .info-body h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--primary-text); }
         .info-body p { font-size: 0.95rem; margin-bottom: 0.25rem; }
         .info-body p strong { color: var(--primary-text); font-weight: 700; }
-        .info-card-body-link {
-            display: inline-block; margin-top: 1rem; color: var(--highlight-color);
-            font-weight: 600; transition: color 0.3s;
-        }
-        .info-card-body-link:hover { color: var(--accent-hover); }
         .info-footer { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--secondary-text); }
         
         /* --- Skills Section --- */
@@ -201,26 +196,10 @@
         .viz-header { text-align: center; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
         .admin-view .add-btn { display: inline-flex !important; }
         
-        .viz-grid {
+        .viz-grid, .cert-grid {
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2.5rem;
-        }
-
-        /* MODIFICATION: Styles for horizontal scrollable certifications */
-        .cert-grid {
-            display: flex;
-            overflow-x: auto;
-            gap: 2rem;
-            padding-bottom: 1.5rem; /* Space for scrollbar */
-            -webkit-overflow-scrolling: touch;
-        }
-        .cert-grid::-webkit-scrollbar { height: 8px; }
-        .cert-grid::-webkit-scrollbar-track { background: var(--light-bg); border-radius: 4px; }
-        .cert-grid::-webkit-scrollbar-thumb { background-color: var(--accent-color); border-radius: 4px; }
-        .cert-grid > .viz-card {
-            flex: 0 0 380px; /* Each card will have a fixed width */
-            width: 380px;
         }
         
         .viz-card {
@@ -957,39 +936,38 @@
             });
         }
         
+        // MODIFICATION: Logic changed for rendering certifications
         function renderCertifications(docs) {
             const certGrid = document.getElementById('cert-grid');
             certGrid.innerHTML = '';
             if (docs.length === 0) {
-                certGrid.innerHTML = `<p>No certifications added yet.</p>`;
+                certGrid.innerHTML = `<p style="grid-column: 1 / -1; text-align: center;">No certifications added yet.</p>`;
                 return;
             }
             docs.forEach(doc => {
                 const data = doc.data();
-                const card = document.createElement('div');
-                card.className = 'viz-card';
+                const cardLink = document.createElement('a');
+                cardLink.className = 'viz-card-link';
+                cardLink.href = data.url;
+                cardLink.target = '_blank';
+                cardLink.rel = 'noopener noreferrer';
                 
-                card.innerHTML = `
-                    <div class="admin-controls" style="display:${isAdmin ? 'flex' : 'none'}">
-                        <button class="admin-btn edit"><i class="fas fa-pencil-alt"></i></button>
-                        <button class="admin-btn delete"><i class="fas fa-trash-alt"></i></button>
-                    </div>
-                    <a href="${data.url}" target="_blank" rel="noopener noreferrer" class="viz-card-link">
+                cardLink.innerHTML = `
+                    <div class="viz-card">
+                         <div class="admin-controls" style="display:${isAdmin ? 'flex' : 'none'}">
+                            <button class="admin-btn edit"><i class="fas fa-pencil-alt"></i></button>
+                            <button class="admin-btn delete"><i class="fas fa-trash-alt"></i></button>
+                        </div>
                         <div class="card-thumbnail">
                             <img src="${data.thumbnail}" alt="${data.title} Thumbnail">
                         </div>
                         <div class="viz-content">
                             <h3>${data.title}</h3>
                             <p>${data.organization}</p>
-                             <div class="project-tags">
-                                <span class="info-card-body-link">
-                                    Verify Credential <i class="fas fa-external-link-alt" style="font-size: 0.8em;"></i>
-                                </span>
-                            </div>
                         </div>
-                    </a>`;
+                    </div>`;
 
-                card.querySelector('.edit').addEventListener('click', async (e) => {
+                cardLink.querySelector('.edit').addEventListener('click', async (e) => {
                     e.preventDefault(); e.stopPropagation();
                     const docSnap = await getDoc(doc.ref);
                     const data = docSnap.data();
@@ -1007,12 +985,12 @@
                     certModal.classList.add('visible');
                 });
 
-                card.querySelector('.delete').addEventListener('click', (e) => {
+                cardLink.querySelector('.delete').addEventListener('click', (e) => {
                     e.preventDefault(); e.stopPropagation();
                     deleteItem(doc.id, 'certifications', data.thumbnail);
                 });
 
-                certGrid.appendChild(card);
+                certGrid.appendChild(cardLink);
             });
         }
 
