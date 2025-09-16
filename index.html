@@ -202,11 +202,11 @@
             gap: 2.5rem;
         }
 
-        /* MODIFICATION: Styles for horizontal scrollable certifications restored and combined */
+        /* MODIFICATION: Styles for horizontal scrollable certifications restored */
         .cert-grid {
             display: flex;
             overflow-x: auto;
-            gap: 2.5rem; /* Matches project gap */
+            gap: 2.5rem;
             padding: 4px 4px 1.5rem 4px; /* Space for box-shadow and scrollbar */
             -webkit-overflow-scrolling: touch;
         }
@@ -214,7 +214,7 @@
         .cert-grid::-webkit-scrollbar-track { background: var(--light-bg); border-radius: 4px; }
         .cert-grid::-webkit-scrollbar-thumb { background-color: var(--accent-color); border-radius: 4px; }
         .cert-grid > .viz-card-link {
-            flex: 0 0 350px; /* Each card will have a fixed width like projects */
+            flex: 0 0 350px; /* Each card will have a fixed width like projects' base size */
             width: 350px;
         }
         
@@ -309,7 +309,7 @@
 
         /* --- Responsive Design --- */
         @media (max-width: 900px) { .hero { text-align: center; } .hero-content { padding: 0 1rem; } }
-        @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons, .social-links { justify-content: center; } .skills-grid, .viz-grid, .info-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { nav ul { display: none; } .hero-content { width: 100%; } .cta-buttons, .social-links { justify-content: center; } .skills-grid, .viz-grid, .info-grid, .cert-grid { grid-template-columns: 1fr; } .cert-grid > .viz-card-link { flex-basis: 90%; width: 90%; } }
         @media (min-width: 769px) { .hero .social-links { justify-content: flex-start; } }
     </style>
 </head>
@@ -956,6 +956,7 @@
             const certGrid = document.getElementById('cert-grid');
             certGrid.innerHTML = '';
             if (docs.length === 0) {
+                // MODIFICATION for horizontal layout
                 certGrid.innerHTML = `<p style="color: var(--secondary-text);">No certifications added yet.</p>`;
                 return;
             }
