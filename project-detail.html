@@ -3,1051 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akshay M | Data Analyst Portfolio</title>
-    
+    <title>Project Details | Akshay M</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
     <style>
-        /* --- CSS Reset & Variables (Midnight Theme) --- */
         :root {
-            --bg-color: #0a0e14; /* Near-black night sky */
-            --primary-text: #E6EDF3;
-            --secondary-text: #8B949E;
-            --accent-color: #8B5CF6; /* Vibrant Purple */
-            --accent-hover: #A78BFA;
-            --highlight-color: #22D3EE; /* Vibrant Cyan */
-            --light-bg: #111827; /* Slightly lighter than main bg */
-            --card-bg: #1F2937; 
-            --border-color: #30363D;
-            --danger-color: #e53e3e;
-            --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-            --card-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            --glow-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
+            --bg-color: #0a0e14; --primary-text: #E6EDF3; --secondary-text: #8B949E;
+            --accent-color: #8B5CF6; --highlight-color: #22D3EE; --light-bg: #111827;
+            --card-bg: #1F2937; --border-color: #30363D;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--primary-text);
-            line-height: 1.6;
+            font-family: 'Inter', sans-serif; background-color: var(--bg-color);
+            color: var(--primary-text); line-height: 1.6;
         }
-
-        /* --- Global Styles & Typography --- */
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
-        section { padding: 6rem 0; position: relative; }
-        h1, h2, h3 { font-weight: 700; line-height: 1.2; color: var(--primary-text); }
-        h1 { 
-            font-size: clamp(2.5rem, 5vw, 4.5rem); 
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .main-header {
+            background: rgba(10, 14, 20, 0.75); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color); padding: 0 2rem;
+        }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 70px; max-width: 1100px; margin: 0 auto; }
+        .logo { font-size: 1.5rem; font-weight: 700; }
+        nav a { color: var(--primary-text); text-decoration: none; font-weight: 500; }
+        nav a:hover { color: var(--highlight-color); }
+        .project-content { padding: 4rem 0; }
+        .project-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
             background: -webkit-linear-gradient(45deg, var(--accent-color), var(--highlight-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
         }
-        h2 {
-            font-size: clamp(2rem, 4vw, 2.75rem);
-            text-align: center;
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            position: relative;
+        .project-thumbnail img {
+            width: 100%; border-radius: 8px; margin: 2rem 0;
+            border: 1px solid var(--border-color);
         }
-        h2::after {
-            content: '';
-            display: block;
-            width: 70px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
-            border-radius: 2px;
-            margin: 1rem auto 0;
-        }
-        h3 { font-size: 1.5rem; margin-bottom: 1.5rem; }
-        p { color: var(--secondary-text); margin-bottom: 1rem; }
-        a { color: var(--primary-text); text-decoration: none; font-weight: 500; }
-
-        /* --- Header & Navigation --- */
-        .main-header {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            background: rgba(10, 14, 20, 0.75);
-            backdrop-filter: blur(12px);
+        .project-description { font-size: 1.1rem; color: var(--secondary-text); margin-bottom: 2rem; }
+        .project-meta {
+            display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;
+            border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 0;
         }
-        nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
-        .logo { font-size: 1.5rem; font-weight: 700; }
-        nav ul { display: flex; list-style: none; gap: 2rem; }
-        nav a {
-            color: var(--primary-text);
-            transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
-            font-weight: 500;
-            padding: 5px 0;
-        }
-        nav a:hover {
-            color: var(--highlight-color);
-            transform: translateY(-2px);
-            text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
-        }
-        
-        /* --- Hero Section --- */
-        .hero { min-height: 100vh; display: flex; align-items: center; text-align: left; position: relative; overflow: hidden; }
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-        .hero-content { max-width: 750px; position: relative; z-index: 2; }
-        .hero-eyebrow {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--secondary-text);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .hero-description { max-width: 650px; margin-top: 1.5rem; font-size: 1.1rem; line-height: 1.7; color: var(--secondary-text); }
-        .cta-buttons { display: flex; gap: 1rem; margin-top: 2.5rem; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .project-tag { font-size: 0.8rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; color: white; text-transform: capitalize; }
+        .tag-tableau { background-color: #2E75B6; } .tag-powerbi { background-color: #F2C811; color: #333; }
+        .tag-python { background-color: #fd7e14; } .tag-sql { background-color: #dc3545; }
+        .tag-r { background-color: #6610f2; } .tag-excel { background-color: #217346; }
         .btn {
-            padding: 12px 24px; border-radius: 8px; font-weight: 600; text-align: center;
+            padding: 10px 20px; border-radius: 8px; font-weight: 600; text-align: center;
             transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent;
-            display: inline-flex; align-items: center; gap: 0.5rem;
-        }
-        .btn:disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
+            display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;
         }
         .btn-primary {
             background: linear-gradient(45deg, var(--accent-color), var(--highlight-color));
-            background-size: 150% 150%;
-            color: white;
-            border: none;
+            color: white; border: none;
         }
-        .btn-primary:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            background-position: right center;
-        }
-        .btn-secondary {
-             background-color: var(--light-bg);
-             color: var(--primary-text);
-             border: 1px solid var(--border-color);
-        }
-        .btn-secondary:hover:not(:disabled) {
-            background-color: var(--card-bg);
-            border-color: var(--secondary-text);
-            transform: translateY(-3px);
-        }
-        
-        /* --- Social Links --- */
-        .social-links { display: flex; align-items: center; gap: 2rem; margin-top: 2.5rem; }
-        .social-links a { color: var(--secondary-text); transition: color 0.3s ease, transform 0.3s ease; }
-        .social-links a:hover { color: var(--primary-text); transform: scale(1.1) translateY(-3px); }
-        .social-links svg { width: 28px; height: 28px; fill: currentColor; }
-
-        /* --- Section Background --- */
-        .section-bg { background-color: var(--light-bg); }
-
-        /* --- Education Section --- */
-        .section-header { text-align: center; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
-        .section-header h2 { text-align: center; }
-        .section-header h2::after { margin: 1rem auto 0; }
-        .info-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2.5rem; 
-            margin-top: 3rem; 
-        }
-        .info-card {
-            padding: 2rem; 
-            display: flex; 
-            flex-direction: column; 
-            width: 100%;
-            background-color: var(--card-bg); 
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 100%;
-        }
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--glow-shadow);
-        }
-        .info-header { display: flex; align-items: center; margin-bottom: 1.5rem; }
-        .info-icon { color: var(--highlight-color); font-size: 1.5rem; }
-        .info-title { margin-left: 1rem; }
-        .info-title h3 { font-size: 1.25rem; margin: 0; }
-        .info-title p { font-size: 0.9rem; font-weight: 500; color: var(--secondary-text); margin: 0; }
-        .info-body { flex-grow: 1; }
-        .info-body h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--primary-text); }
-        .info-body p { font-size: 0.95rem; margin-bottom: 0.25rem; }
-        .info-body p strong { color: var(--primary-text); font-weight: 700; }
-        .info-card-body-link {
-            display: inline-block;
-            margin-top: 1rem;
-            color: var(--highlight-color);
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-        .info-card-body-link:hover { color: var(--accent-hover); }
-        .info-footer { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--secondary-text); }
-        
-        /* --- Skills Section --- */
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; margin-top: 3rem; }
-        .skill-card {
-            padding: 2rem; display: flex; flex-direction: column; background-color: var(--card-bg);
-            border-radius: 8px; border: 1px solid var(--border-color);
-        }
-        .skills-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-        .skill-tag { background-color: var(--light-bg); color: var(--secondary-text); padding: 0.5rem 1rem; border-radius: 6px; font-weight: 500; font-size: 0.9rem; }
-
-        /* --- Certifications & Visualizations Section --- */
-        .viz-header { text-align: center; margin-bottom: 2rem; max-width: 950px; margin-left: auto; margin-right: auto; }
-        .viz-header h2 { text-align: center; }
-        .viz-header h2::after { margin: 1rem auto 0; }
-        .viz-header p { font-size: 1.1rem; }
-        .admin-view #add-project-btn, .admin-view #add-cert-btn { display: inline-block; }
-        .viz-grid {
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-        }
-        
-        .two-col-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2.5rem;
-        }
-
-        .viz-card {
-            background-color: var(--card-bg); border-radius: 8px; overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--border-color);
-            display: flex; flex-direction: column;
-            height: 100%;
-        }
-        .viz-card-link { display: flex; text-decoration: none; color: inherit; }
-        .viz-card-link:hover .card-thumbnail img { transform: scale(1.05); }
-        .viz-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--glow-shadow);
-        }
-        
-        .card-thumbnail {
-            height: 220px;
-            overflow: hidden;
-            background-color: var(--light-bg);
-            border-bottom: 1px solid var(--border-color);
-        }
-        .card-thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* UPDATED: Ensures the entire image fits without being cropped */
-            transition: transform 0.4s ease;
-        }
-
-        .viz-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; text-align: left;}
-        .viz-content h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--primary-text); }
-        .viz-content p {  
-            font-size: 0.95rem;  margin-bottom: 1rem; color: var(--secondary-text);
-            overflow: hidden; text-overflow: ellipsis; display: -webkit-box;
-            -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-        }
-        .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; }
-        .project-tag { font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; color: white; text-transform: capitalize; }
-        .tag-tableau { background-color: #2E75B6; }
-        .tag-powerbi { background-color: #F2C811; color: #333; }
-        .tag-python { background-color: #fd7e14; }
-        .tag-sql { background-color: #dc3545; }
-        .tag-r { background-color: #6610f2; }
-        .tag-excel { background-color: #217346; }
-        
-        /* --- Contact Section --- */
-        #contact h2::after { margin-bottom: 2rem; }
-        
-        /* --- Footer --- */
-        footer { text-align: center; padding: 2rem; background-color: var(--light-bg); border-top: 1px solid var(--border-color); color: var(--secondary-text); }
-        #admin-login { cursor: pointer; text-decoration: underline; color: var(--secondary-text); margin-top: 0.5rem; display: inline-block;}
-        #admin-login:hover { color: var(--primary-text); }
-
-        /* --- Modal Styles --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1001; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
-        .modal-overlay.visible { opacity: 1; visibility: visible; }
-        .modal-content { background-color: var(--card-bg); padding: 2.5rem; border-radius: 12px; width: 90%; max-width: 500px; transform: scale(0.95); transition: transform 0.3s; max-height: 90vh; overflow-y: auto; }
-        .modal-overlay.visible .modal-content { transform: scale(1); }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; }
-        .modal-header h2 { font-size: 1.5rem; margin: 0; }
-        .modal-header h2::after { display: none; }
-        .close-modal { background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--secondary-text); }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--primary-text); }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); font-size: 1rem; font-family: 'Inter', sans-serif; background-color: var(--light-bg); color: var(--primary-text); }
-        .thumbnail-drop-zone { padding: 2rem; border: 2px dashed var(--border-color); border-radius: 8px; text-align: center; cursor: pointer; transition: background-color 0.3s; }
-        .thumbnail-drop-zone.drag-over { background-color: rgba(139, 92, 246, 0.1); }
-        .thumbnail-preview { max-width: 100%; max-height: 150px; margin-top: 1rem; border-radius: 8px; }
-        .skills-selector { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-        .skill-choice { padding: 0.5rem 1rem; border: 1px solid var(--border-color); border-radius: 999px; cursor: pointer; transition: all 0.2s ease-in-out; font-weight: 500; background-color: var(--card-bg); color: var(--primary-text); }
-        .skill-choice.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); transform: translateY(-2px); }
-        
-        /* --- Back to Top Button --- */
-        #back-to-top { position: fixed; bottom: 20px; right: 20px; background-color: var(--accent-color); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: var(--card-shadow); opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s, transform 0.3s; transform: translateY(20px); z-index: 999; text-decoration: none; }
-        #back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
-        #back-to-top:hover { background-color: var(--accent-hover); }
-        #back-to-top svg { width: 24px; height: 24px; }
-
-        /* --- Responsive Design --- */
-        @media (max-width: 1100px) {
-            .two-col-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        @media (max-width: 900px) { 
-            .hero { text-align: center; } 
-            .hero-content { padding: 0 1rem; } 
-        }
-        @media (max-width: 768px) { 
-            nav ul { display: none; } 
-            .hero-content { width: 100%; } 
-            .cta-buttons { justify-content: center; } 
-            .social-links { justify-content: center; } 
-            .skills-grid, .viz-grid, .info-grid, .two-col-grid { grid-template-columns: 1fr; } 
-        }
-        @media (min-width: 769px) { 
-            .hero .social-links { 
-                justify-content: flex-start; 
-            }
-        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .loader { text-align: center; font-size: 1.5rem; padding: 5rem 0; }
     </style>
 </head>
 <body>
     <header class="main-header">
-        <div class="container">
-            <nav>
-                <div class="logo">Akshay M</div>
-                <ul>
-                    <li><a href="#hero">Home</a></li>
-                    <li><a href="#education">Education</a></li>
-                    <li><a href="#certifications">Certifications</a></li>
-                    <li><a href="#visualizations">Projects</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
+        <nav>
+            <a href="index.html" class="logo">Akshay M</a>
+            <a href="index.html#contact">Contact</a>
+        </nav>
     </header>
 
-    <main>
-
-        <section id="hero" class="hero">
-            <div id="particles-js"></div>
-            <div class="container">
-                <div class="hero-content">
-                    <p class="hero-eyebrow">Analyst Portfolio</p>
-                    <h1>Akshay M</h1>
-                    <p class="hero-description">
-                        As a student of Information Science at Vidyavardhaka College of Engineering, I'm deeply fascinated by the power of data. My coursework and certifications have provided me with a strong foundation in data analysis, statistical modeling, and business intelligence. I thrive in collaborative environments and am committed to applying my analytical and problem-solving skills to real-world challenges. My goal is to help organizations make smarter, data-driven decisions.
-                    </p>
-                    <div class="social-links">
-                        <a href="https://github.com/akshaym00" target="_blank" aria-label="GitHub Profile">
-                            <svg fill="currentColor" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                        </a>
-                        <a href="https://www.linkedin.com/in/akshay-m-963573292/" target="_blank" aria-label="LinkedIn Profile">
-                            <svg fill="currentColor" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
-                        </a>
-                    </div>
-                    <div class="cta-buttons">
-                        <a href="https://drive.google.com/file/d/1REhf2W6wH99NzCROnTisE4VdrsCkWsUx/view?usp=drivesdk" class="btn btn-primary" download>Download Resume</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="education" class="section-bg">
-            <div class="container">
-                <h2>My Education</h2>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <div class="info-header">
-                            <div class="info-icon"><i class="fas fa-graduation-cap"></i></div>
-                            <div class="info-title">
-                                <h3>Engineering Degree</h3>
-                                <p>2023 - 2027 (Expected)</p>
-                            </div>
-                        </div>
-                        <div class="info-body">
-                            <h4>Vidyavardhaka College of Engineering</h4>
-                            <p>B.E., Information Science</p>
-                            <p>Current CGPA: <strong>8.4</strong></p>
-                        </div>
-                        <div class="info-footer">
-                            <i class="fas fa-map-marker-alt"></i> Mysuru, Karnataka, India
-                        </div>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-header">
-                            <div class="info-icon"><i class="fas fa-book-open"></i></div>
-                            <div class="info-title">
-                                <h3>Pre-University</h3>
-                                <p>2021 - 2023</p>
-                            </div>
-                        </div>
-                        <div class="info-body">
-                            <h4>Pramathi Pre-University College</h4>
-                            <p>Focus: Science, Maths, CS</p>
-                            <p>Percentage: <strong>84.5%</strong></p>
-                        </div>
-                        <div class="info-footer">
-                            <i class="fas fa-map-marker-alt"></i> Mysuru, Karnataka, India
-                        </div>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-header">
-                            <div class="info-icon"><i class="fas fa-school"></i></div>
-                            <div class="info-title">
-                                <h3>High School</h3>
-                                <p>2020 - 2021</p>
-                            </div>
-                        </div>
-                        <div class="info-body">
-                            <h4>St. Joseph's High School</h4>
-                            <p>Focus: Science & Mathematics</p>
-                            <p>Percentage: <strong>98.08%</strong></p>
-                        </div>
-                        <div class="info-footer">
-                            <i class="fas fa-map-marker-alt"></i> Krishnarajanagar, Mysuru
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="certifications">
-            <div class="container">
-                <div class="section-header">
-                    <h2>My Certifications</h2>
-                    <button id="add-cert-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Certification</button>
-                </div>
-                <div id="cert-grid" class="two-col-grid">
-                </div>
-            </div>
-        </section>
-
-        <section id="visualizations" class="section-bg">
-            <div class="container">
-                <div class="viz-header">
-                    <h2>My Projects</h2>
-                    <p>Every dataset tells a story. Here's a collection of my favorite projects where I turn raw data into compelling narratives and actionable insights.</p>
-                    <button id="add-project-btn" class="btn btn-secondary" style="display:none; margin-top: 1rem;">Add New Project</button>
-                </div>
-                <div id="viz-grid" class="viz-grid">
-                </div>
-            </div>
-        </section>
-
-        <section id="skills">
-            <div class="container">
-                <h2>My Skillset</h2>
-                <div class="skills-grid">
-                    <div class="skill-card">
-                        <h3>Technical Skills</h3>
-                        <div class="skills-list">
-                            <span class="skill-tag">Python (Pandas, NumPy)</span>
-                            <span class="skill-tag">SQL</span>
-                            <span class="skill-tag">R</span>
-                            <span class="skill-tag">Power BI</span>
-                            <span class="skill-tag">Tableau</span>
-                            <span class="skill-tag">Microsoft Excel</span>
-                            <span class="skill-tag">Data Visualization</span>
-                            <span class="skill-tag">Statistical Analysis</span>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <h3>Soft Skills</h3>
-                        <div class="skills-list">
-                            <span class="skill-tag">Analytical Thinking</span>
-                            <span class="skill-tag">Problem Solving</span>
-                            <span class="skill-tag">Teamwork & Collaboration</span>
-                            <span class="skill-tag">Communication</span>
-                            <span class="skill-tag">Agile Methodologies</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="contact">
-            <div class="container" style="text-align: center;">
-                <h2>Get In Touch</h2>
-                <div class="contact-content">
-                    <p>I'm actively seeking internship and full-time opportunities in data analytics. If you have a role that could be a good fit, or just want to connect, I'd love to hear from you!</p>
-                    <a href="mailto:akshay.m0509@gmail.com" class="btn btn-primary">Say Hello</a>
-                </div>
-            </div>
-        </section>
-
+    <main id="main-content" class="container">
+        <div class="loader">Loading Project...</div>
     </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Akshay M. Crafted with care in Mysuru.</p>
-            <p><a href="#" id="admin-login">Admin Login</a></p>
-        </div>
-    </footer>
     
-    <a href="#" id="back-to-top" aria-label="Back to top">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-        </svg>
-    </a>
-
-    <div id="add-project-modal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Add New Project</h2>
-                <button id="close-project-modal-btn" class="close-modal">&times;</button>
-            </div>
-            <form id="project-form">
-                <div class="form-group">
-                    <label for="project-title-input">Project Title</label>
-                    <input type="text" id="project-title-input" required>
-                </div>
-                <div class="form-group">
-                    <label for="project-description-input">Project Description</label>
-                    <textarea id="project-description-input" rows="3" required></textarea>
-                </div>
-                 <div class="form-group">
-                    <label>Skills Used (Select at least one)</label>
-                    <div id="skills-selector" class="skills-selector">
-                        <span class="skill-choice" data-skill="python">Python</span>
-                        <span class="skill-choice" data-skill="sql">SQL</span>
-                        <span class="skill-choice" data-skill="r">R</span>
-                        <span class="skill-choice" data-skill="tableau">Tableau</span>
-                        <span class="skill-choice" data-skill="powerbi">Power BI</span>
-                        <span class="skill-choice" data-skill="excel">Excel</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="project-link-input">Project Link (to original dashboard)</label>
-                    <input type="url" id="project-link-input" required>
-                </div>
-                <div class="form-group">
-                    <label>Project Thumbnail</label>
-                    <div id="thumbnail-drop-zone" class="thumbnail-drop-zone">
-                        <p>Drag & drop an image here, or click to select</p>
-                        <input type="file" id="thumbnail-upload" accept="image/*" hidden>
-                        <img id="thumbnail-preview" class="thumbnail-preview" src="" alt="Thumbnail Preview" style="display: none;">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Add Project</button>
-            </form>
-        </div>
-    </div>
-    
-    <div id="add-cert-modal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Add New Certification</h2>
-                <button id="close-cert-modal-btn" class="close-modal">&times;</button>
-            </div>
-            <form id="cert-form">
-                <div class="form-group">
-                    <label for="cert-title-input">Certification Title</label>
-                    <input type="text" id="cert-title-input" required>
-                </div>
-                <div class="form-group">
-                    <label for="cert-org-input">Issuing Organization</label>
-                    <input type="text" id="cert-org-input" required>
-                </div>
-                <div class="form-group">
-                    <label for="cert-url-input">Credential URL</label>
-                    <input type="url" id="cert-url-input" required>
-                </div>
-                <div class="form-group">
-                    <label>Certification Thumbnail</label>
-                    <div id="cert-thumbnail-drop-zone" class="thumbnail-drop-zone">
-                        <p>Drag & drop an image here, or click to select</p>
-                        <input type="file" id="cert-thumbnail-upload" accept="image/*" hidden>
-                        <img id="cert-thumbnail-preview" class="thumbnail-preview" src="" alt="Certificate Thumbnail Preview" style="display: none;">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Add Certification</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="custom-alert-modal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 400px; text-align: center;">
-            <h3 id="custom-alert-title" style="margin-bottom: 1rem;"></h3>
-            <p id="custom-alert-message"></p>
-            <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
-                <button id="custom-alert-cancel" class="btn btn-secondary">Cancel</button>
-                <button id="custom-alert-ok" class="btn btn-primary">OK</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
     <script type="module">
-        // Firebase Imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
-        
-        // --- Firebase Configuration ---
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
         const firebaseConfig = {
-            apiKey: "AIzaSyDePnsa2ZoMyoPty8LZ_oNzyHc5Ji4D7Z0",
+            apiKey: "YOUR_API_KEY", // Replace with your actual Firebase config
             authDomain: "akshaymportfolio.firebaseapp.com",
             projectId: "akshaymportfolio",
             storageBucket: "akshaymportfolio.appspot.com",
             messagingSenderId: "777668262058",
-            appId: "1:777668262058:web:9aaa39a124c51bffbd78d3",
-            measurementId: "G-D565DF8FPS"
+            appId: "1:777668262058:web:9aaa39a124c51bffbd78d3"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const analytics = getAnalytics(app);
-        const auth = getAuth(app);
-        const storage = getStorage(app);
 
-        // --- App State ---
-        let isAdmin = sessionStorage.getItem('isAdmin') === 'true';
-        let isAuthReady = false;
-        const ADMIN_PASSWORD = "Iambe5t#"; // Change this to a secure password
+        async function loadProject() {
+            const mainContent = document.getElementById('main-content');
+            const projectId = new URLSearchParams(window.location.search).get('id');
 
-        // --- DOM Elements ---
-        const adminLoginBtn = document.getElementById('admin-login');
-        // Project elements
-        const addProjectBtn = document.getElementById('add-project-btn');
-        const projectModal = document.getElementById('add-project-modal');
-        const closeProjectModalBtn = document.getElementById('close-project-modal-btn');
-        const projectForm = document.getElementById('project-form');
-        const vizGrid = document.getElementById('viz-grid');
-        const projectDropZone = document.getElementById('thumbnail-drop-zone');
-        const projectThumbnailUpload = document.getElementById('thumbnail-upload');
-        const projectThumbnailPreview = document.getElementById('thumbnail-preview');
-        const skillsSelector = document.getElementById('skills-selector');
-        let projectThumbnailFile = null;
-
-        // Certification elements
-        const addCertBtn = document.getElementById('add-cert-btn');
-        const certModal = document.getElementById('add-cert-modal');
-        const closeCertModalBtn = document.getElementById('close-cert-modal-btn');
-        const certForm = document.getElementById('cert-form');
-        const certGrid = document.getElementById('cert-grid');
-        const certDropZone = document.getElementById('cert-thumbnail-drop-zone');
-        const certThumbnailUpload = document.getElementById('cert-thumbnail-upload');
-        const certThumbnailPreview = document.getElementById('cert-thumbnail-preview');
-        let certThumbnailFile = null;
-        
-        // --- Custom Alert Modal Elements & Function ---
-        const customAlertModal = document.getElementById('custom-alert-modal');
-        const customAlertTitle = document.getElementById('custom-alert-title');
-        const customAlertMessage = document.getElementById('custom-alert-message');
-        const customAlertOk = document.getElementById('custom-alert-ok');
-        const customAlertCancel = document.getElementById('custom-alert-cancel');
-
-        function showAlert(title, message, isConfirmation = false) {
-            return new Promise((resolve) => {
-                customAlertTitle.textContent = title;
-                customAlertMessage.textContent = message;
-                customAlertCancel.style.display = isConfirmation ? 'inline-block' : 'none';
-                customAlertOk.textContent = isConfirmation ? 'Confirm' : 'OK';
-                customAlertModal.classList.add('visible');
-
-                const okListener = () => {
-                    customAlertModal.classList.remove('visible');
-                    resolve(true);
-                    cleanup();
-                };
-
-                const cancelListener = () => {
-                    customAlertModal.classList.remove('visible');
-                    resolve(false);
-                    cleanup();
-                };
-
-                function cleanup() {
-                    customAlertOk.removeEventListener('click', okListener);
-                    customAlertCancel.removeEventListener('click', cancelListener);
-                }
-
-                customAlertOk.addEventListener('click', okListener, { once: true });
-                customAlertCancel.addEventListener('click', cancelListener, { once: true });
-            });
-        }
-
-        // --- Admin & Modal Logic ---
-        function setAdminView(isAdmin) {
-             if (isAdmin) {
-                 document.body.classList.add('admin-view');
-                 addProjectBtn.style.display = 'inline-flex'; 
-                 addCertBtn.style.display = 'inline-flex';
-             } else {
-                 document.body.classList.remove('admin-view');
-                 addProjectBtn.style.display = 'none';
-                 addCertBtn.style.display = 'none';
-             }
-        }
-        
-        adminLoginBtn.addEventListener('click', async (e) => {
-            e.preventDefault();
-            if (!isAdmin) {
-                const password = prompt("Please enter the admin password:");
-                if (password === ADMIN_PASSWORD) {
-                    isAdmin = true;
-                    sessionStorage.setItem('isAdmin', 'true');
-                    setAdminView(true);
-                    await showAlert("Success", "Admin mode activated. You can now add projects and certifications.");
-                } else if (password) {
-                    await showAlert("Error", "Incorrect password.");
-                }
-            }
-        });
-        
-        setAdminView(isAdmin);
-
-        // Project Modal Listeners
-        addProjectBtn.addEventListener('click', () => projectModal.classList.add('visible'));
-        closeProjectModalBtn.addEventListener('click', () => closeProjectModal());
-        projectModal.addEventListener('click', (e) => {
-            if (e.target === projectModal) closeProjectModal();
-        });
-        
-        function closeProjectModal() {
-            projectModal.classList.remove('visible');
-            projectForm.reset();
-            projectThumbnailPreview.style.display = 'none';
-            projectThumbnailPreview.src = '';
-            projectDropZone.querySelector('p').style.display = 'block';
-            projectThumbnailFile = null;
-            skillsSelector.querySelectorAll('.skill-choice.active').forEach(skill => {
-                skill.classList.remove('active');
-            });
-        }
-
-        // Certification Modal Listeners
-        addCertBtn.addEventListener('click', () => certModal.classList.add('visible'));
-        closeCertModalBtn.addEventListener('click', () => closeCertModal());
-        certModal.addEventListener('click', (e) => {
-            if(e.target === certModal) closeCertModal();
-        });
-
-        function closeCertModal() {
-            certModal.classList.remove('visible');
-            certForm.reset();
-            certThumbnailPreview.style.display = 'none';
-            certThumbnailPreview.src = '';
-            certDropZone.querySelector('p').style.display = 'block';
-            certThumbnailFile = null;
-        }
-
-        skillsSelector.addEventListener('click', (e) => {
-            if (e.target.classList.contains('skill-choice')) {
-                e.target.classList.toggle('active');
-            }
-        });
-
-        // --- Thumbnail Upload Logic ---
-        function setupFileUpload(dropZone, uploadInput, previewImg, fileVarSetter) {
-            dropZone.addEventListener('click', () => uploadInput.click());
-            dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-            dropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropZone.classList.remove('drag-over');
-                if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0], previewImg, dropZone, fileVarSetter);
-            });
-            uploadInput.addEventListener('change', (e) => {
-                if (e.target.files.length > 0) handleFile(e.target.files[0], previewImg, dropZone, fileVarSetter);
-            });
-        }
-
-        function handleFile(file, previewImg, dropZone, fileVarSetter) {
-            const isImage = file && file.type.startsWith('image/');
-            
-            if (isImage) {
-                fileVarSetter(file);
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    previewImg.src = e.target.result;
-                    previewImg.style.display = 'block';
-                    dropZone.querySelector('p').style.display = 'none';
-                };
-                reader.readAsDataURL(file);
-            } else {
-                showAlert('Invalid File', 'Please upload a valid image file.');
-            }
-        }
-
-        setupFileUpload(projectDropZone, projectThumbnailUpload, projectThumbnailPreview, (file) => { projectThumbnailFile = file; });
-        setupFileUpload(certDropZone, certThumbnailUpload, certThumbnailPreview, (file) => { certThumbnailFile = file; });
-        
-        // --- Firestore Logic ---
-        function initializeFirestoreListeners() {
-            // Projects Listener
-            const projectsCollection = collection(db, "visualization_projects");
-            const projectsQuery = query(projectsCollection);
-            
-            onSnapshot(projectsQuery, (snapshot) => {
-                vizGrid.innerHTML = '';
-                if (snapshot.empty) {
-                    vizGrid.innerHTML = `<p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No projects have been added yet. Come back soon!</p>`;
-                } else {
-                    const sortedDocs = snapshot.docs.sort((a, b) => (b.data().createdAt?.toDate() || 0) - (a.data().createdAt?.toDate() || 0));
-                    sortedDocs.forEach(doc => {
-                        const projectData = doc.data();
-                        const projectElement = createProjectElement(doc.id, projectData);
-                        vizGrid.appendChild(projectElement);
-                    });
-                }
-            }, (error) => {
-                console.error("Error fetching projects: ", error);
-                vizGrid.innerHTML = `<p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading projects. Check console for details.</p>`;
-            });
-
-            // Certifications Listener
-            const certsCollection = collection(db, "certifications");
-            const certsQuery = query(certsCollection);
-
-            onSnapshot(certsQuery, (snapshot) => {
-                certGrid.innerHTML = '';
-                if (snapshot.empty) {
-                    certGrid.innerHTML = `<p style="color: var(--secondary-text); grid-column: 1 / -1; text-align: center;">No certifications have been added yet. Come back soon!</p>`;
-                } else {
-                    const sortedDocs = snapshot.docs.sort((a, b) => (b.data().createdAt?.toDate() || 0) - (a.data().createdAt?.toDate() || 0));
-                    sortedDocs.forEach(doc => {
-                        const certData = doc.data();
-                        const certElement = createCertificationElement(doc.id, certData);
-                        certGrid.appendChild(certElement);
-                    });
-                }
-            }, (error) => {
-                console.error("Error fetching certifications: ", error);
-                certGrid.innerHTML = `<p style="color: var(--danger-color); grid-column: 1 / -1; text-align: center;">Error loading certifications. Check console for details.</p>`;
-            });
-        }
-
-        projectForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!isAuthReady) {
-                showAlert('Not Ready', 'The application is still connecting. Please wait a moment and try again.');
+            if (!projectId) {
+                mainContent.innerHTML = `<h1 class="project-title">Project Not Found</h1><p>No project ID was provided.</p>`;
                 return;
             }
-            if (!projectThumbnailFile) {
-                showAlert('Missing Thumbnail', 'Please upload a project thumbnail.');
-                return;
-            }
-
-            const selectedSkillNodes = skillsSelector.querySelectorAll('.skill-choice.active');
-            if (selectedSkillNodes.length === 0) {
-                showAlert('No Skills Selected', 'Please select at least one skill for the project.');
-                return;
-            }
-            
-            const skills = Array.from(selectedSkillNodes).map(node => node.dataset.skill);
-            const title = document.getElementById('project-title-input').value;
-            const description = document.getElementById('project-description-input').value;
-            const link = document.getElementById('project-link-input').value;
-
-            const submitBtn = projectForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Uploading...';
 
             try {
-                // 1. Upload thumbnail to Firebase Storage
-                const storageRef = ref(storage, `project_thumbnails/${Date.now()}_${projectThumbnailFile.name}`);
-                await uploadBytes(storageRef, projectThumbnailFile);
-                const thumbnailUrl = await getDownloadURL(storageRef);
+                const docRef = doc(db, "visualization_projects", projectId);
+                const docSnap = await getDoc(docRef);
 
-                // 2. Save project data to Firestore
-                await addDoc(collection(db, "visualization_projects"), {
-                    title,
-                    description,
-                    link,
-                    skills,
-                    thumbnail: thumbnailUrl, // Store the URL
-                    createdAt: new Date()
-                });
-                closeProjectModal();
-            } catch (error) {
-                console.error("Error adding project: ", error);
-                showAlert("Error", `Failed to add project. Error: ${error.message}. Check console for details.`);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
-            }
-        });
-        
-        certForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!isAuthReady) {
-                showAlert('Not Ready', 'The application is still connecting. Please wait a moment and try again.');
-                return;
-            }
-            if (!certThumbnailFile) {
-                showAlert('Missing Thumbnail', 'Please upload a certification thumbnail image.');
-                return;
-            }
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    const skillsHTML = (data.skills || []).map(s => `<span class="project-tag tag-${s.toLowerCase().replace(' ', '')}">${s}</span>`).join('');
+                    
+                    document.title = `${data.title} | Akshay M`; // Update page title
 
-            const title = document.getElementById('cert-title-input').value;
-            const organization = document.getElementById('cert-org-input').value;
-            const url = document.getElementById('cert-url-input').value;
-            
-            const submitBtn = certForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Uploading...';
-            
-            try {
-                // 1. Upload thumbnail to Storage
-                const storageRef = ref(storage, `certification_thumbnails/${Date.now()}_${certThumbnailFile.name}`);
-                await uploadBytes(storageRef, certThumbnailFile);
-                const thumbnailUrl = await getDownloadURL(storageRef);
-
-                // 2. Save data to Firestore
-                await addDoc(collection(db, "certifications"), {
-                    title,
-                    organization,
-                    url,
-                    thumbnail: thumbnailUrl,
-                    createdAt: new Date()
-                });
-                closeCertModal();
-            } catch (error) {
-                console.error("Error adding certification: ", error);
-                showAlert("Error", `Failed to add certification. Error: ${error.message}.`);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
-            }
-        });
-
-        function createProjectElement(id, data) {
-            const cardLink = document.createElement('a');
-            cardLink.className = 'viz-card-link';
-            cardLink.href = `project-detail.html?id=${id}`; 
-            
-            const skillNameMap = { powerbi: 'Power BI' };
-            let skillsToRender = (data.skills && Array.isArray(data.skills)) ? data.skills : [];
-
-            const skillTagsHTML = skillsToRender
-                .map(skill => {
-                    const displayName = skillNameMap[skill] || skill;
-                    return `<span class="project-tag tag-${skill}">${displayName}</span>`;
-                })
-                .join('');
-
-            cardLink.innerHTML = `
-                <div class="viz-card">
-                    <div class="card-thumbnail">
-                        <img src="${data.thumbnail || 'https://placehold.co/600x400/1F2937/9CA3AF?text=No+Image'}" alt="${data.title}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1F2937/9CA3AF?text=Image+Error';">
-                    </div>
-                    <div class="viz-content">
-                        <h3>${data.title}</h3>
-                        <p>${data.description}</p>
-                        <div class="project-tags">
-                            ${skillTagsHTML}
+                    mainContent.innerHTML = `
+                        <div class="project-content">
+                            <h1 class="project-title">${data.title}</h1>
+                            <div class="project-meta">
+                                <a href="${data.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                                    View Live Project <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                <div class="project-tags">${skillsHTML}</div>
+                            </div>
+                            <div class="project-thumbnail">
+                                <img src="${data.thumbnail}" alt="${data.title} Thumbnail">
+                            </div>
+                            <p class="project-description">${data.description}</p>
                         </div>
-                    </div>
-                </div>
-            `;
-            
-            return cardLink;
-        }
-
-        function createCertificationElement(id, data) {
-            const card = document.createElement('div');
-            card.className = 'viz-card';
-            
-            card.innerHTML = `
-                <div class="card-thumbnail">
-                     <img src="${data.thumbnail}" alt="${data.title} Thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1F2937/9CA3AF?text=Image+Error';">
-                </div>
-                <div class="viz-content">
-                    <h3>${data.title}</h3>
-                    <p>${data.organization}</p>
-                    <div class="project-tags">
-                         <a href="${data.url}" target="_blank" class="info-card-body-link">
-                            Verify Credential <i class="fas fa-external-link-alt" style="font-size: 0.8em;"></i>
-                        </a>
-                    </div>
-                </div>
-            `;
-            return card;
-        }
-
-        // --- Interactivity & Initial Load ---
-        const backToTopButton = document.getElementById('back-to-top');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopButton.classList.add('visible');
-            } else {
-                backToTopButton.classList.remove('visible');
-            }
-        });
-        backToTopButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-        
-        function initParticles() {
-            if (document.getElementById('particles-js')) {
-                particlesJS('particles-js', {
-                    "particles": {
-                        "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
-                        "color": { "value": "#8B949E" },
-                        "shape": { "type": "circle" },
-                        "opacity": { "value": 0.4, "random": true },
-                        "size": { "value": 3, "random": true },
-                        "line_linked": { "enable": true, "distance": 150, "color": "#8B949E", "opacity": 0.2, "width": 1 },
-                        "move": { "enable": true, "speed": 1.5, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
-                    },
-                    "interactivity": {
-                        "detect_on": "canvas",
-                        "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false }, "resize": true },
-                        "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } } }
-                    },
-                    "retina_detect": true
-                });
-            }
-        }
-
-        async function startApp() {
-            initParticles();
-            
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // User is signed in.
-                    console.log("Authentication is ready. User UID:", user.uid);
-                    if (!isAuthReady) {
-                        isAuthReady = true;
-                        initializeFirestoreListeners();
-                    }
+                    `;
                 } else {
-                    // User is signed out.
-                    isAuthReady = false;
-                    console.log("User is not authenticated. Attempting to sign in anonymously...");
-                    signInAnonymously(auth).catch((error) => {
-                        console.error("Anonymous sign-in failed:", error);
-                        showAlert("Authentication Error", "Could not connect to the database. Please refresh the page.");
-                    });
+                    mainContent.innerHTML = `<h1 class="project-title">Project Not Found</h1><p>The requested project does not exist.</p>`;
                 }
-            });
+            } catch (error) {
+                console.error("Error fetching project:", error);
+                mainContent.innerHTML = `<h1 class="project-title">Error</h1><p>Could not load project details. Please try again later.</p>`;
+            }
         }
 
-        startApp();
-
+        loadProject();
     </script>
-
 </body>
 </html>
-
